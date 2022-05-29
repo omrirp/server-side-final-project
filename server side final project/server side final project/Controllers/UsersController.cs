@@ -1,4 +1,5 @@
-﻿using System;
+﻿using server_side_final_project.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -9,21 +10,19 @@ namespace server_side_final_project.Controllers
 {
     public class UsersController : ApiController
     {
-        // GET api/<controller>
-        public IEnumerable<string> Get()
+  
+        //GET
+        public User Get(string email)
         {
-            return new string[] { "value1", "value2" };
-        }
-
-        // GET api/<controller>/5
-        public string Get(int id)
-        {
-            return "value";
+            User u = new User();
+            return u.getUserByEmail(email);
         }
 
         // POST api/<controller>
-        public void Post([FromBody] string value)
+        public int Post([FromBody] User user)
         {
+            User u = new User();
+            return u.addUser(user);
         }
 
         // PUT api/<controller>/5

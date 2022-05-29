@@ -176,6 +176,7 @@
     <Content Include="Pages\Advanced-search.html" />
     <Content Include="Pages\Home.css" />
     <Content Include="Pages\images\amsterdam.jpg" />
+    <Content Include="Pages\images\amsterdam2.jpg" />
     <Content Include="Pages\images\default-image.jpg" />
     <Content Include="Pages\images\hotel.svg" />
     <Content Include="Pages\index.html" />
@@ -187,6 +188,7 @@
     <Content Include="Pages\Resaults.html" />
     <Content Include="Pages\Sign-up.css" />
     <Content Include="Pages\Sign-up.html" />
+    <Content Include="Scripts\ajaxCalls.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\HelpPage\Views\Web.config" />
@@ -214,6 +216,7 @@
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\welcome.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
