@@ -1,0 +1,99 @@
+ .u-section-1 {
+  background-image: url("images/amsterdam.jpg");
+  background-position: 50% 50%;
+}
+
+.u-section-1 .u-sheet-1 {
+  min-height: 630px;
+}
+
+.u-section-1 .u-text-1 {
+  margin-bottom: 0;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.u-section-1 .u-form-1 {
+  height: 342px;
+  width: 570px;
+  background-image: none;
+  margin: 31px auto 0;
+}
+
+.u-section-1 .u-label-1 {
+  font-weight: 700;
+}
+
+.u-section-1 .u-input-1 {
+  height: 50px;
+}
+
+.u-section-1 .u-label-2 {
+  font-weight: 700;
+}
+
+.u-section-1 .u-input-2 {
+  height: 50px;
+}
+
+.u-section-1 .u-form-group-3 {
+  margin-left: 0;
+}
+
+.u-section-1 .u-label-3 {
+  font-weight: 700;
+}
+
+.u-section-1 .u-input-3 {
+  height: 50px;
+}
+
+.u-section-1 .u-form-group-4 {
+  margin-left: 0;
+}
+
+.u-section-1 .u-label-4 {
+  font-weight: 700;
+}
+
+.u-section-1 .u-input-4 {
+  height: 50px;
+}
+
+.u-section-1 .u-btn-1 {
+  border-style: solid;
+  font-weight: 700;
+  background-image: none;
+}
+
+@media (max-width: 1199px) {
+  .u-section-1 .u-sheet-1 {
+    min-height: 519px;
+  }
+}
+
+@media (max-width: 991px) {
+  .u-section-1 .u-sheet-1 {
+    min-height: 398px;
+  }
+}
+
+@media (max-width: 767px) {
+  .u-section-1 .u-sheet-1 {
+    min-height: 299px;
+  }
+
+  .u-section-1 .u-form-1 {
+    width: 540px;
+  }
+}
+
+@media (max-width: 575px) {
+  .u-section-1 .u-sheet-1 {
+    min-height: 188px;
+  }
+
+  .u-section-1 .u-form-1 {
+    width: 340px;
+  }
+}

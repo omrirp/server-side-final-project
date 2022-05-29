@@ -1,0 +1,128 @@
+ .u-section-1 {
+  background-image: url("images/amsterdam.jpg");
+  background-position: 50% 50%;
+}
+
+.u-section-1 .u-sheet-1 {
+  min-height: 635px;
+}
+
+.u-section-1 .u-form-1 {
+  height: 253px;
+  margin: 130px 570px 0 0;
+}
+
+.u-section-1 .u-form-group-1 {
+  margin-left: 0;
+}
+
+.u-section-1 .u-label-1 {
+  font-weight: 700;
+}
+
+.u-section-1 .u-form-group-2 {
+  margin-left: 0;
+}
+
+.u-section-1 .u-label-2 {
+  font-weight: 700;
+}
+
+.u-section-1 .u-btn-1 {
+  border-style: solid;
+  font-weight: 700;
+  background-image: none;
+}
+
+.u-section-1 .u-text-1 {
+  margin: -192px 0 0 auto;
+}
+
+.u-section-1 .u-btn-2 {
+  border-style: solid;
+  font-weight: 700;
+  background-image: none;
+  margin: 95px auto 0 12px;
+}
+
+@media (max-width: 1199px) {
+  .u-section-1 .u-sheet-1 {
+    min-height: 524px;
+  }
+
+  .u-section-1 .u-form-1 {
+    margin-top: 205px;
+  }
+
+  .u-section-1 .u-text-1 {
+    margin-top: -317px;
+  }
+
+  .u-section-1 .u-btn-2 {
+    margin-top: -19px;
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 991px) {
+  .u-section-1 .u-sheet-1 {
+    min-height: 401px;
+  }
+
+  .u-section-1 .u-form-1 {
+    height: 249px;
+    margin-top: 137px;
+    margin-right: 350px;
+  }
+
+  .u-section-1 .u-text-1 {
+    width: auto;
+    margin-top: -225px;
+  }
+}
+
+@media (max-width: 767px) {
+  .u-section-1 .u-sheet-1 {
+    min-height: 301px;
+  }
+
+  .u-section-1 .u-form-1 {
+    width: 370px;
+    margin-top: 329px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .u-section-1 .u-text-1 {
+    margin-top: -466px;
+    margin-right: auto;
+    margin-left: 100px;
+  }
+
+  .u-section-1 .u-btn-2 {
+    margin-top: 2px;
+  }
+}
+
+@media (max-width: 575px) {
+  .u-section-1 .u-sheet-1 {
+    min-height: 190px;
+  }
+
+  .u-section-1 .u-form-1 {
+    margin-top: 260px;
+    margin-right: initial;
+    margin-left: initial;
+    width: auto;
+  }
+
+  .u-section-1 .u-text-1 {
+    margin-top: -450px;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .u-section-1 .u-btn-2 {
+    margin-top: -19px;
+  }
+}

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html style="font-size: 16px;">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="Log in">
+    <meta name="description" content="">
+    <title>Log in</title>
+    <link rel="stylesheet" href="nicepage.css" media="screen">
+    <link rel="stylesheet" href="Log-in.css" media="screen">
+
+    <meta name="generator" content="Nicepage 4.11.5, nicepage.com">
+    <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
+    <script type="application/ld+json">
+        {
+                 "@context": "http://schema.org",
+                 "@type": "Organization",
+                 "name": "",
+                 "logo": "images/hotel.svg"
+                 }
+    </script>
+    <meta name="theme-color" content="#478ac9">
+    <meta property="og:title" content="Log in">
+    <meta property="og:type" content="website">
+    <script src="../Scripts/jquery-3.4.1.min.js"></script>
+    <script src="../Scripts/ajaxCalls.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#logInForm").submit(logIn);
+        })
+
+        function logIn() {
+
+            let email = $("#email-558c").val();
+            
+            //let qs = "email=" + email;
+            let url = `../api/Users/${email}`;
+            ajaxCall("GET", url, "", readSCB, readECB);
+            return false;
+        }
+
+        function readSCB(user) {
+            console.log(user);
+            let password = $("#password-558c").val();
+        }
+
+        function readECB(err) {
+            alert("invalid email or password, please try again");
+            console.log(err);
+        }
+    </script>
+
+</head>
+<body class="u-body u-xl-mode">
+    <header class="u-clearfix u-grey-10 u-header u-header" id="sec-213b">
+        <div class="u-clearfix u-sheet u-sheet-1">
+            <a href="https://nicepage.com" class="u-image u-logo u-image-1" data-image-width="640" data-image-height="640">
+                <img src="images/hotel.svg" class="u-logo-image u-logo-image-1">
+            </a>
+            <p class="u-text u-text-default u-text-1">Welcome User</p>
+            <nav class="u-menu u-menu-dropdown u-offcanvas u-menu-1">
+                <div class="menu-collapse">
+                    <a class="u-button-style u-custom-text-color u-custom-text-hover-color u-nav-link" href="#">
+                        <svg class="u-svg-link" viewBox="0 0 24 24">
+                            <use xlink:href="#svg-bc88"></use>
+                        </svg>
+                        <svg class="u-svg-content" version="1.1" id="svg-bc88" viewBox="0 0 16 16" x="0px" y="0px" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
+                            <g>
+                                <rect y="1" width="16" height="2"></rect>
+                                <rect y="7" width="16" height="2"></rect>
+                                <rect y="13" width="16" height="2"></rect>
+                            </g>
+                        </svg>
+                    </a>
+                </div>
+                <div class="u-custom-menu u-nav-container">
+                    <ul class="u-nav u-unstyled">
+                        <li class="u-nav-item"><a class="u-button-style u-nav-link u-text-custom-color-1 u-text-hover-custom-color-2" href="Sign-up.html">Sign up</a></li>
+                        <li class="u-nav-item"><a class="u-button-style u-nav-link u-text-custom-color-1 u-text-hover-custom-color-2" href="index.html">Home</a></li>
+                        <li class="u-nav-item"><a class="u-button-style u-nav-link u-text-custom-color-1 u-text-hover-custom-color-2" href="Log-in.html">Log in</a></li>
+                        <li class="u-nav-item"><a class="u-button-style u-nav-link u-text-custom-color-1 u-text-hover-custom-color-2" href="Resaults.html">Favorites</a></li>
+                    </ul>
+                </div>
+                <div class="u-custom-menu u-nav-container-collapse">
+                    <div class="u-black u-container-style u-inner-container-layout u-opacity u-opacity-95 u-sidenav">
+                        <div class="u-inner-container-layout u-sidenav-overflow">
+                            <div class="u-menu-close"></div>
+                            <ul class="u-align-center u-nav u-popupmenu-items u-unstyled u-nav-2">
+                                <li class="u-nav-item"><a class="u-button-style u-nav-link" href="Sign-up.html">Sign up</a></li>
+                                <li class="u-nav-item"><a class="u-button-style u-nav-link" href="Home.html">Home</a></li>
+                                <li class="u-nav-item"><a class="u-button-style u-nav-link" href="Log-in.html">Log in</a></li>
+                                <li class="u-nav-item"><a class="u-button-style u-nav-link" href="Resaults.html">Favorites</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="u-black u-menu-overlay u-opacity u-opacity-70"></div>
+                </div>
+            </nav>
+            <h3 class="u-headline u-text u-text-default u-text-grey-80 u-text-2">
+                <a href="/">Server Side Project</a>
+            </h3>
+        </div>
+    </header>
+    <section class="u-clearfix u-image u-section-1" id="sec-be0b" data-image-width="1620" data-image-height="1080">
+        <div class="u-clearfix u-sheet u-sheet-1">
+            <h1 class="u-align-center u-text u-text-default u-text-1">Log in</h1>
+            <div class="u-align-center u-border-4 u-border-palette-3-light-1 u-form u-grey-10 u-radius-3 u-form-1">
+                <form id="logInForm" action="//publish.nicepage.com/Form/Process" method="POST" class="u-clearfix u-form-horizontal u-form-spacing-15 u-inner-form" style="padding: 15px" source="email">
+                    <input type="hidden" id="siteId" name="siteId" value="2038094">
+                    <input type="hidden" id="pageId" name="pageId" value="2038104">
+                    <div class="u-form-group u-form-name u-label-top">
+                        <label for="name-558c" class="u-label u-label-1">Email</label>
+                        <input type="email" placeholder="Email" id="email-558c" name="name" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-input-1" required="">
+                    </div>
+                    <div class="u-form-group u-label-top">
+                        <label for="email-558c" class="u-label u-label-2">Password</label>
+                        <input type="password" placeholder="Password" id="password-558c" name="email" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-input-2" required="required">
+                    </div>
+                    <div class="u-form-group u-form-submit">
+                        <input type="submit" value="submit" class="u-form-control-hidden">
+                        <button class="u-border-2 u-border-grey-75 u-border-hover-palette-3-base u-btn u-btn-round u-btn-submit u-button-style u-hover-grey-80 u-palette-3-light-1 u-radius-4 u-text-hover-palette-3-light-1 u-btn-1">Log In</button>
+                    </div>
+                    <div class="u-form-send-message u-form-send-success">Thank you! Your message has been sent.</div>
+                    <div class="u-form-send-error u-form-send-message">Unable to send your message. Please fix errors then try again.</div>
+                    <input type="hidden" value="" name="recaptchaResponse">
+                </form>
+            </div>
+        </div>
+    </section>
+    <footer class="u-align-center u-clearfix u-footer u-grey-80 u-footer" id="sec-adcb">
+        <div class="u-align-left u-clearfix u-sheet u-sheet-1">
+            <p class="u-align-center u-text u-text-1">This website is supported by a dataset of Amsterdam Airbnb that was provided by Ruppin Academic Center</p>
+        </div>
+    </footer>
+</body>
+</html>
