@@ -159,6 +159,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Apartment.cs" />
     <Compile Include="Models\DAL\DBServices.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -182,7 +183,9 @@
     <Content Include="Pages\index.html" />
     <Content Include="Pages\Log-in.css" />
     <Content Include="Pages\Log-in.html" />
+    <Content Include="Pages\nav.css" />
     <Content Include="Pages\nicepage.css" />
+    <Content Include="Pages\nicepage.js" />
     <Content Include="Pages\Password-Template.css" />
     <Content Include="Pages\Resaults.css" />
     <Content Include="Pages\Resaults.html" />

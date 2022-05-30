@@ -8,77 +8,66 @@
     <title>Home</title>
     <link rel="stylesheet" href="nicepage.css" media="screen">
     <link rel="stylesheet" href="Home.css" media="screen">
-    <script src="../Scripts/jquery-3.4.1.min.js"></script>
     <meta name="generator" content="Nicepage 4.11.5, nicepage.com">
     <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
     <script type="application/ld+json">
         {
-         "@context": "http://schema.org",
-         "@type": "Organization",
-         "name": "",
-         "url": "/",
-         "logo": "images/hotel.svg"
-         }
+                 "@context": "http://schema.org",
+                 "@type": "Organization",
+                 "name": "",
+                 "url": "/",
+                 "logo": "images/hotel.svg"
+                 }
     </script>
     <meta name="theme-color" content="#478ac9">
     <meta property="og:title" content="Home">
     <meta property="og:type" content="website">
     <link rel="canonical" href="/">
+
+    <script src="../Scripts/ajaxCalls.js"></script>
+    <script src="../Scripts/jquery-3.4.1.min.js"></script>
     <script src="../Scripts/welcome.js"></script>
+
+    <!-- Load an icon library to show a hamburger menu (bars) on small screens -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="nav.css" rel="stylesheet" />
 
     <script>
         $(document).ready(function () {
             welcome();
         })
 
-    </script>
+        /* Toggle between adding and removing the "responsive" class to topnav when the user clicks on the icon */
+        function navbar() {
+            var x = document.getElementById("myTopnav");
+            if (x.className === "topnav") {
+                x.className += " responsive";
+            } else {
+                x.className = "topnav";
+            }
+        }
 
+    </script>
 </head>
-<body data-home-page="https://website2038094.nicepage.io/Home.html?version=cab2f668-f53c-4c13-81d2-4da53fc61326" data-home-page-title="Home" class="u-body u-xl-mode">
+<body data-home-page="https://website2038094.nicepage.io/Home.html?version=a345269a-bc33-4f56-b1fd-2f48cd95110d" data-home-page-title="Home" class="u-body u-xl-mode">
     <header class="u-clearfix u-grey-10 u-header u-header" id="sec-213b">
         <div class="u-clearfix u-sheet u-sheet-1">
             <div class="u-image u-logo u-image-1" data-image-width="640" data-image-height="640">
                 <img src="images/hotel.svg" class="u-logo-image u-logo-image-1">
             </div>
-            <p id="welcome" class="u-text u-text-default u-text-1"></p>
-            <nav class="u-menu u-menu-dropdown u-offcanvas u-menu-1">
-                <div class="menu-collapse">
-                    <a class="u-button-style u-custom-text-color u-custom-text-hover-color u-nav-link" href="#">
-                        <svg class="u-svg-link" viewBox="0 0 24 24">
-                            <use xlink:href="#svg-bc88"></use>
-                        </svg>
-                        <svg class="u-svg-content" version="1.1" id="svg-bc88" viewBox="0 0 16 16" x="0px" y="0px" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
-                            <g>
-                                <rect y="1" width="16" height="2"></rect>
-                                <rect y="7" width="16" height="2"></rect>
-                                <rect y="13" width="16" height="2"></rect>
-                            </g>
-                        </svg>
-                    </a>
-                </div>
-                <div class="u-custom-menu u-nav-container">
-                    <ul class="u-nav u-unstyled">
-                        <li class="u-nav-item"><a class="u-button-style u-nav-link u-text-custom-color-1 u-text-hover-custom-color-2" href="Sign-up.html">Sign up</a></li>
-                        <li class="u-nav-item"><a class="u-button-style u-nav-link u-text-custom-color-1 u-text-hover-custom-color-2" href="index.html">Home</a></li>
-                        <li class="u-nav-item"><a class="u-button-style u-nav-link u-text-custom-color-1 u-text-hover-custom-color-2" href="Log-in.html">Log in</a></li>
-                        <li class="u-nav-item"><a class="u-button-style u-nav-link u-text-custom-color-1 u-text-hover-custom-color-2" href="Resaults.html">Favorites</a></li>
-                    </ul>
-                </div>
-                <div class="u-custom-menu u-nav-container-collapse">
-                    <div class="u-black u-container-style u-inner-container-layout u-opacity u-opacity-95 u-sidenav">
-                        <div class="u-inner-container-layout u-sidenav-overflow">
-                            <div class="u-menu-close"></div>
-                            <ul class="u-align-center u-nav u-popupmenu-items u-unstyled u-nav-2">
-                                <li class="u-nav-item"><a class="u-button-style u-nav-link" href="Sign-up.html">Sign up</a></li>
-                                <li class="u-nav-item"><a class="u-button-style u-nav-link" href="index.html">Home</a></li>
-                                <li class="u-nav-item"><a class="u-button-style u-nav-link" href="Log-in.html">Log in</a></li>
-                                <li class="u-nav-item"><a class="u-button-style u-nav-link" href="Resaults.html">Favorites</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="u-black u-menu-overlay u-opacity u-opacity-70"></div>
-                </div>
-            </nav>
+            <p id="welcome" class="u-text u-text-default u-text-1">Welcome</p>
+
+            <div class="topnav" id="myTopnav">
+
+                <a href="index.html">Home</a>
+                <a href="Log-in.html">Log in</a>
+                <a href="Sign-up.html">Sign up</a>
+                <a href="Resaults.html">My orders</a>
+                <a href="javascript:void(0);" class="icon" onclick="navbar()">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+            
             <h3 class="u-headline u-text u-text-default u-text-grey-80 u-text-2">
                 <a href="/">Server Side Project</a>
             </h3>
@@ -143,16 +132,5 @@
             <p class="u-align-center u-text u-text-1">This website is supported by a dataset of Amsterdam Airbnb that was provided by Ruppin Academic Center</p>
         </div>
     </footer>
-    <section class="u-backlink u-clearfix u-grey-80">
-        <a class="u-link" href="https://nicepage.com/website-templates" target="_blank">
-            <span>Website Templates</span>
-        </a>
-        <p class="u-text">
-            <span>created with</span>
-        </p>
-        <a class="u-link" href="https://nicepage.com/html-website-builder" target="_blank">
-            <span>HTML Layout generator</span>
-        </a>.
-    </section>
 </body>
 </html>
