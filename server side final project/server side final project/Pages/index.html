@@ -35,7 +35,25 @@
     <script>
         $(document).ready(function () {
             welcome();
+            $("#searchForm").submit(search);
         })
+
+        function search() {
+            let from = $("#date-eb93").val();
+            let to = $("#date-6bcb").val();
+
+            let url = `../api/Apartment/${from}/${to}`;
+            ajaxCall("GET", url, "", readSCB, readECB);
+            return false;
+        }
+
+        function readSCB(apartments) {
+            console.log(apartments);
+        }
+
+        function readECB(err) {
+            console.log(err);
+        }
 
         /* Toggle between adding and removing the "responsive" class to topnav when the user clicks on the icon */
         function navbar() {
@@ -76,7 +94,7 @@
     <section class="u-clearfix u-image u-section-1" id="sec-6596" data-image-width="1620" data-image-height="1080">
         <div class="u-clearfix u-sheet u-sheet-1">
             <div class="u-expanded-width-xs u-form u-form-1">
-                <form action="//publish.nicepage.com/Form/Process" method="POST" class="u-clearfix u-form-spacing-10 u-form-vertical u-inner-form" source="email" name="form" style="padding: 10px;">
+                <form id="searchForm" action="//publish.nicepage.com/Form/Process" method="POST" class="u-clearfix u-form-spacing-10 u-form-vertical u-inner-form" source="email" name="form" style="padding: 10px;">
                     <input type="hidden" id="siteId" name="siteId" value="2038094">
                     <input type="hidden" id="pageId" name="pageId" value="2038114">
                     <div class="u-form-date u-form-group u-form-group-1">
@@ -87,8 +105,9 @@
                         <label for="date-6bcb" class="u-label u-text-body-alt-color u-label-2">To</label>
                         <input type="date" placeholder="MM/DD/YYYY" id="date-6bcb" name="date" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" required="">
                     </div>
-                    <div class="u-align-left u-form-group u-form-submit">
-                        <a href="#" class="u-border-2 u-border-grey-75 u-border-hover-palette-3-base u-btn u-btn-round u-btn-submit u-button-style u-hover-grey-80 u-palette-3-light-1 u-radius-4 u-text-hover-palette-3-light-1 u-btn-1">
+                    <div class="u-align-left u-form-group u-form-submit">                       
+                        <input type="submit" value="submit" class="u-form-control-hidden">
+                        <button class="u-border-2 u-border-grey-75 u-border-hover-palette-3-base u-btn u-btn-round u-btn-submit u-button-style u-hover-grey-80 u-palette-3-light-1 u-radius-4 u-text-hover-palette-3-light-1 u-btn-1">
                             Search
                             <span class="u-icon">
                                 <svg class="u-svg-content" viewBox="0 0 52.966 52.966" x="0px" y="0px" style="width: 1em; height: 1em;">
@@ -99,9 +118,7 @@
                                 </svg>
                                 <img>
                             </span>
-                            &nbsp;
-                        </a>
-                        <input type="submit" value="submit" class="u-form-control-hidden">
+                        </button>
                     </div>
                     <div class="u-form-send-message u-form-send-success"> Thank you! Your message has been sent. </div>
                     <div class="u-form-send-error u-form-send-message"> Unable to send your message. Please fix errors then try again. </div>

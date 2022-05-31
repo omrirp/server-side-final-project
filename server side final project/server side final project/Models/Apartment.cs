@@ -65,6 +65,10 @@ namespace server_side_final_project.Models.DAL
         public int Number_of_reviews { get => number_of_reviews; set => number_of_reviews = value; }
         public float Review_scores_rating { get => review_scores_rating; set => review_scores_rating = value; }
 
-
+        public List<Apartment> getApartments(DateTime from, DateTime to)
+        {
+            DBServices ds = new DBServices();
+            return ds.readApartments(from, to);
+        }
     }
 }

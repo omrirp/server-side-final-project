@@ -12,6 +12,15 @@ namespace server_side_final_project.Models.DAL
     {
         public DBServices() { }
 
+        //get Apartments (sreach) -----
+        public List<Apartment> readApartments(DateTime from, DateTime to)
+        {
+            return null;
+        }
+
+
+        //end -----
+
 
         //Insert User -----
         public int insertUser(User user)
