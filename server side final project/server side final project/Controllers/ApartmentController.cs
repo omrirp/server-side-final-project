@@ -15,8 +15,8 @@ namespace server_side_final_project.Controllers
         // GET api/<controller>
         public List<Apartment> search(DateTime from,DateTime to)
         {
-
-            return null;
+            Apartment a = new Apartment();
+            return a.getApartments(from,to);
         }
 
         // GET api/<controller>/5

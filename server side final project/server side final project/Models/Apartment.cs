@@ -17,7 +17,7 @@ namespace server_side_final_project.Models.DAL
         string room_type;
         int accommodates;
         string bathrooms_text;
-        int bedroomsint;
+        int bedrooms;
         int beds;
         string amenities;
         double price;
@@ -25,7 +25,7 @@ namespace server_side_final_project.Models.DAL
         float review_scores_rating;
 
         public Apartment(int id, string name, string description, string picture_url, string neighbourhood_cleansed, 
-            float latitude, float longitude, string room_type, int accommodates, string bathrooms_text, int bedroomsint, 
+            float latitude, float longitude, string room_type, int accommodates, string bathrooms_text, int bedrooms, 
             int beds, string amenities, double price, int number_of_reviews, float review_scores_rating)
         {
             this.Id = id;
@@ -38,7 +38,7 @@ namespace server_side_final_project.Models.DAL
             this.Room_type = room_type;
             this.Accommodates = accommodates;
             this.Bathrooms_text = bathrooms_text;
-            this.Bedroomsint = bedroomsint;
+            this.Bedrooms = bedrooms;
             this.Beds = beds;
             this.Amenities = amenities;
             this.Price = price;
@@ -58,7 +58,7 @@ namespace server_side_final_project.Models.DAL
         public string Room_type { get => room_type; set => room_type = value; }
         public int Accommodates { get => accommodates; set => accommodates = value; }
         public string Bathrooms_text { get => bathrooms_text; set => bathrooms_text = value; }
-        public int Bedroomsint { get => bedroomsint; set => bedroomsint = value; }
+        public int Bedrooms { get => bedrooms; set => bedrooms = value; }
         public int Beds { get => beds; set => beds = value; }
         public string Amenities { get => amenities; set => amenities = value; }
         public double Price { get => price; set => price = value; }
