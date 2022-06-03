@@ -8,8 +8,6 @@
     <title>Resaults</title>
     <link rel="stylesheet" href="nicepage.css" media="screen">
     <link rel="stylesheet" href="Resaults.css" media="screen">
-    <script class="u-script" type="text/javascript" src="jquery-1.9.1.min.js" defer=""></script>
-    <script class="u-script" type="text/javascript" src="nicepage.js" defer=""></script>
     <meta name="generator" content="Nicepage 4.11.5, nicepage.com">
     <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
     <script type="application/ld+json">
@@ -28,10 +26,76 @@
     <script src="../Scripts/welcome.js"></script>
     <link href="nav.css" rel="stylesheet" />
 
+    <!--data table import-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
+    <!--data table import-->
+
+    <style>
+        #apartmentsTbl{
+            margin:auto;
+            width:100%;
+        }
+    </style>
+
     <script>
+
         $(document).ready(function () {
             welcome();
+            $("#apartmentsTbl").DataTable();
+            initreservations();
         })
+
+        function initreservations() {
+            let user = JSON.parse(localStorage.getItem("user"));
+            let qs = "email=" + user.Email;
+            ajaxCall("GET", `../api/Reservations?${qs}`, "", readResSCB, readResECB);
+            return false;
+        }
+
+        function readResSCB(reservations) {
+            var Res = reservations;
+            console.log(reservations);
+            try {
+                tbl = $('#apartmentsTbl').DataTable({
+                    data: Res,
+                    pageLength: 5,
+                    columns: [
+                        { data: "Name" },
+                        { data: "Price" },
+                        { data: "From" },
+                        { data: "To" },
+                        {
+                            data: "Image",
+                            render: function (data, type, row, meta) {
+                                return '<img src="' + Res[row.Id].Apartment.Picture_url + '" />';
+                            }
+                        },
+                        {
+                            data: "Detailes",
+                            render: function (data, type, row, meta) {
+                                return "<button type='button' id='" + row.Id + "'> For more Details </button>";
+                            }
+                        },
+                    ],
+                });
+            }
+            catch (err) {
+                alert(err);
+            }
+
+        }
+
+        function readResECB(err) {
+            console.log(err);
+        }
 
         /* Toggle between adding and removing the "responsive" class to topnav when the user clicks on the icon */
         function navbar() {
@@ -58,6 +122,7 @@
                 <a href="Log-in.html">Log in</a>
                 <a href="Sign-up.html">Sign up</a>
                 <a href="Resaults.html">My orders</a>
+                <a href="#" id="log_out" onclick="LogoutF()">Log out</a>
                 <a href="javascript:void(0);" class="icon" onclick="navbar()">
                     <i class="fa fa-bars"></i>
                 </a>
@@ -71,8 +136,26 @@
     <section class="u-align-center u-clearfix u-image u-section-1" id="sec-be0b" data-image-width="1620" data-image-height="1080">
         <div class="u-align-left u-clearfix u-sheet u-sheet-1">
             <div class="u-align-center u-border-3 u-border-palette-3-light-1 u-container-style u-grey-10 u-group u-radius-3 u-shape-round u-group-1">
-                <div class="u-container-layout u-valign-top u-container-layout-1">
-                    <h1 class="u-text u-text-default u-text-1">Resaults</h1>
+                <div id="apartmentsList" class="u-container-layout u-valign-top u-container-layout-1">
+                    <h1 class="u-text u-text-default u-text-1">Resaults</h1>  
+                    
+                    <!--datatable-->
+                    <div class="container">
+                        <table id="apartmentsTbl" class="display nowrap" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Price</th>
+                                    <th>From</th>
+                                    <th>To</th>
+                                    <th>Image</th>
+                                    <th>Detailes</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <!--datatable-->
+
                 </div>
             </div>
         </div>
@@ -84,7 +167,7 @@
         <div class="u-align-left u-clearfix u-sheet u-sheet-1">
             <div class="u-align-center u-border-3 u-border-palette-3-light-2 u-container-style u-grey-10 u-group u-radius-3 u-shape-round u-group-1">
                 <div class="u-container-layout u-valign-top u-container-layout-1">
-                    <h1 class="u-text u-text-default u-text-1">Resaults</h1>
+                    <h1 class="u-text u-text-default u-text-1">Resaults</h1>                    
                 </div>
             </div>
         </div>

@@ -26,9 +26,18 @@
     <script src="../Scripts/welcome.js"></script>
     <link href="nav.css" rel="stylesheet" />
 
+    <style>
+
+        #log_out{
+
+        }
+    </style>
     <script>
         $(document).ready(function () {
             $("#logInForm").submit(logIn);
+            $("#log_out").click(function () {
+                console.log("hi");
+            })
             welcome();
         })
 
@@ -80,6 +89,7 @@
                 <a href="Log-in.html">Log in</a>
                 <a href="Sign-up.html">Sign up</a>
                 <a href="Resaults.html">My orders</a>
+                <a href="#" id="log_out" onclick="LogoutF()">Log out</a>
                 <a href="javascript:void(0);" class="icon" onclick="navbar()">
                     <i class="fa fa-bars"></i>
                 </a>

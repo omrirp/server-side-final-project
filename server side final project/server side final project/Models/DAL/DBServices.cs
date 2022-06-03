@@ -27,7 +27,7 @@ namespace server_side_final_project.Models.DAL
 
             while (dr.Read())
             {
-                int id = Convert.ToInt32(dr["id"]);
+                int id = int.Parse(dr["id"].ToString());
                 string name = dr["name"].ToString();
                 string description = dr["description"].ToString();
                 string picture_url = dr["picture_url"].ToString();
@@ -35,13 +35,13 @@ namespace server_side_final_project.Models.DAL
                 float latitude = float.Parse(dr["latitude"].ToString());
                 float longitude = float.Parse(dr["longitude"].ToString());
                 string room_type = dr["room_type"].ToString();
-                int accommodates = Convert.ToInt32(dr["accommodates"]);
+                int accommodates =int.Parse(dr["accommodates"].ToString());
                 string bathrooms_text = dr["bathrooms_text"].ToString();
-                int bedrooms = Convert.ToInt32(dr["bedrooms"]);
-                int beds = Convert.ToInt32(dr["beds"]);
+                int bedrooms = int.Parse(dr["bedrooms"].ToString());
+                int beds = int.Parse(dr["beds"].ToString());
                 string amenities = dr["amenities"].ToString();
-                double price = Convert.ToDouble(dr["price"]);
-                int number_of_reviews = Convert.ToInt32(dr["number_of_reviews"]);
+                double price = double.Parse(dr["price"].ToString());
+                int number_of_reviews = int.Parse(dr["number_of_reviews"].ToString());
                 float review_scores_rating = float.Parse(dr["review_scores_rating"].ToString());
 
                 apartments.Add(new Apartment(id,name,description,picture_url,neighbourhood_cleansed,
@@ -52,6 +52,7 @@ namespace server_side_final_project.Models.DAL
             con.Close();
             return apartments;
         }
+
 
 
         //end -----
@@ -126,9 +127,61 @@ namespace server_side_final_project.Models.DAL
 
             return command;
         }
-        //end -----
+        private SqlCommand ResListCommand(SqlConnection con, string email)
+        {
+            SqlCommand command = new SqlCommand();
 
-        //connect -----
+            command.Parameters.AddWithValue("@user_email", email);
+            command.CommandText = "spreadResFP";
+            command.Connection = con;
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.CommandTimeout = 10; // in seconds
+            return command;
+        }
+
+
+
+        public List<Reservation> readReservations(string email)
+        {
+            SqlConnection con = Connect();
+
+            SqlCommand command = ResListCommand(con, email);
+
+            SqlDataReader dr = command.ExecuteReader(CommandBehavior.CloseConnection);
+
+            List<Reservation> reservations = new List<Reservation>();
+
+            while (dr.Read())
+            {
+                string uEmail = dr["user_email"].ToString();
+                DateTime FromDate = Convert.ToDateTime(dr["from_date"]);
+                DateTime ToDate = Convert.ToDateTime(dr["to_date"]);
+                int id = int.Parse(dr["id"].ToString());
+                //aprartnemt//
+                string name = dr["name"].ToString();
+                string description = dr["description"].ToString();
+                string picture_url = dr["picture_url"].ToString();
+                string neighbourhood_cleansed = dr["neighbourhood_cleansed"].ToString();
+                float latitude = float.Parse(dr["latitude"].ToString());
+                float longitude = float.Parse(dr["longitude"].ToString());
+                string room_type = dr["room_type"].ToString();
+                int accommodates = int.Parse(dr["accommodates"].ToString());
+                string bathrooms_text = dr["bathrooms_text"].ToString();
+                int bedrooms = int.Parse(dr["bedrooms"].ToString());
+                int beds = int.Parse(dr["beds"].ToString());
+                string amenities = dr["amenities"].ToString();
+                double price = double.Parse(dr["price"].ToString());
+                int number_of_reviews = int.Parse(dr["number_of_reviews"].ToString());
+                float review_scores_rating = float.Parse(dr["review_scores_rating"].ToString());
+                Apartment a = new Apartment(id, name, description, picture_url, neighbourhood_cleansed,
+                    latitude, longitude, room_type, accommodates, bathrooms_text, bedrooms, beds,
+                    amenities, price, number_of_reviews, review_scores_rating);
+                Reservation res = new Reservation(uEmail, a, FromDate, ToDate);
+                reservations.Add(res);     
+            }
+            con.Close();
+            return reservations;
+        }
         private SqlConnection Connect()
         {
             // read the connection string from the web.config file
@@ -142,5 +195,6 @@ namespace server_side_final_project.Models.DAL
 
             return con;
         }
+       
     }
 }
