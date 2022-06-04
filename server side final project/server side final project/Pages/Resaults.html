@@ -27,7 +27,7 @@
     <link href="nav.css" rel="stylesheet" />
 
     <!--data table import-->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css">
@@ -35,21 +35,57 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>-->
     <!--data table import-->
+    <!--DataTable-->
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <link href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <!--DataTable-->
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 
     <style>
-        #apartmentsTbl{
-            margin:auto;
-            width:100%;
+        #tblDiv {
+            margin-top: 5px;
+            width: 100%;
+        }
+
+        .tblImg {
+            width: 100px;
+            margin: 3px;
+            border-radius: 4px;
+            border: 1px solid black;
+        }
+
+        .apartment {
+            margin: 4px;
+            border-radius: 4px;
+            border: 1px solid black;
+            background-color: white;
+            
+        }
+        .apartment:hover{
+            background-color:lightgrey;
+        }
+        .apartmentDetais{
+            font-weight:bold;
         }
     </style>
 
     <script>
 
+        var Reservations;
+
         $(document).ready(function () {
             welcome();
-            $("#apartmentsTbl").DataTable();
+            //$("#apartmentsTbl").DataTable();
             initreservations();
         })
 
@@ -61,36 +97,77 @@
         }
 
         function readResSCB(reservations) {
-            var Res = reservations;
+            //var Res = reservations;
             console.log(reservations);
-            try {
-                tbl = $('#apartmentsTbl').DataTable({
-                    data: Res,
-                    pageLength: 5,
-                    columns: [
-                        { data: "Name" },
-                        { data: "Price" },
-                        { data: "From" },
-                        { data: "To" },
-                        {
-                            data: "Image",
-                            render: function (data, type, row, meta) {
-                                return '<img src="' + Res[row.Id].Apartment.Picture_url + '" />';
-                            }
-                        },
-                        {
-                            data: "Detailes",
-                            render: function (data, type, row, meta) {
-                                return "<button type='button' id='" + row.Id + "'> For more Details </button>";
-                            }
-                        },
-                    ],
-                });
-            }
-            catch (err) {
-                alert(err);
+
+            Reservations = reservations;
+
+            let tblDiv = $("#tblDiv");
+            for (let i = 0; i < reservations.length; i++) {
+
+                let row = document.createElement("div");
+                row.setAttribute("class", "row apartment");
+                row.setAttribute("onclick", "display(" + i + ")");
+                row.setAttribute("id", i);
+
+                let col1 = document.createElement("div");
+                col1.setAttribute("class", "col");
+                let img = document.createElement("img");
+                img.setAttribute("src", reservations[i].Apartment.Picture_url);
+                img.setAttribute("class", "tblImg");
+                col1.appendChild(img);
+                row.appendChild(col1);
+
+                let col2 = document.createElement("div");
+                col2.setAttribute("class", "col");
+                let p2 = document.createElement("p");
+                p2.setAttribute("class", "apartmentDetais");
+                p2.innerHTML = reservations[i].Apartment.Name;
+                col2.appendChild(p2);
+                row.appendChild(col2);
+
+                let col3 = document.createElement("div");
+                col3.setAttribute("class", "col");
+                let p3 = document.createElement("p");
+                p3.setAttribute("class", "apartmentDetais");
+                p3.innerHTML = "from: " + reservations[i].From_date + "<br />to: " + reservations[i].To_date;
+                col3.appendChild(p3);
+                row.appendChild(col3);
+
+                tblDiv.append(row);
             }
 
+            //try {
+            //    tbl = $('#apartmentsTbl').DataTable({
+            //        data: Res,
+            //        pageLength: 5,
+            //        columns: [
+            //            { data: "Name" },
+            //            { data: "Price" },
+            //            { data: "From" },
+            //            { data: "To" },
+            //            {
+            //                data: "Image",
+            //                render: function (data, type, row, meta) {
+            //                    return '<img src="' + Res[row.Id].Apartment.Picture_url + '" />';
+            //                }
+            //            },
+            //            {
+            //                data: "Detailes",
+            //                render: function (data, type, row, meta) {
+            //                    return "<button type='button' id='" + row.Id + "'> For more Details </button>";
+            //                }
+            //            },
+            //        ],
+            //    });
+            //}
+            //catch (err) {
+            //    alert(err);
+            //}
+        }
+
+        function display(index) {
+            console.log(Reservations[index]);
         }
 
         function readResECB(err) {
@@ -140,8 +217,8 @@
                     <h1 class="u-text u-text-default u-text-1">Resaults</h1>  
                     
                     <!--datatable-->
-                    <div class="container">
-                        <table id="apartmentsTbl" class="display nowrap" style="width:100%">
+                    <div id="tblDiv" class="container">                        
+                        <!--<table id="apartmentsTbl" class="display nowrap" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>Name</th>
@@ -149,10 +226,10 @@
                                     <th>From</th>
                                     <th>To</th>
                                     <th>Image</th>
-                                    <th>Detailes</th>
                                 </tr>
                             </thead>
-                        </table>
+                            <tbody id="tblBody"></tbody> 
+                        </table>-->
                     </div>
                     <!--datatable-->
 
