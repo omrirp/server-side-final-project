@@ -64,18 +64,34 @@
             border: 1px solid black;
         }
 
-        .apartment {
+        .apartment, #infoDiv {
             margin: 4px;
             border-radius: 4px;
             border: 1px solid black;
             background-color: white;
-            
         }
         .apartment:hover{
             background-color:lightgrey;
         }
         .apartmentDetais{
             font-weight:bold;
+        }
+        .headers {
+            font-weight: bold;
+        }
+        .imgInInfo{
+            width:250px;
+            margin:8px;
+            border-radius:4px;
+        }
+        #description, #amenities {
+            height: 130px;
+            overflow: scroll;
+            border-radius: 4px;
+            border: 1px solid black;
+        }
+        #amenities{
+            height:200px;
         }
     </style>
 
@@ -111,6 +127,7 @@
                 row.setAttribute("onclick", "display(" + i + ")");
                 row.setAttribute("id", i);
 
+                //handle apartments image render
                 let col1 = document.createElement("div");
                 col1.setAttribute("class", "col");
                 let img = document.createElement("img");
@@ -119,6 +136,7 @@
                 col1.appendChild(img);
                 row.appendChild(col1);
 
+                //handle apartment name render
                 let col2 = document.createElement("div");
                 col2.setAttribute("class", "col");
                 let p2 = document.createElement("p");
@@ -127,6 +145,7 @@
                 col2.appendChild(p2);
                 row.appendChild(col2);
 
+                //handle reservation from/to dates render
                 let col3 = document.createElement("div");
                 col3.setAttribute("class", "col");
                 let p3 = document.createElement("p");
@@ -137,34 +156,6 @@
 
                 tblDiv.append(row);
             }
-
-            //try {
-            //    tbl = $('#apartmentsTbl').DataTable({
-            //        data: Res,
-            //        pageLength: 5,
-            //        columns: [
-            //            { data: "Name" },
-            //            { data: "Price" },
-            //            { data: "From" },
-            //            { data: "To" },
-            //            {
-            //                data: "Image",
-            //                render: function (data, type, row, meta) {
-            //                    return '<img src="' + Res[row.Id].Apartment.Picture_url + '" />';
-            //                }
-            //            },
-            //            {
-            //                data: "Detailes",
-            //                render: function (data, type, row, meta) {
-            //                    return "<button type='button' id='" + row.Id + "'> For more Details </button>";
-            //                }
-            //            },
-            //        ],
-            //    });
-            //}
-            //catch (err) {
-            //    alert(err);
-            //}
         }
 
         function display(index) {
@@ -172,11 +163,50 @@
             $("#sec-54c8").fadeIn(300);
             document.getElementById("sec-54c8").scrollIntoView();
             $("#apartmentName").html(Reservations[index].Apartment.Name);
+
+            //handle description render
+            let textarea = $("#description");
+            textarea.prop("disabled", true);
+            textarea.html(Reservations[index].Apartment.Description);
+
+            //handle apartment image render
+            let img = document.createElement("img");
+            img.setAttribute("src", Reservations[index].Apartment.Picture_url);
+            img.setAttribute("class", "imgInInfo");
+            $("#apartmentImg").html("").append(img);
+
+            //handle amenities render
+            let amenities = JSON.parse(Reservations[index].Apartment.Amenities);
+            let amenitiesSpan = document.createElement("span");
+            for (let i = 0; i < amenities.length; i++) {
+                amenitiesSpan.innerHTML += amenities[i] + " ";
+            }
+            $("#amenities").html("").append(amenitiesSpan);
+
+            //handle bathrooms, bedrooms, num of reviewers, avg score: render
+            $("#bathrooms").html(Reservations[index].Apartment.Bathrooms_text);
+            $("#bedrooms").html(Reservations[index].Apartment.Bedrooms);
+            $("#numberOfReviews").html(Reservations[index].Apartment.Number_of_reviews);
+            $("#ReviewScoresRating").html(Reservations[index].Apartment.Review_scores_rating);
+
+            //----need to calculate the number of days in reservation-----
+            //handle total price
+            //let days = Math.abs(Reservations[i].To_date.getDay) - Reservations[i].From_date.getDay();
+            //console.log(days);
+
+            //dateFormat(Reservations[i].From_date);
+            
         }
 
+        //--------
         function readResECB(err) {
             console.log(err);
         }
+
+        function dateFormat(date) {
+            console.log(date);
+        }
+
 
         /* Toggle between adding and removing the "responsive" class to topnav when the user clicks on the icon */
         function navbar() {
@@ -218,24 +248,11 @@
         <div class="u-align-left u-clearfix u-sheet u-sheet-1">
             <div class="u-align-center u-border-3 u-border-palette-3-light-1 u-container-style u-grey-10 u-group u-radius-3 u-shape-round u-group-1">
                 <div id="apartmentsList" class="u-container-layout u-valign-top u-container-layout-1">
-                    <h1 class="u-text u-text-default u-text-1">Resaults</h1>  
-                    
-                    <!--datatable-->
-                    <div id="tblDiv" class="container">                        
-                        <!--<table id="apartmentsTbl" class="display nowrap" style="width:100%">
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Price</th>
-                                    <th>From</th>
-                                    <th>To</th>
-                                    <th>Image</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tblBody"></tbody> 
-                        </table>-->
-                    </div>
-                    <!--datatable-->
+                    <h1 class="u-text u-text-default u-text-1">Results</h1>
+
+                    <!--dynamic list of apartments-->
+                    <div id="tblDiv" class="container"></div>
+                    <!--dynamic list of apartments-->
 
                 </div>
             </div>
@@ -248,7 +265,50 @@
         <div class="u-align-left u-clearfix u-sheet u-sheet-1">
             <div class="u-align-center u-border-3 u-border-palette-3-light-2 u-container-style u-grey-10 u-group u-radius-3 u-shape-round u-group-1">
                 <div class="u-container-layout u-valign-top u-container-layout-1">
-                    <h1 id="apartmentName" class="u-text u-text-default u-text-1"></h1>                    
+                    <h1 id="apartmentName" class="u-text u-text-default u-text-1"></h1>
+
+                    <!--full apartment information-->
+                    <div id="infoDiv" class="container">
+                        <div class="row">
+                            <div class="col-12 col-md-8">
+
+                                <div class="row">
+                                    <div id="apartmentImg" class="col-12 col-md-6"></div>
+                                    <div class="col-12 col-md-6">
+                                        <h5 class="headers">Description</h5>
+                                        <div id="description"></div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div id="googleMap" class="col-12 col-md-4">
+                                <h5 class="headers">google Map</h5>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12 col-md-6">
+                                <h5 class="headers">Amenities</h5>
+                                <div id="amenities"></div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <h5 class="headers">Bathrooms</h5>
+                                <span id="bathrooms"></span>
+                                <h5 class="headers">Bedrooms</h5>
+                                <span id="bedrooms"></span>
+                                <h5 class="headers">Number of reviews</h5>
+                                <span id="numberOfReviews"></span>
+                                <h5 class="headers">Average Score</h5>
+                                <span id="ReviewScoresRating"></span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div id="totalPrice" class="col"></div>
+                        </div>
+                    </div>
+                    <!--full apartment information-->
+
                 </div>
             </div>
         </div>
