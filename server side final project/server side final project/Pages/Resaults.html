@@ -85,6 +85,7 @@
 
         $(document).ready(function () {
             welcome();
+            $("#sec-54c8").hide();
             //$("#apartmentsTbl").DataTable();
             initreservations();
         })
@@ -167,7 +168,10 @@
         }
 
         function display(index) {
-            console.log(Reservations[index]);
+            console.log(Reservations[index]);            
+            $("#sec-54c8").fadeIn(300);
+            document.getElementById("sec-54c8").scrollIntoView();
+            $("#apartmentName").html(Reservations[index].Apartment.Name);
         }
 
         function readResECB(err) {
@@ -244,7 +248,7 @@
         <div class="u-align-left u-clearfix u-sheet u-sheet-1">
             <div class="u-align-center u-border-3 u-border-palette-3-light-2 u-container-style u-grey-10 u-group u-radius-3 u-shape-round u-group-1">
                 <div class="u-container-layout u-valign-top u-container-layout-1">
-                    <h1 class="u-text u-text-default u-text-1">Resaults</h1>                    
+                    <h1 id="apartmentName" class="u-text u-text-default u-text-1"></h1>                    
                 </div>
             </div>
         </div>
@@ -254,16 +258,5 @@
             <p class="u-align-center u-text u-text-1">This website is supported by a dataset of Amsterdam Airbnb that was provided by Ruppin Academic Center</p>
         </div>
     </footer>
-    <section class="u-backlink u-clearfix u-grey-80">
-        <a class="u-link" href="https://nicepage.com/landing-page" target="_blank">
-            <span>Landing Page</span>
-        </a>
-        <p class="u-text">
-            <span>created with</span>
-        </p>
-        <a class="u-link" href="" target="_blank">
-            <span>Website Builder Software</span>
-        </a>.
-    </section>
 </body>
 </html>
