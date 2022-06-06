@@ -193,9 +193,12 @@
             //handle total price
             //let days = Math.abs(Reservations[i].To_date.getDay) - Reservations[i].From_date.getDay();
             //console.log(days);
-
+            dateFormat(Reservations[i].From_date.getDay());
             //dateFormat(Reservations[i].From_date);
-            
+
+
+            //----need to calculate the distance from the center-----
+
         }
 
         //--------
@@ -204,7 +207,9 @@
         }
 
         function dateFormat(date) {
-            console.log(date);
+            
+            let newDate = date.splice(10, date.length - 10);
+            console.log(newDate);
         }
 
 
