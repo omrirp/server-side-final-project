@@ -26,8 +26,16 @@ namespace server_side_final_project.Models.DAL
             List<Apartment> apartments = new List<Apartment>();
 
             while (dr.Read())
-            {                
-                apartments.Add(apartmentReader(dr));
+            {
+                try
+                {
+                    apartments.Add(apartmentReader(dr));
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+               
             }
 
             con.Close();
@@ -122,10 +130,13 @@ namespace server_side_final_project.Models.DAL
             {
                 string uEmail = dr["user_email"].ToString();
                 DateTime FromDate = Convert.ToDateTime(dr["from_date"]);
-                DateTime ToDate = Convert.ToDateTime(dr["to_date"]);                
+                DateTime ToDate = Convert.ToDateTime(dr["to_date"]);
                 Apartment a = apartmentReader(dr);
-                Reservation res = new Reservation(uEmail, a, FromDate, ToDate);
-                reservations.Add(res);     
+                if (a != null)
+                { 
+                    Reservation res = new Reservation(uEmail, a, FromDate, ToDate);
+                    reservations.Add(res);
+                }
             }
             con.Close();
             return reservations;
