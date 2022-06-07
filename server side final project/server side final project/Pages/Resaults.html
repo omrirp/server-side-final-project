@@ -78,6 +78,7 @@
         }
         .headers {
             font-weight: bold;
+            text-align:left;
         }
         .imgInInfo{
             width:250px;
@@ -91,13 +92,15 @@
             border: 1px solid black;
         }
         #amenities{
-            height:200px;
+            height:250px;
         }
     </style>
 
     <script>
 
         var Reservations;
+        var CenterLatitude = 52.379189;
+        var CenterLongitude = 4.899431
 
         $(document).ready(function () {
             welcome();
@@ -150,7 +153,9 @@
                 col3.setAttribute("class", "col");
                 let p3 = document.createElement("p");
                 p3.setAttribute("class", "apartmentDetais");
-                p3.innerHTML = "from: " + reservations[i].From_date + "<br />to: " + reservations[i].To_date;
+                let fromDate = new Date(reservations[i].From_date); reservations[i].From_date
+                let toDate = new Date(reservations[i].To_date);
+                p3.innerHTML = "from: " + fromDate.toLocaleDateString() + "<br />to: " + toDate.toLocaleDateString();
                 col3.appendChild(p3);
                 row.appendChild(col3);
 
@@ -189,29 +194,22 @@
             $("#numberOfReviews").html(Reservations[index].Apartment.Number_of_reviews);
             $("#ReviewScoresRating").html(Reservations[index].Apartment.Review_scores_rating);
 
-            //----need to calculate the number of days in reservation-----
             //handle total price
-            //let days = Math.abs(Reservations[i].To_date.getDay) - Reservations[i].From_date.getDay();
-            //console.log(days);
-            dateFormat(Reservations[i].From_date.getDay());
-            //dateFormat(Reservations[i].From_date);
-
-
+            let fromDate = new Date(Reservations[index].From_date);
+            let toDate = new Date(Reservations[index].To_date);
+            let days = Math.abs(toDate.getDate() - fromDate.getDate());
+            //console.log(Reservations[index].Price);
+            $("#totalPrice").html(days * Reservations[index].Apartment.Price + " $");
+          
             //----need to calculate the distance from the center-----
-
+            $("#distance").html(Math.sqrt((Reservations[index].Apartment.Latitude - CenterLatitude) ** 2
+                + (Reservations[index].Apartment.Longitude - CenterLongitude) ** 2).toFixed(3) + " KM");
         }
 
         //--------
         function readResECB(err) {
             console.log(err);
         }
-
-        function dateFormat(date) {
-            
-            let newDate = date.splice(10, date.length - 10);
-            console.log(newDate);
-        }
-
 
         /* Toggle between adding and removing the "responsive" class to topnav when the user clicks on the icon */
         function navbar() {
@@ -278,8 +276,8 @@
                             <div class="col-12 col-md-8">
 
                                 <div class="row">
-                                    <div id="apartmentImg" class="col-12 col-md-6"></div>
-                                    <div class="col-12 col-md-6">
+                                    <div id="apartmentImg" class="col-12 col-lg-6"></div>
+                                    <div class="col-12 col-lg-6">
                                         <h5 class="headers">Description</h5>
                                         <div id="description"></div>
                                     </div>
@@ -292,19 +290,17 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-12 col-md-6">
+                            <div class="col-12 col-md-8">
                                 <h5 class="headers">Amenities</h5>
                                 <div id="amenities"></div>
                             </div>
-                            <div class="col-12 col-md-6">
-                                <h5 class="headers">Bathrooms</h5>
-                                <span id="bathrooms"></span>
-                                <h5 class="headers">Bedrooms</h5>
-                                <span id="bedrooms"></span>
-                                <h5 class="headers">Number of reviews</h5>
-                                <span id="numberOfReviews"></span>
-                                <h5 class="headers">Average Score</h5>
-                                <span id="ReviewScoresRating"></span>
+                            <div class="col-12 col-md-4">
+                                <p class="headers">Bathrooms: <span id="bathrooms"></span></p>                                
+                                <p class="headers">Bedrooms: <span id="bedrooms"></span></p>                                
+                                <p class="headers">Number of reviews: <span id="numberOfReviews"></span></p>                                
+                                <p class="headers">Average Score: <span id="ReviewScoresRating"></span></p>                                
+                                <p class="headers">Total price: <span id="totalPrice"></span></p>  
+                                <p class="headers">Disnace from denter: <span id="distance"></span></p>
                             </div>
                         </div>
 
