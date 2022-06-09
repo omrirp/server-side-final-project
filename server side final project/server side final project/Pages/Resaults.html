@@ -94,6 +94,13 @@
         #amenities{
             height:250px;
         }
+        /* Set the size of the div element that contains the map */
+        #map {
+            height:300px;
+            /* The height is 400 pixels */
+            width: 100%;
+            /* The width is the width of the web page */
+        }
     </style>
 
     <script>
@@ -204,6 +211,8 @@
             //----need to calculate the distance from the center-----
             $("#distance").html(Math.sqrt((Reservations[index].Apartment.Latitude - CenterLatitude) ** 2
                 + (Reservations[index].Apartment.Longitude - CenterLongitude) ** 2).toFixed(3) + " KM");
+
+            initMap(Reservations[index].Apartment.Latitude, Reservations[index].Apartment.Longitude);
         }
 
         //--------
@@ -241,7 +250,7 @@
                     <i class="fa fa-bars"></i>
                 </a>
             </div>
-            
+
             <h3 class="u-headline u-text u-text-default u-text-grey-80 u-text-2">
                 <a href="/">Server Side Project</a>
             </h3>
@@ -286,6 +295,9 @@
                             </div>
                             <div id="googleMap" class="col-12 col-md-4">
                                 <h5 class="headers">google Map</h5>
+                                <!--google maps-->
+                                <div id="map"></div>
+
                             </div>
                         </div>
 
@@ -295,11 +307,11 @@
                                 <div id="amenities"></div>
                             </div>
                             <div class="col-12 col-md-4">
-                                <p class="headers">Bathrooms: <span id="bathrooms"></span></p>                                
-                                <p class="headers">Bedrooms: <span id="bedrooms"></span></p>                                
-                                <p class="headers">Number of reviews: <span id="numberOfReviews"></span></p>                                
-                                <p class="headers">Average Score: <span id="ReviewScoresRating"></span></p>                                
-                                <p class="headers">Total price: <span id="totalPrice"></span></p>  
+                                <p class="headers">Bathrooms: <span id="bathrooms"></span></p>
+                                <p class="headers">Bedrooms: <span id="bedrooms"></span></p>
+                                <p class="headers">Number of reviews: <span id="numberOfReviews"></span></p>
+                                <p class="headers">Average Score: <span id="ReviewScoresRating"></span></p>
+                                <p class="headers">Total price: <span id="totalPrice"></span></p>
                                 <p class="headers">Disnace from denter: <span id="distance"></span></p>
                             </div>
                         </div>
@@ -319,5 +331,31 @@
             <p class="u-align-center u-text u-text-1">This website is supported by a dataset of Amsterdam Airbnb that was provided by Ruppin Academic Center</p>
         </div>
     </footer>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDvoCd_QUIxukrwauqXQlMQlGCA-n0_Sl4&callback=initMap&libraries=&v=weekly"
+            defer></script>
+    <script>
+        // Initialize and add the map
+        function initMap(lat,lng) {
+            // The location of Uluru
+            //const amsterdam = { lat: 52.377956, lng: 4.897070 };
+            const amsterdam = { lat: lat, lng: lng };
+            // The map, centered at Uluru
+            const map = new google.maps.Map(
+                document.getElementById("map"),
+                {
+                    zoom: 10,
+                    center: amsterdam,
+                }
+            );
+
+            // The marker, positioned at Uluru
+            const marker = new google.maps.Marker({
+                position: amsterdam,
+                map: map,
+            });
+        }
+    </script>
+
 </body>
 </html>

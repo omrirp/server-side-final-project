@@ -43,7 +43,6 @@ namespace server_side_final_project.Models.DAL
         }
         //end -----
 
-
         //Insert User -----
         public int insertUser(User user)
         {
