@@ -8,7 +8,7 @@ using System.Web.Configuration;
 
 namespace server_side_final_project.Models.DAL
 {
-    public class DBServices
+    public class DBServices<T>
     {
         public DBServices() { }
 
@@ -157,7 +157,8 @@ namespace server_side_final_project.Models.DAL
 
         private Apartment apartmentReader(SqlDataReader dr)
         {
-            int id = int.Parse(dr["id"].ToString());
+            int id = int.Parse(dr["id"].ToString());            
+            //int id = genericReader(dr, "int", "id");
             string name = dr["name"].ToString();
             string description = dr["description"].ToString();
             string picture_url = dr["picture_url"].ToString();
@@ -177,6 +178,58 @@ namespace server_side_final_project.Models.DAL
             return new Apartment(id, name, description, picture_url, neighbourhood_cleansed,
                 latitude, longitude, room_type, accommodates, bathrooms_text, bedrooms, beds,
                 amenities, price, number_of_reviews, review_scores_rating);
+        }
+
+        private T genericReader(SqlDataReader dr, string type, string attr)
+        {
+            if (type.Equals("int"))
+            {
+                try
+                {
+                    return (T)Convert.ChangeType(int.Parse(dr[attr].ToString()),typeof(int));
+                }
+                catch (Exception)
+                {
+
+                    return (T)Convert.ChangeType(0, typeof(int));
+                }
+            }
+            if (type.Equals("float"))
+            {
+                try
+                {
+                    return (T)Convert.ChangeType(float.Parse(dr[attr].ToString()), typeof(float));
+                }
+                catch (Exception)
+                {
+
+                    return (T)Convert.ChangeType(0, typeof(float));
+                }
+            }
+            if (type.Equals("double"))
+            {
+                try
+                {
+                    return (T)Convert.ChangeType(double.Parse(dr[attr].ToString()), typeof(double));
+                }
+                catch (Exception)
+                {
+
+                    return (T)Convert.ChangeType(0, typeof(int));
+                }
+            }
+            else
+            {
+                try
+                {
+                    return (T)Convert.ChangeType(int.Parse(dr[attr].ToString()), typeof(string));
+                }
+                catch (Exception)
+                {
+
+                    return (T)Convert.ChangeType("", typeof(string));
+                }
+            }
         }
 
         private SqlConnection Connect()
