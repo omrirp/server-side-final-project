@@ -81,25 +81,31 @@
             text-align:left;
         }
         .imgInInfo{
-            width:250px;
+            width:90%;
             margin:8px;
             border-radius:4px;
         }
         #description, #amenities {
-            height: 130px;
+            height: 250px;
             overflow: scroll;
             border-radius: 4px;
             border: 1px solid black;
         }
-        #amenities{
-            height:250px;
-        }
         /* Set the size of the div element that contains the map */
         #map {
-            height:300px;
+            margin: 8px;
+            height: 300px;
             /* The height is 400 pixels */
             width: 100%;
             /* The width is the width of the web page */
+        }
+        .amenities{
+            border-radius:6px;
+            background-color:#444448;
+            color:white;
+            display:inline-block;
+            margin:2px;
+            padding:1px;
         }
     </style>
 
@@ -130,6 +136,7 @@
             Reservations = reservations;
 
             let tblDiv = $("#tblDiv");
+
             for (let i = 0; i < reservations.length; i++) {
 
                 let row = document.createElement("div");
@@ -160,10 +167,19 @@
                 col3.setAttribute("class", "col");
                 let p3 = document.createElement("p");
                 p3.setAttribute("class", "apartmentDetais");
+
                 let fromDate = new Date(reservations[i].From_date); reservations[i].From_date
                 let toDate = new Date(reservations[i].To_date);
-                p3.innerHTML = "from: " + fromDate.toLocaleDateString() + "<br />to: " + toDate.toLocaleDateString();
-                col3.appendChild(p3);
+
+                let pFrom = document.createElement("p");
+                pFrom.setAttribute("class", "amenities");
+                pFrom.innerHTML = "from: " + fromDate.toLocaleDateString();
+                col3.appendChild(pFrom);
+                let pTo = document.createElement("p");
+                pTo.setAttribute("class", "amenities");
+                pTo.innerHTML = "to: " + toDate.toLocaleDateString();
+                col3.appendChild(pTo);
+
                 row.appendChild(col3);
 
                 tblDiv.append(row);
@@ -191,7 +207,10 @@
             let amenities = JSON.parse(Reservations[index].Apartment.Amenities);
             let amenitiesSpan = document.createElement("span");
             for (let i = 0; i < amenities.length; i++) {
-                amenitiesSpan.innerHTML += amenities[i] + " ";
+                let div = document.createElement("div");
+                div.setAttribute("class", "amenities");
+                div.innerHTML = amenities[i] + " ";
+                amenitiesSpan.appendChild(div);
             }
             $("#amenities").html("").append(amenitiesSpan);
 
@@ -199,7 +218,7 @@
             $("#bathrooms").html(Reservations[index].Apartment.Bathrooms_text);
             $("#bedrooms").html(Reservations[index].Apartment.Bedrooms);
             $("#numberOfReviews").html(Reservations[index].Apartment.Number_of_reviews);
-            $("#ReviewScoresRating").html(Reservations[index].Apartment.Review_scores_rating);
+            $("#ReviewScoresRating").html(Reservations[index].Apartment.Review_scores_rating +" ★");
 
             //handle total price
             let fromDate = new Date(Reservations[index].From_date);
@@ -283,18 +302,10 @@
                     <div id="infoDiv" class="container">
                         <div class="row">
                             <div class="col-12 col-md-8">
-
-                                <div class="row">
-                                    <div id="apartmentImg" class="col-12 col-lg-6"></div>
-                                    <div class="col-12 col-lg-6">
-                                        <h5 class="headers">Description</h5>
-                                        <div id="description"></div>
-                                    </div>
-                                </div>
-
+                                <div id="apartmentImg"></div>                              
                             </div>
                             <div id="googleMap" class="col-12 col-md-4">
-                                <h5 class="headers">google Map</h5>
+                                <!--<h5 class="headers">google Map</h5>-->
                                 <!--google maps-->
                                 <div id="map"></div>
 
@@ -302,17 +313,26 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-12 col-md-8">
+                            <!--description-->
+                            <div class="col-12 col-md-4">
+                                <h5 class="headers">Description</h5>
+                                <div id="description"></div>
+                            </div>
+
+                            <!--amenities-->
+                            <div class="col-12 col-md-4">
                                 <h5 class="headers">Amenities</h5>
                                 <div id="amenities"></div>
                             </div>
+
+                            <!--othe details-->
                             <div class="col-12 col-md-4">
                                 <p class="headers">Bathrooms: <span id="bathrooms"></span></p>
                                 <p class="headers">Bedrooms: <span id="bedrooms"></span></p>
                                 <p class="headers">Number of reviews: <span id="numberOfReviews"></span></p>
                                 <p class="headers">Average Score: <span id="ReviewScoresRating"></span></p>
-                                <p class="headers">Total price: <span id="totalPrice"></span></p>
                                 <p class="headers">Disnace from denter: <span id="distance"></span></p>
+                                <p class="headers">Total price: <span id="totalPrice"></span></p>
                             </div>
                         </div>
 

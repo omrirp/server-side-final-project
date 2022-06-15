@@ -180,6 +180,7 @@ namespace server_side_final_project.Models.DAL
                 amenities, price, number_of_reviews, review_scores_rating);
         }
 
+        //not good !
         private T genericReader(SqlDataReader dr, string type, string attr)
         {
             if (type.Equals("int"))
@@ -232,6 +233,7 @@ namespace server_side_final_project.Models.DAL
             }
         }
 
+        //connect
         private SqlConnection Connect()
         {
             // read the connection string from the web.config file
