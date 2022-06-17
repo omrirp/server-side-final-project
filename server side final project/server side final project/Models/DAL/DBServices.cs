@@ -181,11 +181,27 @@ namespace server_side_final_project.Models.DAL
             string host_picture_url = stringDr(dr, "host_picture_url");
             int host_listings_count = intDr(dr, "host_listings_count");
             int host_total_listings_count = intDr(dr, "host_total_listings_count");
-            bool host_has_profile_pic = boolDr(dr, "host_has_profile_pic");
-            bool has_availability = boolDr(dr, "has_availability");
+            bool host_has_profile_pic;
+            if (dr["host_has_profile_pic"].ToString().Equals("t"))
+            {
+                host_has_profile_pic = true;
+            }
+            else
+            {
+                host_has_profile_pic = false;
+            }
+            bool has_availability;
+            if (Convert.ToInt32(dr["has_availability"]) == 1)
+            {
+                has_availability = true;
+            }
+            else
+            {
+                has_availability = false;
+            }
 
             return new Host(id, name, host_response_time, host_picture_url, host_listings_count,
-                host_total_listings_count, has_availability);
+                host_total_listings_count, host_has_profile_pic, has_availability);
         }
 
         private bool boolDr(SqlDataReader dr, string attr)

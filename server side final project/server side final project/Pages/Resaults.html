@@ -111,6 +111,13 @@
             width:100px;
             border-radius:15px;
         }
+        #hostTbl{
+            width:90%;
+            margin-bottom:5px;
+        }
+        td{
+            text-align:center;
+        }
     </style>
 
     <script>
@@ -175,6 +182,7 @@
                 let fromDate = new Date(reservations[i].From_date); reservations[i].From_date
                 let toDate = new Date(reservations[i].To_date);
 
+                //handle amenities
                 let pFrom = document.createElement("p");
                 pFrom.setAttribute("class", "amenities");
                 pFrom.innerHTML = "from: " + fromDate.toLocaleDateString();
@@ -185,7 +193,6 @@
                 col3.appendChild(pTo);
 
                 row.appendChild(col3);
-
                 tblDiv.append(row);
             }
         }
@@ -231,7 +238,7 @@
             //console.log(Reservations[index].Price);
             $("#totalPrice").html(days * Reservations[index].Apartment.Price + " $");
           
-            //----need to calculate the distance from the center-----
+            //----calculate the distance from the center by Pitagoras-----
             $("#distance").html(Math.sqrt((Reservations[index].Apartment.Latitude - CenterLatitude) ** 2
                 + (Reservations[index].Apartment.Longitude - CenterLongitude) ** 2).toFixed(3) + " KM");
 
@@ -246,9 +253,26 @@
 
             //handle host name
             let td2 = $("#hostName");
-            let h5 = document.createElement("h5");
-            h5.innerHTML = Reservations[index].Apartment.Host.Name;
-            td2.html("").append(h5);
+            let h5_1 = document.createElement("h5");
+            h5_1.innerHTML = Reservations[index].Apartment.Host.Name;
+            td2.html("").append(h5_1);
+
+            //handle availability
+            let td3 = $("#available");
+            let h5_2 = document.createElement("h5");
+            if (Reservations[index].Apartment.Host.Has_availability) {
+                h5_2.innerHTML = "available";
+            }
+            else {
+                h5_2.innerHTML = "less available"
+            }
+            td3.html("").append(h5_2);
+
+            //handle response time
+            let td4 = $("#responseTime");
+            let h5_3 = document.createElement("h5");
+            h5_3.innerHTML = Reservations[index].Apartment.Host.Host_response_time;
+            td4.html("").append(h5_3);
 
         }
 
@@ -355,14 +379,18 @@
                         </div>
                         <div class="row">
                             <div class="col-12">
-                                <table>
+                                <table id="hostTbl">
                                     <tr>
-                                        <td colspan="3"><h5>Host</h5></td>
+                                        <td><h5>Host</h5></td>
+                                        <td><h5>Name</h5></td>
+                                        <td><h5>Availability</h5></td>
+                                        <td><h5>Response time</h5></td>
                                     </tr>
                                     <tr>
                                         <td id="hostImg"></td>
                                         <td id="hostName"></td>
-                                        <td></td>
+                                        <td id="available"></td>
+                                        <td id="responseTime"></td>
                                     </tr>
                                 </table>
                             </div>

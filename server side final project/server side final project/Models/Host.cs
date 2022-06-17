@@ -19,8 +19,8 @@ namespace server_side_final_project.Models
 
         public Host() { }
 
-        public Host(int id, string name, string host_response_time, string host_picture_url, 
-            int host_listings_count, int host_total_listings_count, bool has_availability)
+        public Host(int id, string name, string host_response_time, string host_picture_url,
+            int host_listings_count, int host_total_listings_count, bool host_has_profile_pic, bool has_availability)
         {
             this.id = id;
             this.name = name;
@@ -28,7 +28,8 @@ namespace server_side_final_project.Models
             this.host_picture_url = host_picture_url;
             this.host_listings_count = host_listings_count;
             this.host_total_listings_count = host_total_listings_count;
-            this.has_availability = has_availability;
+            this.Host_has_profile_pic = host_has_profile_pic;
+            this.has_availability = has_availability;           
         }
 
         public int Id { get => id; set => id = value; }
