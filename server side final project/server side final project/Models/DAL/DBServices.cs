@@ -166,11 +166,39 @@ namespace server_side_final_project.Models.DAL
             int number_of_reviews = intDr(dr, "number_of_reviews");
             float review_scores_rating = floafDr(dr, "review_scores_rating");
 
+            Host h = hostReader(dr);
+
             return new Apartment(id, name, description, picture_url, neighbourhood_cleansed,
                 latitude, longitude, room_type, accommodates, bathrooms_text, bedrooms, beds,
-                amenities, price, number_of_reviews, review_scores_rating);
+                amenities, price, number_of_reviews, review_scores_rating, h);
         }
 
+        private Host hostReader(SqlDataReader dr)
+        {
+            int id = intDr(dr, "host_id");
+            string name = stringDr(dr, "host_name");
+            string host_response_time = stringDr(dr, "host_response_time");
+            string host_picture_url = stringDr(dr, "host_picture_url");
+            int host_listings_count = intDr(dr, "host_listings_count");
+            int host_total_listings_count = intDr(dr, "host_total_listings_count");
+            bool host_has_profile_pic = boolDr(dr, "host_has_profile_pic");
+            bool has_availability = boolDr(dr, "has_availability");
+
+            return new Host(id, name, host_response_time, host_picture_url, host_listings_count,
+                host_total_listings_count, has_availability);
+        }
+
+        private bool boolDr(SqlDataReader dr, string attr)
+        {
+            try
+            {
+                return (dr[attr].ToString() == "1" || dr[attr].ToString() == "t");
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
         private int intDr(SqlDataReader dr, string attr)
         {
             try

@@ -107,6 +107,10 @@
             margin:2px;
             padding:1px;
         }
+        #hostImg img{
+            width:100px;
+            border-radius:15px;
+        }
     </style>
 
     <script>
@@ -232,6 +236,20 @@
                 + (Reservations[index].Apartment.Longitude - CenterLongitude) ** 2).toFixed(3) + " KM");
 
             initMap(Reservations[index].Apartment.Latitude, Reservations[index].Apartment.Longitude);
+
+            //-----handle host details-----
+            //handle host picture
+            let td1 = $("#hostImg");
+            let hostImg = document.createElement("img");
+            hostImg.setAttribute("src", Reservations[index].Apartment.Host.Host_picture_url);
+            td1.html("").append(hostImg);
+
+            //handle host name
+            let td2 = $("#hostName");
+            let h5 = document.createElement("h5");
+            h5.innerHTML = Reservations[index].Apartment.Host.Name;
+            td2.html("").append(h5);
+
         }
 
         //--------
@@ -335,9 +353,19 @@
                                 <p class="headers">Total price: <span id="totalPrice"></span></p>
                             </div>
                         </div>
-
                         <div class="row">
-                            <div id="totalPrice" class="col"></div>
+                            <div class="col-12">
+                                <table>
+                                    <tr>
+                                        <td colspan="3"><h5>Host</h5></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="hostImg"></td>
+                                        <td id="hostName"></td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                            </div>
                         </div>
                     </div>
                     <!--full apartment information-->
