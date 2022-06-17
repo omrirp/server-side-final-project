@@ -8,7 +8,7 @@ using System.Web.Configuration;
 
 namespace server_side_final_project.Models.DAL
 {
-    public class DBServices<T>
+    public class DBServices
     {
         public DBServices() { }
 
@@ -27,15 +27,7 @@ namespace server_side_final_project.Models.DAL
 
             while (dr.Read())
             {
-                try
-                {
-                    apartments.Add(apartmentReader(dr));
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message);
-                }
-               
+                apartments.Add(apartmentReader(dr));
             }
 
             con.Close();
@@ -157,81 +149,125 @@ namespace server_side_final_project.Models.DAL
 
         private Apartment apartmentReader(SqlDataReader dr)
         {
-            int id = int.Parse(dr["id"].ToString());            
-            //int id = genericReader(dr, "int", "id");
-            string name = dr["name"].ToString();
-            string description = dr["description"].ToString();
-            string picture_url = dr["picture_url"].ToString();
-            string neighbourhood_cleansed = dr["neighbourhood_cleansed"].ToString();
-            float latitude = float.Parse(dr["latitude"].ToString());
-            float longitude = float.Parse(dr["longitude"].ToString());
-            string room_type = dr["room_type"].ToString();
-            int accommodates = int.Parse(dr["accommodates"].ToString());
-            string bathrooms_text = dr["bathrooms_text"].ToString();
-            int bedrooms = int.Parse(dr["bedrooms"].ToString());
-            int beds = int.Parse(dr["beds"].ToString());
-            string amenities = dr["amenities"].ToString();
-            double price = double.Parse(dr["price"].ToString());
-            int number_of_reviews = int.Parse(dr["number_of_reviews"].ToString());
-            float review_scores_rating = float.Parse(dr["review_scores_rating"].ToString());
+            int id = intDr(dr, "id");
+            string name = stringDr(dr, "name");
+            string description = stringDr(dr, "description");
+            string picture_url = stringDr(dr, "picture_url");
+            string neighbourhood_cleansed = stringDr(dr, "neighbourhood_cleansed");
+            float latitude = floafDr(dr, "latitude");
+            float longitude = floafDr(dr, "longitude");
+            string room_type = stringDr(dr, "room_type");
+            int accommodates = intDr(dr, "accommodates");
+            string bathrooms_text = stringDr(dr, "bathrooms_text");
+            int bedrooms = intDr(dr, "bedrooms");
+            int beds = intDr(dr, "beds");
+            string amenities = stringDr(dr, "amenities");
+            double price = doubleDr(dr, "price");
+            int number_of_reviews = intDr(dr, "number_of_reviews");
+            float review_scores_rating = floafDr(dr, "review_scores_rating");
 
             return new Apartment(id, name, description, picture_url, neighbourhood_cleansed,
                 latitude, longitude, room_type, accommodates, bathrooms_text, bedrooms, beds,
                 amenities, price, number_of_reviews, review_scores_rating);
         }
 
-        //not good !
-        private T genericReader(SqlDataReader dr, string type, string attr)
+        private int intDr(SqlDataReader dr, string attr)
         {
-            if (type.Equals("int"))
+            try
             {
-                try
-                {
-                    return (T)Convert.ChangeType(int.Parse(dr[attr].ToString()),typeof(int));
-                }
-                catch (Exception)
-                {
-
-                    return (T)Convert.ChangeType(0, typeof(int));
-                }
+                return Convert.ToInt32(dr[attr]);
             }
-            if (type.Equals("float"))
+            catch (Exception)
             {
-                try
-                {
-                    return (T)Convert.ChangeType(float.Parse(dr[attr].ToString()), typeof(float));
-                }
-                catch (Exception)
-                {
-
-                    return (T)Convert.ChangeType(0, typeof(float));
-                }
-            }
-            if (type.Equals("double"))
-            {
-                try
-                {
-                    return (T)Convert.ChangeType(double.Parse(dr[attr].ToString()), typeof(double));
-                }
-                catch (Exception)
-                {
-
-                    return (T)Convert.ChangeType(0, typeof(int));
-                }
-            }
-            else
-            {
-                try
-                {
-                    return (T)Convert.ChangeType(int.Parse(dr[attr].ToString()), typeof(string));
-                }
-                catch (Exception)
-                {
-
-                    return (T)Convert.ChangeType("", typeof(string));
-                }
+                return 0;                
             }
         }
+        private float floafDr(SqlDataReader dr, string attr)
+        {
+            try
+            {
+                return float.Parse(dr[attr].ToString());
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
+        }
+        private double doubleDr(SqlDataReader dr, string attr)
+        {
+            try
+            {
+                return Convert.ToDouble(dr[attr]);
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
+        }
+        private string stringDr(SqlDataReader dr, string attr)
+        {
+            try
+            {
+                return dr[attr].ToString();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        //not good !
+        //private T genericReader(SqlDataReader dr, string type, string attr)
+        //{
+        //    if (type.Equals("int"))
+        //    {
+        //        try
+        //        {
+        //            return (T)Convert.ChangeType(int.Parse(dr[attr].ToString()),typeof(int));
+        //        }
+        //        catch (Exception)
+        //        {
+
+        //            return (T)Convert.ChangeType(0, typeof(int));
+        //        }
+        //    }
+        //    if (type.Equals("float"))
+        //    {
+        //        try
+        //        {
+        //            return (T)Convert.ChangeType(float.Parse(dr[attr].ToString()), typeof(float));
+        //        }
+        //        catch (Exception)
+        //        {
+
+        //            return (T)Convert.ChangeType(0, typeof(float));
+        //        }
+        //    }
+        //    if (type.Equals("double"))
+        //    {
+        //        try
+        //        {
+        //            return (T)Convert.ChangeType(double.Parse(dr[attr].ToString()), typeof(double));
+        //        }
+        //        catch (Exception)
+        //        {
+
+        //            return (T)Convert.ChangeType(0, typeof(int));
+        //        }
+        //    }
+        //    else
+        //    {
+        //        try
+        //        {
+        //            return (T)Convert.ChangeType(int.Parse(dr[attr].ToString()), typeof(string));
+        //        }
+        //        catch (Exception)
+        //        {
+
+        //            return (T)Convert.ChangeType("", typeof(string));
+        //        }
+        //    }
+        //}
 
         //connect
         private SqlConnection Connect()

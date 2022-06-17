@@ -163,6 +163,7 @@
     </Compile>
     <Compile Include="Models\Apartment.cs" />
     <Compile Include="Models\DAL\DBServices.cs" />
+    <Compile Include="Models\Host.cs" />
     <Compile Include="Models\Reservation.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
