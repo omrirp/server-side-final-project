@@ -125,8 +125,7 @@ namespace server_side_final_project.Models.DAL
                 Apartment a = apartmentReader(dr);
                 if (a != null)
                 { 
-                    Reservation res = new Reservation(uEmail, a, FromDate, ToDate);
-                    reservations.Add(res);
+                    reservations.Add(new Reservation(uEmail, a, FromDate, ToDate));
                 }
             }
             con.Close();
@@ -146,7 +145,7 @@ namespace server_side_final_project.Models.DAL
         }
         //end -----
 
-
+        //get Apartments
         private Apartment apartmentReader(SqlDataReader dr)
         {
             int id = intDr(dr, "id");
@@ -173,6 +172,7 @@ namespace server_side_final_project.Models.DAL
                 amenities, price, number_of_reviews, review_scores_rating, h);
         }
 
+        //get Host
         private Host hostReader(SqlDataReader dr)
         {
             int id = intDr(dr, "host_id");
@@ -202,6 +202,48 @@ namespace server_side_final_project.Models.DAL
 
             return new Host(id, name, host_response_time, host_picture_url, host_listings_count,
                 host_total_listings_count, host_has_profile_pic, has_availability);
+        }
+
+        //get Reviews
+        public List<Review> readReviews(int listing_id)
+        {
+            SqlConnection con = Connect();
+            SqlCommand command = CreateGetCommand(con, listing_id);
+
+            SqlDataReader dr = command.ExecuteReader(CommandBehavior.CloseConnection);
+
+            List<Review> reviews = new List<Review>();
+            while (dr.Read())
+            {
+                reviews.Add(reviewReader(dr));
+            }
+
+            con.Close();
+            return reviews;
+        }
+
+        private Review reviewReader(SqlDataReader dr)
+        {
+            int listing_id = intDr(dr, "listing_id");
+            DateTime date = Convert.ToDateTime(dr["date"]);
+            string user_name = stringDr(dr, "user_name");
+            string user_email = stringDr(dr, "user_email");
+            string comments = stringDr(dr, "comments");
+            return new Review(listing_id, date, user_name, user_email, comments);
+        }
+
+        private SqlCommand CreateGetCommand(SqlConnection con,int listing_id)
+        {
+            SqlCommand command = new SqlCommand();
+
+            command.Parameters.AddWithValue("@listing_id", listing_id);
+
+            command.CommandText = "spGetReviewsByListing_idFP";
+            command.Connection = con;
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.CommandTimeout = 10; // in seconds
+
+            return command;
         }
 
         private bool boolDr(SqlDataReader dr, string attr)

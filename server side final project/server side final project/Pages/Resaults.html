@@ -64,7 +64,7 @@
             border: 1px solid black;
         }
 
-        .apartment, #infoDiv {
+        .apartment, #infoDiv, #host {
             margin: 4px;
             border-radius: 4px;
             border: 1px solid black;
@@ -108,15 +108,16 @@
             padding:1px;
         }
         #hostImg img{
-            width:100px;
+            width:130px;
             border-radius:15px;
+            margin:5px;
         }
         #hostTbl{
             width:90%;
             margin-bottom:5px;
         }
         td{
-            text-align:center;
+            text-align:left;
         }
     </style>
 
@@ -198,6 +199,10 @@
         }
 
         function display(index) {
+
+            let id = Reservations[index].Apartment.Id;
+            ajaxCall("GET", `../api/Reviews/${id}`, "", readRevSCB, readResECB);
+
             console.log(Reservations[index]);            
             $("#sec-54c8").fadeIn(300);
             document.getElementById("sec-54c8").scrollIntoView();
@@ -274,6 +279,10 @@
             h5_3.innerHTML = Reservations[index].Apartment.Host.Host_response_time;
             td4.html("").append(h5_3);
 
+        }
+        
+        function readRevSCB(reviews) {
+            console.log(reviews);
         }
 
         //--------
@@ -377,27 +386,40 @@
                                 <p class="headers">Total price: <span id="totalPrice"></span></p>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-12">
+                        <div class="row" id="host">
+                            <div class="col-12 col-md-4">
+                                <div id="hostImg"></div>
+                            </div>
+
+                            <!--Host details-->
+                            <div class="col-12 col-md-8">
                                 <table id="hostTbl">
                                     <tr>
-                                        <td><h5>Host</h5></td>
-                                        <td><h5>Name</h5></td>
-                                        <td><h5>Availability</h5></td>
-                                        <td><h5>Response time</h5></td>
+                                        <td colspan="2"><h5>Host</h5></td>
                                     </tr>
                                     <tr>
-                                        <td id="hostImg"></td>
+                                        <td>Name: </td>
                                         <td id="hostName"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Availability: </td>
                                         <td id="available"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Response time: </td>
                                         <td id="responseTime"></td>
                                     </tr>
                                 </table>
                             </div>
+
+                            <hr />
+                            <!--reviews-->
+                            <div class="row">
+                                <div class="col-12" id="reviews"></div>
+                            </div>                            
                         </div>
                     </div>
                     <!--full apartment information-->
-
                 </div>
             </div>
         </div>

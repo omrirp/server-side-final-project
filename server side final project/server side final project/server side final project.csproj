@@ -157,6 +157,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\ApartmentController.cs" />
     <Compile Include="Controllers\ReservationsController.cs" />
+    <Compile Include="Controllers\ReviewsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -165,6 +166,7 @@
     <Compile Include="Models\DAL\DBServices.cs" />
     <Compile Include="Models\Host.cs" />
     <Compile Include="Models\Reservation.cs" />
+    <Compile Include="Models\Review.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
