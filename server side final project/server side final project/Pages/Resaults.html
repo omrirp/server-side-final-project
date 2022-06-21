@@ -136,6 +136,7 @@
             $("#sec-54c8").hide();
             //$("#apartmentsTbl").DataTable();
             initreservations();
+            $("#commentForm").submit(postComment);
         })
 
         function initreservations() {
@@ -316,6 +317,33 @@
             }
         }
 
+        function postComment() {
+
+            let revPh = $("#reviews");
+            let userName = JSON.parse(localStorage.getItem("user")).Name;
+
+            let div = document.createElement("div");
+            div.setAttribute("class", "review");
+            let nameAndDate = document.createElement("p");
+            let spanName = document.createElement("span");
+            spanName.style.fontWeight = "bold";
+            spanName.innerHTML = userName + " | ";
+            let spanDate = document.createElement("span");
+            spanDate.innerHTML = new Date().toLocaleDateString();
+            nameAndDate.appendChild(spanName);
+            nameAndDate.appendChild(spanDate);
+            div.appendChild(nameAndDate);
+
+            let comment = document.createElement("p");
+            comment.innerHTML = $("#commentTxtArea").val();
+            div.appendChild(comment);
+
+            let br = document.createElement("br");
+            revPh.prepend(div);
+            revPh.append(br);
+            return false;
+        }
+
         //--------
         function readResECB(err) {
             console.log(err);
@@ -390,7 +418,6 @@
                                 <!--<h5 class="headers">google Map</h5>-->
                                 <!--google maps-->
                                 <div id="map"></div>
-
                             </div>
                         </div>
 
@@ -444,9 +471,22 @@
                             </div>
                         </div>
                         <hr />
-                        <!--reviews-->
-                        <div class="row">
-                            <div class="col-12" id="reviews"></div>
+                        <div style="text-align:left">
+                            <button class="u-border-2 u-border-grey-75 u-border-hover-palette-3-base u-btn
+                                u-btn-round u-btn-submit u-button-style u-hover-grey-80 u-palette-3-light-1 u-radius-4 u-text-hover-palette-3-light-1 u-btn-1">
+                                Add comment
+                            </button>
+                            <form id="commentForm" action="/" method="post">
+                                <textarea id="commentTxtArea" placeholder="comment..." class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-input-2" required></textarea>
+                                <button class="u-border-2 u-border-grey-75 u-border-hover-palette-3-base u-btn
+                                u-btn-round u-btn-submit u-button-style u-hover-grey-80 u-palette-3-light-1 u-radius-4 u-text-hover-palette-3-light-1 u-btn-1">
+                                    Comment
+                                </button>
+                            </form>
+                            <!--reviews-->
+                            <div class="row">
+                                <div class="col-12" id="reviews"></div>
+                            </div>
                         </div>
                     </div>
                     <!--full apartment information-->
