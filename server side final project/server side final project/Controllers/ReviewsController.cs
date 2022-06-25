@@ -24,8 +24,9 @@ namespace server_side_final_project.Controllers
         }
 
         // POST api/<controller>
-        public void Post([FromBody] string value)
+        public Review Post([FromBody] Review r)
         {
+            return r.insert();
         }
 
         // PUT api/<controller>/5

@@ -302,6 +302,36 @@ namespace server_side_final_project.Models.DAL
             }
         }
 
+        public Review insertReview(Review r)
+        {
+            SqlConnection con = Connect();
+
+            SqlCommand command = createInsertCommand(con, r);
+
+            command.ExecuteNonQuery();
+
+            con.Close();
+            return r;
+        }
+
+        private SqlCommand createInsertCommand(SqlConnection con, Review r)
+        {
+            SqlCommand command = new SqlCommand();
+
+            command.Parameters.AddWithValue("@listing_id", r.Listing_id);
+            command.Parameters.AddWithValue("@date", r.Date);
+            command.Parameters.AddWithValue("@user_email", r.User_email);
+            command.Parameters.AddWithValue("@user_name", r.User_name);
+            command.Parameters.AddWithValue("@comments", r.Comments);
+
+            command.CommandText = "spInsertReviewFP";
+            command.Connection = con;
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.CommandTimeout = 10; // in seconds
+
+            return command;
+        }
+
         //not good !
         //private T genericReader(SqlDataReader dr, string type, string attr)
         //{

@@ -37,5 +37,11 @@ namespace server_side_final_project.Models
             DBServices ds = new DBServices();
             return ds.readReviews(listing_id);
         }
+
+        public Review insert()
+        {
+            DBServices ds = new DBServices();
+            return ds.insertReview(this);
+        }
     }
 }
