@@ -145,12 +145,21 @@
             //$("#apartmentsTbl").DataTable();
             initreservations();
             $("#commentForm").submit(postComment).hide();
-            //exchangeRateAPI();
+            exchangeRateAPI();
         });
 
+        var EXR
         function exchangeRateAPI() {
+            
             let apiCall = "https://open.er-api.com/v6/latest/USD";
-            ajaxCall("GET", apiCall, "", erSCB, readResECB);
+            fetch(apiCall)
+                .then(res => { return res.json() })
+                .then(erAPI => {
+                    console.log(erAPI.rates)
+                    EXR = erAPI.rates;
+                })
+
+            //console.log(EXR);
         }
 
         function erSCB(exchangeRate) {
