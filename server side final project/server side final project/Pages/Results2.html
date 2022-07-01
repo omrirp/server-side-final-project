@@ -5,9 +5,9 @@
     <meta charset="utf-8">
     <meta name="keywords" content="Log in">
     <meta name="description" content="">
-    <title>Resaults</title>
+    <title>Results</title>
     <link rel="stylesheet" href="nicepage.css" media="screen">
-    <link rel="stylesheet" href="Resaults.css" media="screen">
+    <link rel="stylesheet" href="Results.css" media="screen">
     <meta name="generator" content="Nicepage 4.11.5, nicepage.com">
     <link id="u-theme-google-font" rel="stylesheet" 
           href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
@@ -20,7 +20,7 @@
                  }
     </script>
     <meta name="theme-color" content="#478ac9">
-    <meta property="og:title" content="Resaults">
+    <meta property="og:title" content="Results">
     <meta property="og:type" content="website">
     <script src="../Scripts/jquery-3.4.1.min.js"></script>
     <script src="../Scripts/ajaxCalls.js"></script>
@@ -56,6 +56,8 @@
         #tblDiv {
             margin-top: 5px;
             width: 100%;
+            height: 650px;
+            overflow: scroll;
         }
 
         .tblImg {
@@ -134,7 +136,8 @@
 
     <script>
 
-        var Reservations;
+        var Apartments;
+        var Search;
         var SelectedApartmentID;
         var CenterLatitude = 52.379189;
         var CenterLongitude = 4.899431;
@@ -142,46 +145,33 @@
         $(document).ready(function () {
             welcome();
             $("#sec-54c8").hide();
-            //$("#apartmentsTbl").DataTable();
-            initreservations();
             $("#commentForm").submit(postComment).hide();
-            exchangeRateAPI();
+            //exchangeRateAPI();
+            try {
+                Search = JSON.parse(localStorage.getItem("fromIndex"));
+                if (Search.type == 1) {
+                    //check if the client attempt normal search
+                    localStorage.removeItem("fromIndex");
+                    console.log(Search);
+                    let from = Search.from;
+                    let to = Search.to;
+                    let url = `../api/Apartment/${from}/${to}`;
+                    ajaxCall("GET", url, "", readApartmentsSCB, readResECB);
+                    return false;
+                }
+            } catch (e) {
+                console.log(e);
+            }
+            
         });
 
-        var EXR
-        function exchangeRateAPI() {
-            
-            let apiCall = "https://open.er-api.com/v6/latest/USD";
-            fetch(apiCall)
-                .then(res => { return res.json() })
-                .then(erAPI => {
-                    console.log(erAPI.rates)
-                    EXR = erAPI.rates;
-                })
-
-            //console.log(EXR);
-        }
-
-        function erSCB(exchangeRate) {
-            console.log(exchangeRate);
-        }
-
-        function initreservations() {
-            let user = JSON.parse(localStorage.getItem("user"));
-            let qs = "email=" + user.Email;
-            ajaxCall("GET", `../api/Reservations?${qs}`, "", readResSCB, readResECB);
-            return false;
-        }
-
-        function readResSCB(reservations) {
-            //var Res = reservations;
-            console.log(reservations);
-
-            Reservations = reservations;
+        function readApartmentsSCB(apartments) {
+            Apartments = apartments;
+            console.log(Apartments);
 
             let tblDiv = $("#tblDiv");
 
-            for (let i = 0; i < reservations.length; i++) {
+            for (let i = 0; i < Apartments.length; i++) {
 
                 let row = document.createElement("div");
                 row.setAttribute("class", "row apartment");
@@ -192,7 +182,7 @@
                 let col1 = document.createElement("div");
                 col1.setAttribute("class", "col");
                 let img = document.createElement("img");
-                img.setAttribute("src", reservations[i].Apartment.Picture_url);
+                img.setAttribute("src", Apartments[i].Picture_url);
                 img.setAttribute("class", "tblImg");
                 col1.appendChild(img);
                 row.appendChild(col1);
@@ -202,7 +192,7 @@
                 col2.setAttribute("class", "col");
                 let p2 = document.createElement("p");
                 p2.setAttribute("class", "apartmentDetais");
-                p2.innerHTML = reservations[i].Apartment.Name;
+                p2.innerHTML = Apartments[i].Name;
                 col2.appendChild(p2);
                 row.appendChild(col2);
 
@@ -212,49 +202,54 @@
                 let p3 = document.createElement("p");
                 p3.setAttribute("class", "apartmentDetais");
 
-                let fromDate = new Date(reservations[i].From_date); reservations[i].From_date
-                let toDate = new Date(reservations[i].To_date);
+                p3.innerHTML = "price per night: " + Apartments[i].Price + " $";
 
-                //handle amenities
-                let pFrom = document.createElement("p");
-                pFrom.setAttribute("class", "amenities");
-                pFrom.innerHTML = "from: " + fromDate.toLocaleDateString();
-                col3.appendChild(pFrom);
-                let pTo = document.createElement("p");
-                pTo.setAttribute("class", "amenities");
-                pTo.innerHTML = "to: " + toDate.toLocaleDateString();
-                col3.appendChild(pTo);
+                col3.appendChild(p3);
 
                 row.appendChild(col3);
                 tblDiv.append(row);
             }
         }
 
+        //money exchange rate free API: https://www.exchangerate-api.com/docs/free
+        var EXR 
+        function exchangeRateAPI() {
+            //Euro symbol: €
+            let apiCall = "https://open.er-api.com/v6/latest/USD";
+            fetch(apiCall)
+            .then(res => { return res.json() })
+            .then(erAPI => { EXR = erAPI.rates;})
+            //.then(log => console.log(EXR))
+        }
+
+        function erSCB(exchangeRate) {
+            console.log(exchangeRate);
+        }
+        
         function display(index) {
 
             $("#commentForm").hide();
-            let id = Reservations[index].Apartment.Id;
+            let id = Apartments[index].Id;
             SelectedApartmentID = id;
             ajaxCall("GET", `../api/Reviews/${id}`, "", readRevSCB, readResECB);
-
-            console.log(Reservations[index]);            
+            
             $("#sec-54c8").fadeIn(300);
             document.getElementById("sec-54c8").scrollIntoView();
-            $("#apartmentName").html(Reservations[index].Apartment.Name);
+            $("#apartmentName").html(Apartments[index].Name);
 
             //handle description render
             let textarea = $("#description");
             textarea.prop("disabled", true);
-            textarea.html(Reservations[index].Apartment.Description);
+            textarea.html(Apartments[index].Description);
 
             //handle apartment image render
             let img = document.createElement("img");
-            img.setAttribute("src", Reservations[index].Apartment.Picture_url);
+            img.setAttribute("src", Apartments[index].Picture_url);
             img.setAttribute("class", "imgInInfo");
             $("#apartmentImg").html("").append(img);
 
             //handle amenities render
-            let amenities = JSON.parse(Reservations[index].Apartment.Amenities);
+            let amenities = JSON.parse(Apartments[index].Amenities);
             let amenitiesSpan = document.createElement("span");
             for (let i = 0; i < amenities.length; i++) {
                 let div = document.createElement("div");
@@ -265,41 +260,41 @@
             $("#amenities").html("").append(amenitiesSpan);
 
             //handle bathrooms, bedrooms, num of reviewers, avg score: render
-            $("#bathrooms").html(Reservations[index].Apartment.Bathrooms_text);
-            $("#bedrooms").html(Reservations[index].Apartment.Bedrooms);
-            $("#numberOfReviews").html(Reservations[index].Apartment.Number_of_reviews);
-            $("#ReviewScoresRating").html(Reservations[index].Apartment.Review_scores_rating +" ★");
+            $("#bathrooms").html(Apartments[index].Bathrooms_text);
+            $("#bedrooms").html(Apartments[index].Bedrooms);
+            $("#numberOfReviews").html(Apartments[index].Number_of_reviews);
+            $("#ReviewScoresRating").html(Apartments[index].Review_scores_rating +" ★");
 
             //handle total price
-            let fromDate = new Date(Reservations[index].From_date);
-            let toDate = new Date(Reservations[index].To_date);
+            let fromDate = new Date(Search.from);
+            let toDate = new Date(Search.to);
             let days = Math.abs(toDate.getDate() - fromDate.getDate());
             //console.log(Reservations[index].Price);
-            $("#totalPrice").html(days * Reservations[index].Apartment.Price + " $");
+            $("#totalPrice").html(days * Apartments[index].Price + " $");
           
             //----calculate the distance from the center by Pitagoras-----
-            $("#distance").html(Math.sqrt((Reservations[index].Apartment.Latitude - CenterLatitude) ** 2
-                + (Reservations[index].Apartment.Longitude - CenterLongitude) ** 2).toFixed(3) + " KM");
+            $("#distance").html(Math.sqrt((Apartments[index].Latitude - CenterLatitude) ** 2
+                + (Apartments[index].Longitude - CenterLongitude) ** 2).toFixed(3) + " KM");
 
-            initMap(Reservations[index].Apartment.Latitude, Reservations[index].Apartment.Longitude);
+            initMap(Apartments[index].Latitude, Apartments[index].Longitude);
 
             //-----handle host details-----
             //handle host picture
             let td1 = $("#hostImg");
             let hostImg = document.createElement("img");
-            hostImg.setAttribute("src", Reservations[index].Apartment.Host.Host_picture_url);
+            hostImg.setAttribute("src", Apartments[index].Host.Host_picture_url);
             td1.html("").append(hostImg);
 
             //handle host name
             let td2 = $("#hostName");
             let h5_1 = document.createElement("h5");
-            h5_1.innerHTML = Reservations[index].Apartment.Host.Name;
+            h5_1.innerHTML = Apartments[index].Host.Name;
             td2.html("").append(h5_1);
 
             //handle availability
             let td3 = $("#available");
             let h5_2 = document.createElement("h5");
-            if (Reservations[index].Apartment.Host.Has_availability) {
+            if (Apartments[index].Host.Has_availability) {
                 h5_2.innerHTML = "available";
             }
             else {
@@ -310,7 +305,7 @@
             //handle response time
             let td4 = $("#responseTime");
             let h5_3 = document.createElement("h5");
-            h5_3.innerHTML = Reservations[index].Apartment.Host.Host_response_time;
+            h5_3.innerHTML = Apartments[index].Host.Host_response_time;
             td4.html("").append(h5_3);
         }
 
@@ -350,29 +345,8 @@
 
         function postComment() {
 
-            let revPh = $("#reviews");
             let user = JSON.parse(localStorage.getItem("user"))
-
-            //let div = document.createElement("div");
-            //div.setAttribute("class", "review");
-            //let nameAndDate = document.createElement("p");
-            //let spanName = document.createElement("span");
-            //spanName.style.fontWeight = "bold";
-            //spanName.innerHTML = user.Name + " | ";
-            //let spanDate = document.createElement("span");
-            //spanDate.innerHTML = new Date().toLocaleDateString();
-            //nameAndDate.appendChild(spanName);
-            //nameAndDate.appendChild(spanDate);
-            //div.appendChild(nameAndDate);
-
-            //let comment = document.createElement("p");
             let com = $("#commentTxtArea").val();
-            //comment.innerHTML = com;
-            //div.appendChild(comment);
-
-            //let br = document.createElement("br");
-            //revPh.prepend(div);
-            //revPh.append(br);
 
             let r = {
                 listing_id: SelectedApartmentID,
@@ -449,7 +423,7 @@
                 <a href="index.html">Home</a>
                 <a href="Log-in.html">Log in</a>
                 <a href="Sign-up.html">Sign up</a>
-                <a href="Resaults.html">My orders</a>
+                <a href="Results.html">My orders</a>
                 <a href="#" id="log_out" onclick="LogoutF()">Log out</a>
                 <a href="javascript:void(0);" class="icon" onclick="navbar()">
                     <i class="fa fa-bars"></i>

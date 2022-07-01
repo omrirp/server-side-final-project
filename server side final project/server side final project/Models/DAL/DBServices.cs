@@ -18,9 +18,9 @@ namespace server_side_final_project.Models.DAL
             SqlConnection con = Connect();
 
             //temporrary !!!
-            string commandStr = "select top 10 * from apartmentsFP";
+            //string commandStr = "select top 10 * from apartmentsFP";
 
-            SqlCommand command = new SqlCommand(commandStr, con);
+            SqlCommand command = createGetCommand(con, from, to);
 
             SqlDataReader dr = command.ExecuteReader(CommandBehavior.CloseConnection);
             List<Apartment> apartments = new List<Apartment>();
@@ -32,6 +32,21 @@ namespace server_side_final_project.Models.DAL
 
             con.Close();
             return apartments;
+        }
+
+        private SqlCommand createGetCommand(SqlConnection con, DateTime from, DateTime to)
+        {
+            SqlCommand command = new SqlCommand();
+
+            command.Parameters.AddWithValue("@from", from);
+            command.Parameters.AddWithValue("@to", to);
+
+            command.CommandText = "spSearchFP";
+            command.Connection = con;
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.CommandTimeout = 10; // in seconds
+
+            return command;
         }
         //end -----
 

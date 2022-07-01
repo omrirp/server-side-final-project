@@ -193,8 +193,9 @@
     <Content Include="Pages\nicepage.css" />
     <Content Include="Pages\nicepage.js" />
     <Content Include="Pages\Password-Template.css" />
-    <Content Include="Pages\Resaults.css" />
-    <Content Include="Pages\Resaults.html" />
+    <Content Include="Pages\Results2.html" />
+    <Content Include="Pages\Results.css" />
+    <Content Include="Pages\Results.html" />
     <Content Include="Pages\Sign-up.css" />
     <Content Include="Pages\Sign-up.html" />
     <Content Include="Scripts\ajaxCalls.js" />

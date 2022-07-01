@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html style="font-size: 16px;">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="Log in">
+    <meta name="description" content="">
+    <title>Results</title>
+    <link rel="stylesheet" href="nicepage.css" media="screen">
+    <link rel="stylesheet" href="Results.css" media="screen">
+    <meta name="generator" content="Nicepage 4.11.5, nicepage.com">
+    <link id="u-theme-google-font" rel="stylesheet" 
+          href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
+    <script type="application/ld+json">
+        {
+                 "@context": "http://schema.org",
+                 "@type": "Organization",
+                 "name": "",
+                 "logo": "images/hotel.svg"
+                 }
+    </script>
+    <meta name="theme-color" content="#478ac9">
+    <meta property="og:title" content="Results">
+    <meta property="og:type" content="website">
+    <script src="../Scripts/jquery-3.4.1.min.js"></script>
+    <script src="../Scripts/ajaxCalls.js"></script>
+    <script src="../Scripts/welcome.js"></script>
+    <link href="nav.css" rel="stylesheet" />
+
+    <!--data table import-->
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>-->
+    <!--data table import-->
+    <!--DataTable-->
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <link href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <!--DataTable-->
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+    <style>
+        #tblDiv {
+            margin-top: 5px;
+            width: 100%;
+            height: 650px;
+            overflow: scroll;
+        }
+
+        .tblImg {
+            width: 100px;
+            margin: 3px;
+            border-radius: 4px;
+            border: 1px solid black;
+        }
+
+        .apartment, #infoDiv, #host {
+            margin: 4px;
+            border-radius: 4px;
+            border: 1px solid black;
+            background-color: white;
+        }
+        .apartment:hover{
+            background-color:lightgrey;
+        }
+        .apartmentDetais{
+            font-weight:bold;
+        }
+        .headers {
+            font-weight: bold;
+            text-align:left;
+        }
+        .imgInInfo{
+            width:90%;
+            margin:8px;
+            border-radius:4px;
+        }
+        #description, #amenities {
+            height: 250px;
+            overflow: scroll;
+            border-radius: 4px;
+            border: 1px solid black;
+        }
+        /* Set the size of the div element that contains the map */
+        #map {
+            margin: 8px;
+            height: 300px;
+            /* The height is 400 pixels */
+            width: 100%;
+            /* The width is the width of the web page */
+        }
+        .amenities{
+            border-radius:6px;
+            background-color:#444448;
+            color:white;
+            display:inline-block;
+            margin:2px;
+            padding:1px;
+        }
+        #hostImg img{
+            width:130px;
+            border-radius:15px;
+            margin:5px;
+        }
+        #hostTbl{
+            width:90%;
+            margin-bottom:5px;
+        }
+        td, #reviews {
+            text-align: left;
+        }
+        #reviews {
+            height: 500px;
+            overflow: scroll;
+        }
+        .mybtn{
+            transition:0.5s;
+        }
+        .mybtn:hover{
+            letter-spacing:0.25em;
+        }
+    </style>
+
+    <script>
+
+        var Reservations;
+        var SelectedApartmentID;
+        var CenterLatitude = 52.379189;
+        var CenterLongitude = 4.899431;
+
+        $(document).ready(function () {
+            welcome();
+            $("#sec-54c8").hide();
+            $("#commentForm").submit(postComment).hide();
+            //exchangeRateAPI();
+            initreservations();
+        });
+
+        //money exchange rate free API: https://www.exchangerate-api.com/docs/free
+        var EXR 
+        function exchangeRateAPI() {
+            //Euro symbol: €
+            let apiCall = "https://open.er-api.com/v6/latest/USD";
+            fetch(apiCall)
+            .then(res => { return res.json() })
+            .then(erAPI => { EXR = erAPI.rates;})
+            //.then(log => console.log(EXR))
+        }
+
+        function erSCB(exchangeRate) {
+            console.log(exchangeRate);
+        }
+
+        function initreservations() {
+            let user = JSON.parse(localStorage.getItem("user"));
+            let qs = "email=" + user.Email;
+            ajaxCall("GET", `../api/Reservations?${qs}`, "", readResSCB, readResECB);
+            return false;
+        }
+
+        function readResSCB(reservations) {
+            //var Res = reservations;
+            console.log(reservations);
+
+            Reservations = reservations;
+
+            let tblDiv = $("#tblDiv");
+
+            for (let i = 0; i < reservations.length; i++) {
+
+                let row = document.createElement("div");
+                row.setAttribute("class", "row apartment");
+                row.setAttribute("onclick", "display(" + i + ")");
+                row.setAttribute("id", i);
+
+                //handle apartments image render
+                let col1 = document.createElement("div");
+                col1.setAttribute("class", "col");
+                let img = document.createElement("img");
+                img.setAttribute("src", reservations[i].Apartment.Picture_url);
+                img.setAttribute("class", "tblImg");
+                col1.appendChild(img);
+                row.appendChild(col1);
+
+                //handle apartment name render
+                let col2 = document.createElement("div");
+                col2.setAttribute("class", "col");
+                let p2 = document.createElement("p");
+                p2.setAttribute("class", "apartmentDetais");
+                p2.innerHTML = reservations[i].Apartment.Name;
+                col2.appendChild(p2);
+                row.appendChild(col2);
+
+                //handle reservation from/to dates render
+                let col3 = document.createElement("div");
+                col3.setAttribute("class", "col");
+                //let p3 = document.createElement("p");
+                //p3.setAttribute("class", "apartmentDetais");
+
+                //create Date objects
+                let fromDate = new Date(reservations[i].From_date); reservations[i].From_date
+                let toDate = new Date(reservations[i].To_date);
+
+                let pFrom = document.createElement("p");
+                pFrom.setAttribute("class", "amenities");
+                pFrom.innerHTML = "from: " + fromDate.toLocaleDateString();
+                col3.appendChild(pFrom);
+                let pTo = document.createElement("p");
+                pTo.setAttribute("class", "amenities");
+                pTo.innerHTML = "to: " + toDate.toLocaleDateString();
+                col3.appendChild(pTo);
+
+                row.appendChild(col3);
+                tblDiv.append(row);
+            }
+        }
+
+        function display(index) {
+
+            $("#commentForm").hide();
+            let id = Reservations[index].Apartment.Id;
+            SelectedApartmentID = id;
+            ajaxCall("GET", `../api/Reviews/${id}`, "", readRevSCB, readResECB);
+
+            console.log(Reservations[index]);            
+            $("#sec-54c8").fadeIn(300);
+            document.getElementById("sec-54c8").scrollIntoView();
+            $("#apartmentName").html(Reservations[index].Apartment.Name);
+
+            //handle description render
+            let textarea = $("#description");
+            textarea.prop("disabled", true);
+            textarea.html(Reservations[index].Apartment.Description);
+
+            //handle apartment image render
+            let img = document.createElement("img");
+            img.setAttribute("src", Reservations[index].Apartment.Picture_url);
+            img.setAttribute("class", "imgInInfo");
+            $("#apartmentImg").html("").append(img);
+
+            //handle amenities render
+            let amenities = JSON.parse(Reservations[index].Apartment.Amenities);
+            let amenitiesSpan = document.createElement("span");
+            for (let i = 0; i < amenities.length; i++) {
+                let div = document.createElement("div");
+                div.setAttribute("class", "amenities");
+                div.innerHTML = amenities[i] + " ";
+                amenitiesSpan.appendChild(div);
+            }
+            $("#amenities").html("").append(amenitiesSpan);
+
+            //handle bathrooms, bedrooms, num of reviewers, avg score: render
+            $("#bathrooms").html(Reservations[index].Apartment.Bathrooms_text);
+            $("#bedrooms").html(Reservations[index].Apartment.Bedrooms);
+            $("#numberOfReviews").html(Reservations[index].Apartment.Number_of_reviews);
+            $("#ReviewScoresRating").html(Reservations[index].Apartment.Review_scores_rating +" ★");
+
+            //handle total price
+            let fromDate = new Date(Reservations[index].From_date);
+            let toDate = new Date(Reservations[index].To_date);
+            let days = Math.abs(toDate.getDate() - fromDate.getDate());
+            //console.log(Reservations[index].Price);
+            $("#totalPrice").html(days * Reservations[index].Apartment.Price + " $");
+          
+            //----calculate the distance from the center by Pitagoras-----
+            $("#distance").html(Math.sqrt((Reservations[index].Apartment.Latitude - CenterLatitude) ** 2
+                + (Reservations[index].Apartment.Longitude - CenterLongitude) ** 2).toFixed(3) + " KM");
+
+            initMap(Reservations[index].Apartment.Latitude, Reservations[index].Apartment.Longitude);
+
+            //-----handle host details-----
+            //handle host picture
+            let td1 = $("#hostImg");
+            let hostImg = document.createElement("img");
+            hostImg.setAttribute("src", Reservations[index].Apartment.Host.Host_picture_url);
+            td1.html("").append(hostImg);
+
+            //handle host name
+            let td2 = $("#hostName");
+            let h5_1 = document.createElement("h5");
+            h5_1.innerHTML = Reservations[index].Apartment.Host.Name;
+            td2.html("").append(h5_1);
+
+            //handle availability
+            let td3 = $("#available");
+            let h5_2 = document.createElement("h5");
+            if (Reservations[index].Apartment.Host.Has_availability) {
+                h5_2.innerHTML = "available";
+            }
+            else {
+                h5_2.innerHTML = "less available"
+            }
+            td3.html("").append(h5_2);
+
+            //handle response time
+            let td4 = $("#responseTime");
+            let h5_3 = document.createElement("h5");
+            h5_3.innerHTML = Reservations[index].Apartment.Host.Host_response_time;
+            td4.html("").append(h5_3);
+        }
+
+        //handle reviews
+        function readRevSCB(reviews) {
+            console.log(reviews);
+            let revPh = $("#reviews");
+            revPh.html("");
+
+            for (let i = 0; i < reviews.length; i++) {
+
+                let div = document.createElement("div");
+                div.setAttribute("class", "review");
+
+                //handle review header: "username | date"
+                let nameAndDate = document.createElement("p");
+                let spanName = document.createElement("span");
+                spanName.style.fontWeight = "bold";
+                spanName.innerHTML = reviews[i].User_name + " | ";
+                let date = new Date(reviews[i].Date);
+                let spanDate = document.createElement("span");
+                spanDate.innerHTML = date.toLocaleDateString();
+                nameAndDate.appendChild(spanName);
+                nameAndDate.appendChild(spanDate);
+                div.appendChild(nameAndDate);
+
+                //handle comment
+                let comment = document.createElement("p");
+                comment.innerHTML = reviews[i].Comments;
+                div.appendChild(comment);
+
+                let br = document.createElement("br");
+                revPh.append(div);
+                revPh.append(br);
+            }
+        }
+
+        function postComment() {
+
+            let user = JSON.parse(localStorage.getItem("user"))
+            let com = $("#commentTxtArea").val();
+
+            let r = {
+                listing_id: SelectedApartmentID,
+                date: new Date(),
+                user_name: user.Name,
+                user_email: user.Email,
+                comments: com
+            };
+
+            //console.log(r);
+            ajaxCall("POST", "../api/Reviews", JSON.stringify(r), insertRevSCB, readResECB);
+
+            return false;
+        }
+
+        function insertRevSCB(review) {
+            console.log(review);
+
+            let revPh = $("#reviews");
+            //let user = JSON.parse(localStorage.getItem("user"))
+
+            let div = document.createElement("div");
+            div.setAttribute("class", "review");
+            let nameAndDate = document.createElement("p");
+            let spanName = document.createElement("span");
+            spanName.style.fontWeight = "bold";
+            spanName.innerHTML = review.User_name + " | ";
+            let spanDate = document.createElement("span");
+            spanDate.innerHTML = review.Date;
+            nameAndDate.appendChild(spanName);
+            nameAndDate.appendChild(spanDate);
+            div.appendChild(nameAndDate);
+
+            let comment = document.createElement("p");
+            let com = review.Comments;
+            comment.innerHTML = com;
+            div.appendChild(comment);
+
+            let br = document.createElement("br");
+            revPh.prepend(div);
+            revPh.append(br);
+        }
+
+        //--------
+        function readResECB(err) {
+            console.log(err);
+        }
+
+        function appear() {            
+            $("#commentForm").show();
+        }
+
+        /* Toggle between adding and removing the "responsive" class to topnav when the user clicks on the icon */
+        function navbar() {
+            var x = document.getElementById("myTopnav");
+            if (x.className === "topnav") {
+                x.className += " responsive";
+            } else {
+                x.className = "topnav";
+            }
+        }
+    </script>
+</head>
+<body class="u-body u-palette-1-base u-xl-mode">
+    <header class="u-clearfix u-grey-10 u-header u-header" id="sec-213b">
+        <div class="u-clearfix u-sheet u-sheet-1">
+            <div class="u-image u-logo u-image-1" data-image-width="640" data-image-height="640">
+                <img src="images/hotel.svg" class="u-logo-image u-logo-image-1">
+            </div>
+            <p id="welcome" class="u-text u-text-default u-text-1">Welcome</p>
+
+            <div class="topnav" id="myTopnav">
+
+                <a href="index.html">Home</a>
+                <a href="Log-in.html">Log in</a>
+                <a href="Sign-up.html">Sign up</a>
+                <a href="Results.html">My orders</a>
+                <a href="#" id="log_out" onclick="LogoutF()">Log out</a>
+                <a href="javascript:void(0);" class="icon" onclick="navbar()">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+
+            <h3 class="u-headline u-text u-text-default u-text-grey-80 u-text-2">
+                <a href="/">Server Side Project</a>
+            </h3>
+        </div>
+    </header>
+    <section class="u-align-center u-clearfix u-image u-section-1" id="sec-be0b" data-image-width="1620" data-image-height="1080">
+        <div class="u-align-left u-clearfix u-sheet u-sheet-1">
+            <div class="u-align-center u-border-3 u-border-palette-3-light-1 u-container-style u-grey-10 u-group u-radius-3 u-shape-round u-group-1">
+                <div id="apartmentsList" class="u-container-layout u-valign-top u-container-layout-1">
+                    <h1 class="u-text u-text-default u-text-1">Results</h1>
+
+                    <!--dynamic list of apartments-->
+                    <div id="tblDiv" class="container"></div>
+                    <!--dynamic list of apartments-->
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="u-clearfix u-grey-10 u-section-2" id="sec-a5b4">
+        <div class="u-clearfix u-sheet u-sheet-1"></div>
+    </section>
+    <section class="u-clearfix u-image u-section-3" id="sec-54c8" data-image-width="1280" data-image-height="853">
+        <div class="u-align-left u-clearfix u-sheet u-sheet-1">
+            <div class="u-align-center u-border-3 u-border-palette-3-light-2 u-container-style u-grey-10 u-group u-radius-3 u-shape-round u-group-1">
+                <div class="u-container-layout u-valign-top u-container-layout-1">
+                    <h1 id="apartmentName" class="u-text u-text-default u-text-1"></h1>
+
+                    <!--full apartment information-->
+                    <div id="infoDiv" class="container">
+                        <div class="row">
+                            <div class="col-12 col-md-8">
+                                <div id="apartmentImg"></div>
+                            </div>
+                            <div id="googleMap" class="col-12 col-md-4">
+                                <!--<h5 class="headers">google Map</h5>-->
+                                <!--google maps-->
+                                <div id="map"></div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <!--description-->
+                            <div class="col-12 col-md-4">
+                                <h5 class="headers">Description</h5>
+                                <div id="description"></div>
+                            </div>
+
+                            <!--amenities-->
+                            <div class="col-12 col-md-4">
+                                <h5 class="headers">Amenities</h5>
+                                <div id="amenities"></div>
+                            </div>
+
+                            <!--othe details-->
+                            <div class="col-12 col-md-4">
+                                <p class="headers">Bathrooms: <span id="bathrooms"></span></p>
+                                <p class="headers">Bedrooms: <span id="bedrooms"></span></p>
+                                <p class="headers">Number of reviews: <span id="numberOfReviews"></span></p>
+                                <p class="headers">Average Score: <span id="ReviewScoresRating"></span></p>
+                                <p class="headers">Disnace from denter: <span id="distance"></span></p>
+                                <p class="headers">Total price: <span id="totalPrice"></span></p>
+                            </div>
+                        </div>
+                        <div class="row" id="host">
+                            <div class="col-12 col-md-4">
+                                <div id="hostImg"></div>
+                            </div>
+
+                            <!--Host details-->
+                            <div class="col-12 col-md-8">
+                                <table id="hostTbl">
+                                    <tr>
+                                        <td colspan="2"><h5>Host</h5></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Name: </td>
+                                        <td id="hostName"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Availability: </td>
+                                        <td id="available"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Response time: </td>
+                                        <td id="responseTime"></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <hr />
+                        <div style="text-align:left">
+                            <button onclick="appear()" class="mybtn u-border-2 u-border-grey-75 u-border-hover-palette-3-base u-btn
+                                u-btn-round u-btn-submit u-button-style u-hover-grey-80 u-palette-3-light-1
+                                    u-radius-4 u-text-hover-palette-3-light-1 u-btn-1">
+                                Add comment
+                            </button>
+                            <form id="commentForm" action="/" method="post">
+                                <textarea id="commentTxtArea" placeholder="comment..." class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-input-2" required></textarea>
+                                <button class="mybtn u-border-2 u-border-grey-75 u-border-hover-palette-3-base u-btn
+                                u-btn-round u-btn-submit u-button-style u-hover-grey-80 u-palette-3-light-1
+                                    u-radius-4 u-text-hover-palette-3-light-1 u-btn-1">
+                                    Comment
+                                </button>
+                            </form>
+                            <!--reviews-->
+                            <div class="row">
+                                <div class="col-12" id="reviews"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--full apartment information-->
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer class="u-align-center u-clearfix u-footer u-grey-80 u-footer" id="sec-adcb">
+        <div class="u-align-left u-clearfix u-sheet u-sheet-1">
+            <p class="u-align-center u-text u-text-1">This website is supported by a dataset of Amsterdam Airbnb that was provided by Ruppin Academic Center</p>
+        </div>
+    </footer>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDvoCd_QUIxukrwauqXQlMQlGCA-n0_Sl4&callback=initMap&libraries=&v=weekly"
+            defer></script>
+    <script>
+        // Initialize and add the map
+        function initMap(lat,lng) {
+            // The location of Uluru
+            //const amsterdam = { lat: 52.377956, lng: 4.897070 };
+            const amsterdam = { lat: lat, lng: lng };
+            // The map, centered at Uluru
+            const map = new google.maps.Map(
+                document.getElementById("map"),
+                {
+                    zoom: 10,
+                    center: amsterdam,
+                }
+            );
+
+            // The marker, positioned at Uluru
+            const marker = new google.maps.Marker({
+                position: amsterdam,
+                map: map,
+            });
+        }
+    </script>
+
+</body>
+</html>
