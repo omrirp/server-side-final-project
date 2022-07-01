@@ -17,8 +17,9 @@ namespace server_side_final_project.Controllers
         }
 
         // POST api/<controller>
-        public void Post([FromBody] string value)
+        public string Post(Reservation r)
         {
+            return r.insert(r);
         }
 
         // PUT api/<controller>/5

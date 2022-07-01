@@ -179,6 +179,7 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Pages\Book.html" />
     <Content Include="Pages\Advanced-search.css" />
     <Content Include="Pages\Advanced-search.html" />
     <Content Include="Pages\Home.css" />

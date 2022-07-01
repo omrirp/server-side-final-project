@@ -51,7 +51,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-
     <style>
         #tblDiv {
             margin-top: 5px;
@@ -84,7 +83,8 @@
             text-align:left;
         }
         .imgInInfo{
-            width:90%;
+            height:350px;
+            max-width:90%;
             margin:8px;
             border-radius:4px;
         }
@@ -138,7 +138,7 @@
 
         var Apartments;
         var Search;
-        var SelectedApartmentID;
+        var SelectedApartment;
         var CenterLatitude = 52.379189;
         var CenterLongitude = 4.899431;
 
@@ -148,10 +148,10 @@
             $("#commentForm").submit(postComment).hide();
             //exchangeRateAPI();
             try {
-                Search = JSON.parse(localStorage.getItem("fromIndex"));
+                Search = JSON.parse(localStorage.getItem("search"));
                 if (Search.type == 1) {
                     //check if the client attempt normal search
-                    localStorage.removeItem("fromIndex");
+                    //localStorage.removeItem("fromIndex");
                     console.log(Search);
                     let from = Search.from;
                     let to = Search.to;
@@ -227,6 +227,8 @@
         }
         
         function display(index) {
+
+            SelectedApartment = Apartments[index];
 
             $("#commentForm").hide();
             let id = Apartments[index].Id;
@@ -390,6 +392,18 @@
             revPh.append(br);
         }
 
+        function book() {
+
+            let user = JSON.parse(localStorage.getItem("user"));
+            if (user == null) {
+                window.location.replace("Log-in.html");
+            }
+            else {
+                localStorage.setItem("apartment", JSON.stringify(SelectedApartment));
+                window.location.replace("Book.html");
+            }
+        }
+
         //--------
         function readResECB(err) {
             console.log(err);
@@ -431,7 +445,7 @@
             </div>
 
             <h3 class="u-headline u-text u-text-default u-text-grey-80 u-text-2">
-                <a href="/">Server Side Project</a>
+                Server Side Project
             </h3>
         </div>
     </header>
@@ -520,6 +534,13 @@
                                 </table>
                             </div>
                         </div>
+
+                        <button onclick="book()" class="mybtn u-border-2 u-border-grey-75 u-border-hover-palette-3-base u-btn
+                                u-btn-round u-btn-submit u-button-style u-hover-grey-80 u-palette-3-light-1
+                                    u-radius-4 u-text-hover-palette-3-light-1 u-btn-1">
+                            Book now !
+                        </button>
+
                         <hr />
                         <div style="text-align:left">
                             <button onclick="appear()" class="mybtn u-border-2 u-border-grey-75 u-border-hover-palette-3-base u-btn

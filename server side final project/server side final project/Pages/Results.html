@@ -83,10 +83,11 @@
             font-weight: bold;
             text-align:left;
         }
-        .imgInInfo{
-            width:90%;
-            margin:8px;
-            border-radius:4px;
+        .imgInInfo {
+            height: 350px;
+            max-width: 90%;
+            margin: 8px;
+            border-radius: 4px;
         }
         #description, #amenities {
             height: 250px;
@@ -207,8 +208,6 @@
                 //handle reservation from/to dates render
                 let col3 = document.createElement("div");
                 col3.setAttribute("class", "col");
-                //let p3 = document.createElement("p");
-                //p3.setAttribute("class", "apartmentDetais");
 
                 //create Date objects
                 let fromDate = new Date(reservations[i].From_date); reservations[i].From_date
@@ -434,7 +433,7 @@
             </div>
 
             <h3 class="u-headline u-text u-text-default u-text-grey-80 u-text-2">
-                <a href="/">Server Side Project</a>
+                Server Side Project
             </h3>
         </div>
     </header>

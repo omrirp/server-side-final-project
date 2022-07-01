@@ -21,6 +21,12 @@ namespace server_side_final_project.Models
             To_date = to_date;
         }
 
+        public string insert(Reservation r)
+        {
+            DBServices ds = new DBServices();
+            return ds.insertReservation(r);
+        }
+
         public Reservation() { }
 
         public string User_email { get => user_email; set => user_email = value; }

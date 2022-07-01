@@ -347,6 +347,36 @@ namespace server_side_final_project.Models.DAL
             return command;
         }
 
+        //insert new reservation -----
+        public string insertReservation(Reservation r)
+        {
+            SqlConnection con = Connect();
+
+            SqlCommand command = createInsertCommand(con, r);
+            command.ExecuteNonQuery();
+
+            con.Close();
+            return "success";
+        }
+
+        private SqlCommand createInsertCommand(SqlConnection con, Reservation r)
+        {
+            SqlCommand command = new SqlCommand();
+
+            command.Parameters.AddWithValue("@user_email",r.User_email);
+            command.Parameters.AddWithValue("@apartment_id", r.Apartment.Id);
+            command.Parameters.AddWithValue("@from_date", r.From_date);
+            command.Parameters.AddWithValue("@to_date", r.To_date);
+
+            command.CommandText = "spInsertReservationFP";
+            command.Connection = con;
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.CommandTimeout = 10; // in seconds
+
+            return command;
+        }
+        //end -----
+
         //not good !
         //private T genericReader(SqlDataReader dr, string type, string attr)
         //{

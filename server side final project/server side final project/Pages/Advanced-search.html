@@ -32,7 +32,17 @@
     <script>
         $(document).ready(function () {
             welcome();
+            $("#advanceSearchForm").submit(advanceSearch);
         })
+
+        function advanceSearch() {
+
+
+
+            let search = {
+                type:2
+            }
+        }
 
         /* Toggle between adding and removing the "responsive" class to topnav when the user clicks on the icon */
         function navbar() {
@@ -52,7 +62,7 @@
             <div class="u-image u-logo u-image-1" data-image-width="640" data-image-height="640">
                 <img src="images/hotel.svg" class="u-logo-image u-logo-image-1">
             </div>
-            <p class="u-text u-text-default u-text-1">Welcome User</p>
+            <p id="welcome" class="u-text u-text-default u-text-1">Welcome</p>
 
             <div class="topnav" id="myTopnav">
 
@@ -67,14 +77,14 @@
             </div>
 
             <h3 class="u-headline u-text u-text-default u-text-grey-80 u-text-2">
-                <a href="/">Server Side Project</a>
+                Server Side Project
             </h3>
         </div>
     </header>
     <section class="u-clearfix u-image u-section-1" id="sec-1d88" data-image-width="1280" data-image-height="853">
         <div class="u-align-left u-clearfix u-sheet u-valign-middle u-sheet-1">
             <div class="u-border-2 u-border-palette-3-light-1 u-form u-grey-15 u-form-1">
-                <form action="//publish.nicepage.com/Form/Process" method="POST" class="u-clearfix u-form-spacing-15 u-form-vertical u-inner-form" style="padding: 15px;" source="email" name="form">
+                <form id="advanceSearchForm" action="//publish.nicepage.com/Form/Process" method="POST" class="u-clearfix u-form-spacing-15 u-form-vertical u-inner-form" style="padding: 15px;" source="email" name="form">
                     <input type="hidden" id="siteId" name="siteId" value="2038094">
                     <input type="hidden" id="pageId" name="pageId" value="2099495">
                     <div class="u-form-date u-form-group u-form-partition-factor-2 u-form-group-1">
@@ -87,23 +97,23 @@
                     </div>
                     <div class="u-form-group u-form-partition-factor-2 u-form-group-3">
                         <label for="text-c02e" class="u-label u-text-body-color u-label-3">From Price</label>
-                        <input type="text" id="text-c02e" name="number" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white u-input-3" placeholder="From">
+                        <input type="number" value="0" id="text-c02e" name="number" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white u-input-3" placeholder="From">
                     </div>
                     <div class="u-form-group u-form-partition-factor-2 u-form-group-4">
                         <label for="text-a46c" class="u-label u-text-body-color u-label-4">To Price</label>
-                        <input type="text" placeholder="To" id="text-a46c" name="number-1" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white u-input-4">
+                        <input type="number" value="999999" id="text-a46c" name="number-1" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white u-input-4">
                     </div>
                     <div class="u-form-group u-form-partition-factor-2 u-form-group-5">
                         <label for="text-a6bc" class="u-label u-text-body-color u-label-5">Rooms</label>
-                        <input type="text" placeholder="Rooms" id="text-a6bc" name="number-3" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white u-input-5">
+                        <input type="number" value="100" placeholder="Rooms" id="text-a6bc" name="number-3" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white u-input-5">
                     </div>
                     <div class="u-form-group u-form-partition-factor-2 u-form-group-6">
                         <label for="text-95c7" class="u-label u-text-body-color u-label-6">Score</label>
-                        <input type="text" placeholder="Score" id="text-95c7" name="number-2" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white u-input-6">
+                        <input type="number" value="10" placeholder="Score" id="text-95c7" name="number-2" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white u-input-6">
                     </div>
                     <div class="u-form-group u-form-group-7">
                         <label for="text-788c" class="u-label u-text-body-color u-label-7">distance from center (KM)</label>
-                        <input type="text" placeholder="" id="text-788c" name="number-4" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white u-input-7">
+                        <input type="number" value="100" placeholder="" id="text-788c" name="number-4" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white u-input-7">
                     </div>
                     <div class="u-align-center u-form-group u-form-submit">
                         <a href="#" class="u-border-2 u-border-grey-75 u-border-hover-palette-3-base u-btn u-btn-round u-btn-submit u-button-style u-hover-grey-80 u-palette-3-light-1 u-radius-4 u-text-hover-palette-3-light-1 u-btn-1">
