@@ -60,6 +60,7 @@
             height: 200px;
             max-width:90%;
             margin:auto;
+            border-radius:4px;
         }
 
         #bookPh{
@@ -103,15 +104,12 @@
 
         function bookApartment() {
 
-
-
             let r = {
                 User_email: user.Email,
                 Apartment: apartment,
                 From_date: book.from,
                 To_date: book.to
             }
-
             //let from = book.from;
             //let to = book.to;
             //let email = user.Email;
@@ -119,14 +117,14 @@
 
             //let url = `../api/Reservations/${email}/${apartmentId}/${from}/${to}`;
             //ajaxCall("POST", url, "", insertSCB, insertECB);
-
-
             ajaxCall("POST", `../api/Reservations`, JSON.stringify(r), insertSCB, insertECB);
             return false
         }
 
         function insertSCB(success) {
             console.log(success);
+            localStorage.removeItem("apartment");
+            localStorage.removeItem("search");
         }
 
         function insertECB(err) {
