@@ -69,6 +69,7 @@
             //slider1.oninput(changeKM(this.value));
         })
 
+        //all range inputs display-----
         function changeKM(value) {
             $("#km").html(value);
         }
@@ -84,14 +85,24 @@
         function changeFromPrice(value) {
             $("#fromPrice").html(value);
         }
+        //-----
 
         function advanceSearch() {
 
-
-
             let search = {
-                type:2
+                type: 2,
+                fromDate: $("#fromDateInput").val(),
+                toDate: $("#toDateInput").val(),
+                fromPrice: $("#fromPriceInput").val(),
+                toPrice: $("#toPriceInput").val(),
+                rooms: $("#roomsInput").val(),
+                score: $("#scoreInput").val(),
+                distFromCenter: $("#distFromCenterInput").val()
             }
+            //console.log(search);
+
+            localStorage.setItem("search", JSON.stringify(search));
+            window.location.replace("Results2.html");
         }
 
         /* Toggle between adding and removing the "responsive" class to topnav when the user clicks on the icon */
@@ -141,43 +152,43 @@
                     <input type="hidden" id="pageId" name="pageId" value="2099495">
                     <div class="date1 u-form-date u-form-group u-form-partition-factor-2 u-form-group-1">
                         <label for="date-5f8b" class="u-label u-text-body-color u-label-1">From</label>
-                        <input type="date" placeholder="MM/DD/YYYY" id="date-5f8b" name="date" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white u-input-1" required="">
+                        <input type="date" placeholder="MM/DD/YYYY" id="fromDateInput" name="date" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white u-input-1" required="">
                     </div>
                     <div class="date1 u-form-date u-form-group u-form-partition-factor-2 u-form-group-2">
                         <label for="date-4845" class="u-label u-text-body-color u-label-2">To</label>
-                        <input type="date" placeholder="MM/DD/YYYY" id="date-4845" name="date-1" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white u-input-2" required="">
+                        <input type="date" placeholder="MM/DD/YYYY" id="toDateInput" name="date-1" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white u-input-2" required="">
                     </div>
                     <div class="u-form-group u-form-partition-factor-2 u-form-group-3">
                         <div class="range2">
                             <label for="text-c02e" class="u-label u-text-body-color u-label-3">From Price</label>
-                            <input type="range" oninput="changeFromPrice(this.value)" value="0" min="0" max="2000" id="text-c02e" name="number" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white u-input-3" placeholder="From">
+                            <input type="range" oninput="changeFromPrice(this.value)" value="0" min="0" max="2000" id="fromPriceInput" name="number" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white u-input-3" placeholder="From">
                         </div>
                         <div id="fromPrice" class="rangeOutput">0</div>
                     </div>
                     <div class="u-form-group u-form-partition-factor-2 u-form-group-4">
                         <div class="range2">
                             <label for="text-a46c" class="u-label u-text-body-color u-label-4">To Price</label>
-                            <input type="range" oninput="changeToPrice(this.value)" value="2000" min="0" max="2000" id="text-a46c" name="number-1" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white u-input-4">
+                            <input type="range" oninput="changeToPrice(this.value)" value="2000" min="0" max="2000" id="toPriceInput" name="number-1" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white u-input-4">
                         </div>
                         <div id="toPrice" class="rangeOutput">2000</div>
                     </div>
                     <div class="u-form-group u-form-partition-factor-2 u-form-group-5">
                         <div class="range2">
                             <label for="text-a6bc" class="u-label u-text-body-color u-label-5">Rooms</label>
-                            <input type="range" oninput="changeRooms(this.value)" value="10" min="1" max="10" placeholder="Rooms" id="text-a6bc" name="number-3" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white u-input-5">
+                            <input type="range" oninput="changeRooms(this.value)" value="10" min="1" max="10" placeholder="Rooms" id="roomsInput" name="number-3" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white u-input-5">
                         </div>
                         <div id="rooms" class="rangeOutput">10</div>
                     </div>
                     <div class="u-form-group u-form-partition-factor-2 u-form-group-6">                        
                         <div class="range2">
                             <label for="text-95c7" class="u-label u-text-body-color u-label-6">Score</label>
-                            <input type="range" oninput="changeScore(this.value)" min="0" max="5" value="5" step="0.1" placeholder="Score" id="text-95c7" name="number-2" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white u-input-6">
+                            <input type="range" oninput="changeScore(this.value)" min="0" max="5" value="5" step="0.1" placeholder="Score" id="scoreInput" name="number-2" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white u-input-6">
                         </div>
                         <div id="score" class="rangeOutput">5</div>
                     </div>
                     <div class="u-form-group u-form-group-7">
                         <label for="text-788c" class="u-label u-text-body-color u-label-7">distance from center (KM)- </label>
-                        <input type="range" oninput="changeKM(this.value)" value="10" min="0" max="10" step="0.1" placeholder="" id="text-788c" name="number-4" class="range u-border-1 u-border-grey-30 u-input u-input-rectangle u-white u-input-7">
+                        <input type="range" oninput="changeKM(this.value)" value="10" min="0" max="10" step="0.1" placeholder="" id="distFromCenterInput" name="number-4" class="range u-border-1 u-border-grey-30 u-input u-input-rectangle u-white u-input-7">
                         <div id="km" class="rangeOutput">10</div>
                     </div>
                     <div class="u-align-center u-form-group u-form-submit">

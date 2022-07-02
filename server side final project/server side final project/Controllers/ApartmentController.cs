@@ -19,8 +19,10 @@ namespace server_side_final_project.Controllers
             return a.getApartments(from,to);
         }
 
+        [HttpGet]
+        [Route("api/Apartment/advanced/{from}/{to}/{fromPrice}/{toPrice}/{rooms}/{score}/{distFromCenter}")]
         // GET api/<controller>/5
-        public string Get(int id)
+        public string advanceSearch(DateTime from, DateTime to, int fromPrice, int toPrice, int rooms, int score, int distFromCenter)
         {
             return "value";
         }

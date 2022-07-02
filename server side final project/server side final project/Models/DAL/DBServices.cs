@@ -92,11 +92,15 @@ namespace server_side_final_project.Models.DAL
             while (dr.Read())
             {
                 string uEmail = dr["user_email"].ToString();
-                string name = dr["user_name"].ToString();
-                string password = dr["password"].ToString();
+
                 if (email.Equals(uEmail))
                 {
-                    User u = new User(name, email, password);
+                    string name = dr["user_name"].ToString();
+                    string password = dr["password"].ToString();
+                    int num_of_reservations = Convert.ToInt32(dr["num_of_reservations"]);
+                    DateTime registration_date = Convert.ToDateTime(dr["registration_date"]);
+                    int num_of_cancles = Convert.ToInt32(dr["num_of_cancles"]);
+                    User u = new User(name, email, password,num_of_reservations,registration_date,num_of_cancles);
                     con.Close();
                     return u;
                 }

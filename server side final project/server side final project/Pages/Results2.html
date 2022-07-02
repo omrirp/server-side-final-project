@@ -159,6 +159,21 @@
                     ajaxCall("GET", url, "", readApartmentsSCB, readResECB);
                     return false;
                 }
+                if (Search.type == 2) {
+                    //check if the client attempt advanced search
+                    console.log(Search);
+
+                    let from = Search.fromDate;
+                    let to = Search.toDate;
+                    let fromPrice = Search.fromPrice;
+                    let toPrice = Search.toPrice;
+                    let rooms = Search.rooms;
+                    let score = Search.score;
+                    let distFromCenter = Search.distFromCenter;
+
+                    let url = `../api/Apartment/advanced/${from}/${to}/${fromPrice}/${toPrice}/${rooms}/${score}/${distFromCenter}`;
+                    ajaxCall("GET", url, "", readApartmentsSCB, readResECB);
+                }
             } catch (e) {
                 console.log(e);
             }
