@@ -188,6 +188,8 @@
     <Content Include="Pages\images\default-image.jpg" />
     <Content Include="Pages\images\hotel.svg" />
     <Content Include="Pages\index.html" />
+    <Content Include="Pages\About.html" />
+    <Content Include="Pages\Admin.html" />
     <Content Include="Pages\Log-in.css" />
     <Content Include="Pages\Log-in.html" />
     <Content Include="Pages\nav.css" />

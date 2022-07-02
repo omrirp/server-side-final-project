@@ -26,49 +26,35 @@
     <script src="../Scripts/welcome.js"></script>
     <link href="nav.css" rel="stylesheet" />
 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
     <style>
 
-        #log_out{
-
+        #log_out {
         }
+
         .mybtn {
             transition: 0.5s;
         }
-        .mybtn:hover {
-            letter-spacing: 0.25em;
-        }
 
+            .mybtn:hover {
+                letter-spacing: 0.25em;
+            }
+
+        .container {
+            width: 100%;
+            height: 800px;
+        }
     </style>
     <script>
         $(document).ready(function () {
-            $("#logInForm").submit(logIn);
-            $("#log_out").click(function () {
-                console.log("hi");
-            })
             welcome();
         })
-
-        function logIn() {
-
-            let qs = "email=" + $("#email-558c").val();
-            ajaxCall("GET", `../api/Users?${qs}`, "", readSCB, readECB);
-            return false;
-        }
-
-        function readSCB(user) {
-            //console.log(user);
-            let password = $("#password-558c").val();
-            if (user.Password == password) {
-                localStorage.setItem("user", JSON.stringify(user));
-                welcome();
-                window.location.replace("index.html");
-            }
-        }
-
-        function readECB(err) {
-            alert("invalid email or password, please try again");
-            console.log(err);
-        }
 
         /* Toggle between adding and removing the "responsive" class to topnav when the user clicks on the icon */
         function navbar() {
@@ -109,7 +95,7 @@
             </h3>
         </div>
     </header>
-    <section class="u-clearfix u-image u-section-1" id="sec-be0b" data-image-width="1620" data-image-height="1080">
+    <!--<section class="u-clearfix u-image u-section-1" id="sec-be0b" data-image-width="1620" data-image-height="1080">
         <div class="u-clearfix u-sheet u-sheet-1">
             <h1 class="u-align-center u-text u-text-default u-text-1">Log in</h1>
             <div class="u-align-center u-border-4 u-border-palette-3-light-1 u-form u-grey-10 u-radius-3 u-form-1">
@@ -134,7 +120,12 @@
                 </form>
             </div>
         </div>
-    </section>
+    </section>-->
+
+    <div class="container">
+
+    </div>
+
     <footer class="u-align-center u-clearfix u-footer u-grey-80 u-footer" id="sec-adcb">
         <div class="u-align-left u-clearfix u-sheet u-sheet-1">
             <p class="u-align-center u-text u-text-1">This website is supported by a dataset of Amsterdam Airbnb that was provided by Ruppin Academic Center</p>

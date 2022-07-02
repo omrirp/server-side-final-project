@@ -37,38 +37,21 @@
         .mybtn:hover {
             letter-spacing: 0.25em;
         }
+        #block{
+            width:100%;
+            margin-top:5px;
+        }
+        #text{
+            direction:rtl;
+            text-align:right;
+            padding:10px;
+        }
 
     </style>
     <script>
         $(document).ready(function () {
-            $("#logInForm").submit(logIn);
-            $("#log_out").click(function () {
-                console.log("hi");
-            })
             welcome();
-        })
-
-        function logIn() {
-
-            let qs = "email=" + $("#email-558c").val();
-            ajaxCall("GET", `../api/Users?${qs}`, "", readSCB, readECB);
-            return false;
-        }
-
-        function readSCB(user) {
-            //console.log(user);
-            let password = $("#password-558c").val();
-            if (user.Password == password) {
-                localStorage.setItem("user", JSON.stringify(user));
-                welcome();
-                window.location.replace("index.html");
-            }
-        }
-
-        function readECB(err) {
-            alert("invalid email or password, please try again");
-            console.log(err);
-        }
+        })    
 
         /* Toggle between adding and removing the "responsive" class to topnav when the user clicks on the icon */
         function navbar() {
@@ -111,27 +94,17 @@
     </header>
     <section class="u-clearfix u-image u-section-1" id="sec-be0b" data-image-width="1620" data-image-height="1080">
         <div class="u-clearfix u-sheet u-sheet-1">
-            <h1 class="u-align-center u-text u-text-default u-text-1">Log in</h1>
-            <div class="u-align-center u-border-4 u-border-palette-3-light-1 u-form u-grey-10 u-radius-3 u-form-1">
-                <form id="logInForm" action="//publish.nicepage.com/Form/Process" method="POST" class="u-clearfix u-form-horizontal u-form-spacing-15 u-inner-form" style="padding: 15px" source="email">
-                    <input type="hidden" id="siteId" name="siteId" value="2038094">
-                    <input type="hidden" id="pageId" name="pageId" value="2038104">
-                    <div class="u-form-group u-form-name u-label-top">
-                        <label for="name-558c" class="u-label u-label-1">Email</label>
-                        <input type="email" placeholder="Email" id="email-558c" name="name" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-input-1" required="">
-                    </div>
-                    <div class="u-form-group u-label-top">
-                        <label for="email-558c" class="u-label u-label-2">Password</label>
-                        <input type="password" placeholder="Password" id="password-558c" name="email" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-input-2" required="required">
-                    </div>
-                    <div class="u-form-group u-form-submit">
-                        <input type="submit" value="submit" class="u-form-control-hidden">
-                        <button class="mybtn u-border-2 u-border-grey-75 u-border-hover-palette-3-base u-btn u-btn-round u-btn-submit u-button-style u-hover-grey-80 u-palette-3-light-1 u-radius-4 u-text-hover-palette-3-light-1 u-btn-1">Log In</button>
-                    </div>
-                    <div class="u-form-send-message u-form-send-success">Thank you! Your message has been sent.</div>
-                    <div class="u-form-send-error u-form-send-message">Unable to send your message. Please fix errors then try again.</div>
-                    <input type="hidden" value="" name="recaptchaResponse">
-                </form>
+            <h1 class="u-align-center u-text u-text-default u-text-1">About</h1>
+            <div id="block" class="u-align-center u-border-4 u-border-palette-3-light-1 u-form u-grey-10 u-radius-3 u-form-1">
+                <p id="text">
+                    פרוייקט קורס פיתוח מערכות אינטרנט צד שרת
+                    <br />
+                    מגישים: עמרי ריינדורף וחן גרשגורן
+                    <br />
+                    <b>פרטי אדמין:</b>
+                    <br />
+                    אימייל: admin@admin.net סיסמה: 1234
+                </p>
             </div>
         </div>
     </section>

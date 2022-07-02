@@ -1,6 +1,8 @@
 ﻿function welcome() {
     let user = JSON.parse(localStorage.getItem("user"));
-    if (user == null) {
+    $("#admin").show();
+    if (user == null || user.Name != "ADMIN") {
+        $("#admin").hide();
         return;
     }
     document.getElementById("welcome").innerHTML = "Welcome " + user.Name;    
@@ -11,6 +13,7 @@ function LogoutF() {
         if (confirm("Are you sure ?")) {
             localStorage.clear();
             document.getElementById("welcome").innerHTML = "Welcome";
+            window.location.replace("index.html");
         }
     }
     else
