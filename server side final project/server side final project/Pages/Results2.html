@@ -168,10 +168,11 @@
                     let fromPrice = Search.fromPrice;
                     let toPrice = Search.toPrice;
                     let rooms = Search.rooms;
-                    let score = Search.score;
-                    let distFromCenter = Search.distFromCenter;
+                    let score = "" + Search.score;
+                    let distFromCenter = "" + Search.distFromCenter;
 
-                    let url = `../api/Apartment/advanced/${from}/${to}/${fromPrice}/${toPrice}/${rooms}/${score}/${distFromCenter}`;
+                    let url2 = `../api/Apartment/advance/${from}/${to}/${fromPrice}/${toPrice}/${rooms}/${score}/${distFromCenter}`;
+                    let url = `../api/Apartment/advance/${from}/${to}/${fromPrice}/${toPrice}/${rooms}/${score}/${distFromCenter}/`;
                     ajaxCall("GET", url, "", readApartmentsSCB, readResECB);
                 }
             } catch (e) {

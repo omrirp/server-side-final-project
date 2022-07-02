@@ -73,5 +73,11 @@ namespace server_side_final_project.Models.DAL
             DBServices ds = new DBServices();
             return ds.readApartments(from, to);
         }
+
+        public List<Apartment> GetApartments(DateTime from, DateTime to, float fromPrice, float toPrice, int rooms, float score, float distFromCenter)
+        {
+            DBServices ds = new DBServices();
+            return ds.readApartments(from, to, fromPrice, toPrice, rooms, score, distFromCenter);
+        }
     }
 }

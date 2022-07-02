@@ -20,11 +20,12 @@ namespace server_side_final_project.Controllers
         }
 
         [HttpGet]
-        [Route("api/Apartment/advanced/{from}/{to}/{fromPrice}/{toPrice}/{rooms}/{score}/{distFromCenter}")]
+        [Route("api/Apartment/advance/{from}/{to}/{fromPrice:decimal}/{toPrice:decimal}/{rooms}/{score:decimal}/{distFromCenter:decimal}/")]
         // GET api/<controller>/5
-        public string advanceSearch(DateTime from, DateTime to, int fromPrice, int toPrice, int rooms, int score, int distFromCenter)
+        public List<Apartment> advanceSearch(DateTime from, DateTime to, float fromPrice, float toPrice, int rooms, float score, float distFromCenter)
         {
-            return "value";
+            Apartment a = new Apartment();
+            return a.GetApartments(from, to, fromPrice, toPrice, rooms, score, distFromCenter);
         }
 
         // POST api/<controller>
