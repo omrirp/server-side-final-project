@@ -116,22 +116,6 @@
             let table = document.getElementById('usersTableBody');
             table.innerHTML = "";
             console.log(users);
-            //let row = document.createElement("tr");
-
-            //let emailTd = document.createElement("td");
-            //emailTd.innerHTML = "User Email";
-            //emailTd.setAttribute("class", "subject");
-            //row.appendChild(emailTd);
-
-            //let nameTd = document.createElement("td");
-            //nameTd.innerHTML = "User Name";
-            //nameTd.setAttribute("class", "subject");
-            //row.appendChild(nameTd);
-
-            //let emptyTd = document.createElement("td");
-            //row.appendChild(emptyTd);
-
-            //table.appendChild(row);            
 
             for (let i = 0; i < users.length; i++) {
                 const newtr = document.createElement("tr");
@@ -274,22 +258,29 @@
         <!--user details-->
         <div class="fullDetails" id="userFulldetails">
             <table>
-                <tr>
-                    <td class="subject">Registration date: </td>
-                    <td id="userRegistrationDate"></td>
-                </tr>
-                <tr>
-                    <td class="subject">Number of reservations</td>
-                    <td id="userNumOfReservations"></td>
-                </tr>
-                <tr>
-                    <td class="subject">Number of cancles</td>
-                    <td id="userNumOfCancles"></td>
-                </tr>
-                <tr>
-                    <td class="subject">Total price</td>
-                    <td id="userTotalPrice"></td>
-                </tr>
+                <thead>
+                    <tr>
+                        <td colspan="4">User details</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="subject">Registration date: </td>
+                        <td id="userRegistrationDate"></td>
+                    </tr>
+                    <tr>
+                        <td class="subject">Number of reservations</td>
+                        <td id="userNumOfReservations"></td>
+                    </tr>
+                    <tr>
+                        <td class="subject">Number of cancles</td>
+                        <td id="userNumOfCancles"></td>
+                    </tr>
+                    <tr>
+                        <td class="subject">Total price</td>
+                        <td id="userTotalPrice"></td>
+                    </tr>
+                </tbody>                
             </table>
             <!--user details-->
 
