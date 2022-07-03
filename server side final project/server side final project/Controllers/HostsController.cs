@@ -1,4 +1,5 @@
-﻿using System;
+﻿using server_side_final_project.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -10,16 +11,14 @@ namespace server_side_final_project.Controllers
     public class HostsController : ApiController
     {
         // GET api/<controller>
-        public IEnumerable<string> Get()
+        public List<Host> Get()
         {
-            return new string[] { "value1", "value2" };
+            Host h = new Host();
+            return h.getAllHosts();
         }
 
         // GET api/<controller>/5
-        public string Get(int id)
-        {
-            return "value";
-        }
+     
 
         // POST api/<controller>
         public void Post([FromBody] string value)

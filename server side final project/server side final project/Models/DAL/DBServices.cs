@@ -12,10 +12,77 @@ namespace server_side_final_project.Models.DAL
     {
         public DBServices() { }
 
-        //normal search for Apartments
-        public List<Apartment> readApartments(DateTime from, DateTime to)
+        //get Apartments (sreach)
+        //-----
+
+
+
+        public List<User> getUsers()
         {
             SqlConnection con = Connect();
+            SqlCommand command = createGetUsersCommand(con);
+            SqlDataReader dr = command.ExecuteReader(CommandBehavior.CloseConnection);
+            List<User> Users = new List<User>();
+            while (dr.Read())
+            {
+                string name = dr["user_name"].ToString();
+                string email = dr["user_email"].ToString();
+                string password = dr["password"].ToString();
+                int num_of_reservations = Convert.ToInt32(dr["num_of_reservations"]);
+                DateTime registration_date = Convert.ToDateTime(dr["registration_date"]);
+                int num_of_cancles = Convert.ToInt32(dr["num_of_cancles"]);
+                User u = new User(name, email, password, num_of_reservations, registration_date, num_of_cancles);
+                Users.Add(u);
+            }
+            con.Close();
+            return Users;
+        }
+        private SqlCommand createGetUsersCommand(SqlConnection con)
+        {
+            SqlCommand command = new SqlCommand();
+
+            command.CommandText = "spGetUsersFP";
+            command.Connection = con;
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.CommandTimeout = 10; // in seconds
+
+            return command;
+
+        }
+        public List<Host> getHosts()
+        {
+            SqlConnection con = Connect();
+            SqlCommand command = createGetHostCommand(con);
+            SqlDataReader dr = command.ExecuteReader(CommandBehavior.CloseConnection);
+            List<Host> Hosts = new List<Host>();
+            while (dr.Read())
+            {
+                Host h=hostReader(dr);
+                Hosts.Add(h);
+               
+            }
+            con.Close();
+            return Hosts;
+        }
+        private SqlCommand createGetHostCommand(SqlConnection con)
+        {
+            SqlCommand command = new SqlCommand();
+
+            command.CommandText = "spGetHostsFP";
+            command.Connection = con;
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.CommandTimeout = 10; // in seconds
+
+            return command;
+
+        }
+        
+            public List<Apartment> readApartments(DateTime from, DateTime to)
+        {
+            SqlConnection con = Connect();
+
+            //temporrary !!!
+            //string commandStr = "select top 10 * from apartmentsFP";
 
             SqlCommand command = createGetCommand(con, from, to);
 
@@ -30,7 +97,7 @@ namespace server_side_final_project.Models.DAL
             con.Close();
             return apartments;
         }
-        
+
         private SqlCommand createGetCommand(SqlConnection con, DateTime from, DateTime to)
         {
             SqlCommand command = new SqlCommand();
@@ -39,45 +106,6 @@ namespace server_side_final_project.Models.DAL
             command.Parameters.AddWithValue("@to", to);
 
             command.CommandText = "spSearchFP";
-            command.Connection = con;
-            command.CommandType = System.Data.CommandType.StoredProcedure;
-            command.CommandTimeout = 10; // in seconds
-
-            return command;
-        }
-
-        //advance search for Apartment
-        public List<Apartment> readApartments(DateTime from, DateTime to, float fromPrice, float toPrice, int rooms, float score, float distFromCenter)
-        {
-            SqlConnection con = Connect();
-
-            SqlCommand command = createGetCommand(con, from, to, fromPrice, toPrice, rooms, score, distFromCenter);
-            SqlDataReader dr = command.ExecuteReader(CommandBehavior.CloseConnection);
-            List<Apartment> apartments = new List<Apartment>();
-
-            while (dr.Read())
-            {
-                apartments.Add(apartmentReader(dr));
-            }
-
-            con.Close();
-            return apartments;
-        }
-
-        private SqlCommand createGetCommand(SqlConnection con ,DateTime from, DateTime to, float fromPrice, float toPrice, int rooms, float score, float distFromCenter)
-        {
- 
-            SqlCommand command = new SqlCommand();
-
-            command.Parameters.AddWithValue("@from", from);
-            command.Parameters.AddWithValue("@to", to);
-            command.Parameters.AddWithValue("@fromPrice", fromPrice);
-            command.Parameters.AddWithValue("@toPrice", toPrice);
-            command.Parameters.AddWithValue("@rooms", rooms);
-            command.Parameters.AddWithValue("@score", score);
-            command.Parameters.AddWithValue("@distFromCenter", distFromCenter);
-
-            command.CommandText = "spAdvanceSearchFP";
             command.Connection = con;
             command.CommandType = System.Data.CommandType.StoredProcedure;
             command.CommandTimeout = 10; // in seconds
@@ -200,32 +228,7 @@ namespace server_side_final_project.Models.DAL
         }
         //end -----
 
-        //cancel Reservation----
-        public string cancelReservation(string email, int id, DateTime from, DateTime to)
-        {
-            SqlConnection con = Connect();
-
-            SqlCommand command = new SqlCommand();
-
-            command.Parameters.AddWithValue("@user_email", email);
-            command.Parameters.AddWithValue("@id", id);
-            command.Parameters.AddWithValue("@from", from);
-            command.Parameters.AddWithValue("@to", to);
-
-            command.CommandText = "spDeleteReservationFP";
-            command.Connection = con;
-            command.CommandType = System.Data.CommandType.StoredProcedure;
-            command.CommandTimeout = 10; // in seconds
-
-            command.ExecuteNonQuery();
-            con.Close();
-            return "Reservation cancled";
-        }
-
-        //end-----
-
-
-        //Apartment reader from sql
+        //get Apartments
         private Apartment apartmentReader(SqlDataReader dr)
         {
             int id = intDr(dr, "id");
@@ -252,7 +255,7 @@ namespace server_side_final_project.Models.DAL
                 amenities, price, number_of_reviews, review_scores_rating, h);
         }
 
-        //Host readder from sql
+        //get Host
         private Host hostReader(SqlDataReader dr)
         {
             int id = intDr(dr, "host_id");

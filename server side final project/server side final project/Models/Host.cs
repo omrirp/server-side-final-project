@@ -1,4 +1,5 @@
-﻿using System;
+﻿using server_side_final_project.Models.DAL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -15,6 +16,7 @@ namespace server_side_final_project.Models
         int host_total_listings_count;
         bool host_has_profile_pic;
         bool has_availability;
+
 
         public Host() { }
 
@@ -39,5 +41,11 @@ namespace server_side_final_project.Models
         public int Host_total_listings_count { get => host_total_listings_count; set => host_total_listings_count = value; }
         public bool Host_has_profile_pic { get => host_has_profile_pic; set => host_has_profile_pic = value; }
         public bool Has_availability { get => has_availability; set => has_availability = value; }
+        public List<Host> getAllHosts()
+        {
+            DBServices ds = new DBServices();
+            return ds.getHosts();
+        }
     }
+    
 }

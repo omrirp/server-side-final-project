@@ -47,5 +47,10 @@ namespace server_side_final_project.Models
             DBServices ds = new DBServices();
             return ds.readUserByEmail(email);
         }
+        public List<User> getAllUsers()
+        {
+            DBServices ds = new DBServices();
+            return ds.getUsers();
+        }
     }
 }

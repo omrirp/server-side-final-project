@@ -10,8 +10,13 @@ namespace server_side_final_project.Controllers
 {
     public class UsersController : ApiController
     {
-  
+
         //GET
+        public List<User> Get()
+        {
+            User u = new User();
+            return u.getAllUsers();
+        }
         public User Get(string email)
         {
             User u = new User();
