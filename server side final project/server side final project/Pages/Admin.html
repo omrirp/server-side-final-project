@@ -46,16 +46,31 @@
             height: 800px;
         }
 
-        table, th, td {
-            border: 3px solid #1a1a1a;
-            border-collapse: collapse;
+        table{
+            margin:25px 0;
+            font-size:0.9em;
+            min-width:400px;
+            border-radius:5px 5px 0 0;
+            overflow:hidden;
+            box-shadow:0 0 20px rgb(0,0,0,0.15);
+        }
+        tbody tr{
+            border-bottom:1px solid #dddddd;
+        }
+        tbody tr:nth-of-type(even){
+            background-color:#f3f3f3;
+        }
+        tbody tr:last-of-type {
+            border-bottom: 2px solid#ad5f00;
+        }
+        table thead tr{
+            background-color:#ad5f00;
+            color:white;
+            font-weight:bold;
+            padding:8px;
         }
         td{
             padding:8px;
-        }
-        tr:hover{
-            background-color:grey;
-            color:black;
         }
         .fullDetails{
             margin-top:40px;
@@ -64,11 +79,11 @@
             font-weight:bold;
         }
         .tblBtn {
-            font-weight:bold;
             border-radius: 5px;
-            border:0px;
-            background-color: #ea5b12;
+            border: 0px;
+            background-color: #f3d20e;
             color: #1a1a1a;
+            box-shadow: 0 0 20px rgb(0,0,0,0.15);
         }
         #Susers ,#Shosts, #Saparts{
             margin-left:50px;
@@ -93,48 +108,58 @@
                 return false;
             })
             $("#userFulldetails").hide();
+            $("#results").hide();
         })
+
         function getUSCB(users)
         {
-            let table = document.getElementById('usersTable');
+            let table = document.getElementById('usersTableBody');
             table.innerHTML = "";
             console.log(users);
-            let row = document.createElement("tr");
+            //let row = document.createElement("tr");
 
-            let emailTd = document.createElement("td");
-            emailTd.innerHTML = "User Email";
-            emailTd.setAttribute("class", "subject");
-            row.appendChild(emailTd);
+            //let emailTd = document.createElement("td");
+            //emailTd.innerHTML = "User Email";
+            //emailTd.setAttribute("class", "subject");
+            //row.appendChild(emailTd);
 
-            let nameTd = document.createElement("td");
-            nameTd.innerHTML = "User Name";
-            nameTd.setAttribute("class", "subject");
-            row.appendChild(nameTd);
+            //let nameTd = document.createElement("td");
+            //nameTd.innerHTML = "User Name";
+            //nameTd.setAttribute("class", "subject");
+            //row.appendChild(nameTd);
 
-            let emptyTd = document.createElement("td");
-            row.appendChild(emptyTd);
+            //let emptyTd = document.createElement("td");
+            //row.appendChild(emptyTd);
 
-            table.appendChild(row);            
+            //table.appendChild(row);            
 
             for (let i = 0; i < users.length; i++) {
                 const newtr = document.createElement("tr");
+
+                const newtd0 = document.createElement("td");
+                newtd0.innerHTML = i + 1;
+                newtr.appendChild(newtd0);
+
                 const newtd = document.createElement("td");
                 newtd.innerHTML = users[i].Email
-                const newtd2 = document.createElement("td");
-                newtd2.innerHTML = users[i].Name
                 newtr.appendChild(newtd);
+
+                const newtd2 = document.createElement("td");
+                newtd2.innerHTML = users[i].Name                
                 newtr.appendChild(newtd2);
 
                 const button = document.createElement("button");
                 button.innerHTML = "For more details";
                 button.setAttribute("onclick", "showUser(" + JSON.stringify(users[i]) + ")");
                 button.setAttribute("class", "tblBtn");
+
                 const newtd3 = document.createElement("td");
                 newtd3.appendChild(button);
                 newtr.appendChild(newtd3);
 
                 table.appendChild(newtr);
             }
+            $("#results").show();
             console.log();
         }
 
@@ -231,7 +256,19 @@
         </div>
 
         <div class="row" id="results">
-            <table id="usersTable"></table>
+            <table id="usersTable">
+                <thead>
+                    <tr>
+                        <td></td>
+                        <td>User Email</td>
+                        <td>User Name</td>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody id="usersTableBody">
+
+                </tbody>
+            </table>
         </div>
 
         <!--user details-->
