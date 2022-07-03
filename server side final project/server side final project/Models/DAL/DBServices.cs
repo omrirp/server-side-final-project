@@ -13,6 +13,32 @@ namespace server_side_final_project.Models.DAL
         public DBServices() { }
 
         //get Apartments (sreach)
+
+        public List<Apartment> readAllparts()
+        {
+            SqlConnection con = Connect();
+            SqlCommand command = createGetApartsCommand(con);
+            SqlDataReader dr = command.ExecuteReader(CommandBehavior.CloseConnection);
+            List<Apartment> aparts = new List<Apartment>();
+            while (dr.Read())
+            {
+                aparts.Add(apartmentReader(dr));
+            }
+            con.Close();
+            return aparts;
+        }
+        private SqlCommand createGetApartsCommand(SqlConnection con)
+        {
+            SqlCommand command = new SqlCommand();
+
+            command.CommandText = "spGetapartsFP";
+            command.Connection = con;
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.CommandTimeout = 10; // in seconds
+
+            return command;
+
+        }
         public List<Apartment> readApartments(DateTime from, DateTime to)
         {
             SqlConnection con = Connect();

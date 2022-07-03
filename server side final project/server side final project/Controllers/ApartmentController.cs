@@ -10,6 +10,11 @@ namespace server_side_final_project.Controllers
 {
     public class ApartmentController : ApiController
     {
+        public List<Apartment> Get()
+        {
+            Apartment a = new Apartment();
+            return a.getAllaparts();
+        }
         [HttpGet]
         [Route("api/Apartment/{from}/{to}")]
         // GET api/<controller>

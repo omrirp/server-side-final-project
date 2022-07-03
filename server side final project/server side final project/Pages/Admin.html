@@ -62,26 +62,41 @@
                 return false;
             })
             $("#Shosts").click(function () {
-                ajaxCall("GET", `../api/Hosts`, "", GetHSCB, GetHECB);
+                ajaxCall("GET", `../api/Hosts`, "", GetHSCB, GetUECB);
                 return false;
             })
             $("#Saparts").click(function () {
-                ajaxCall("GET", `../api/Apartment`, "", GetASCB, getAECB);
+                ajaxCall("GET", `../api/Apartment`, "", GetASCB, GetUECB);
                 return false;
             })
+        })
+        function getUSCB(users)
+        {
+            let table = document.getElementById('usersTable');
+            console.log(users);
+            for (var i = 0; i < users.length; i++) {
+                const newtr = document.createElement("tr");
+                const newtd = document.createElement("td");
+                newtd.innerHTML = users[i].Email
+                const newtd2 = document.createElement("td");
+                newtd2.innerHTML = users[i].Name
+                newtr.appendChild(newtd);
+                newtr.appendChild(newtd2);
+                table.appendChild(newtr);
+            }
+            console.log();
         }
-            //function getUSCB(users) {
-               
-            //    let password = $("#password-558c").val();
-            //    if (user.Password == password) {
-            //        localStorage.setItem("user", JSON.stringify(user));
-            //        welcome();
-            //        window.location.replace("index.html");
-            //    }
-               
-           
-            //}
-
+        function GetUECB(err) {
+            console.log(err);
+        }
+        function GetHSCB(hosts) {
+            console.log(hosts);
+        }
+       
+        function GetASCB(aparts) {
+            console.log(aparts);
+        }
+       
         /* Toggle between adding and removing the "responsive" class to topnav when the user clicks on the icon */
         function navbar() {
             var x = document.getElementById("myTopnav");
@@ -115,7 +130,7 @@
                     <i class="fa fa-bars"></i>
                 </a>
             </div>
-            
+
             <h3 class="u-headline u-text u-text-default u-text-grey-80 u-text-2">
                 Server Side Project
             </h3>
@@ -149,17 +164,26 @@
     </section>-->
 
     <div class="container" id="admin">
-        <button id="Susers" class="mybtn u-border-2 u-border-grey-75 u-border-hover-palette-3-base u-btn u-btn-round u-btn-submit u-button-style u-hover-grey-80 u-palette-3-light-1 u-radius-4 u-text-hover-palette-3-light-1 u-btn-1" >Show Users</button>
+        <button id="Susers" class="mybtn u-border-2 u-border-grey-75 u-border-hover-palette-3-base u-btn u-btn-round u-btn-submit u-button-style u-hover-grey-80 u-palette-3-light-1 u-radius-4 u-text-hover-palette-3-light-1 u-btn-1">Show Users</button>
         <button id="Shosts" class="mybtn u-border-2 u-border-grey-75 u-border-hover-palette-3-base u-btn u-btn-round u-btn-submit u-button-style u-hover-grey-80 u-palette-3-light-1 u-radius-4 u-text-hover-palette-3-light-1 u-btn-1">Show Hosts</button>
         <button id="Saparts" class="mybtn u-border-2 u-border-grey-75 u-border-hover-palette-3-base u-btn u-btn-round u-btn-submit u-button-style u-hover-grey-80 u-palette-3-light-1 u-radius-4 u-text-hover-palette-3-light-1 u-btn-1">Show Apartments</button>
 
 
     </div>
+    <div class="container" id="results">
+        <table id="usersTable">
+            <tr>
+                <td>User Email</td>
+                <td>User Name </td>
 
-    <footer class="u-align-center u-clearfix u-footer u-grey-80 u-footer" id="sec-adcb">
-        <div class="u-align-left u-clearfix u-sheet u-sheet-1">
-            <p class="u-align-center u-text u-text-1">This website is supported by a dataset of Amsterdam Airbnb that was provided by Ruppin Academic Center</p>
-        </div>
-    </footer>
+            </tr>
+        </table>
+    </div>
+
+        <footer class="u-align-center u-clearfix u-footer u-grey-80 u-footer" id="sec-adcb">
+            <div class="u-align-left u-clearfix u-sheet u-sheet-1">
+                <p class="u-align-center u-text u-text-1">This website is supported by a dataset of Amsterdam Airbnb that was provided by Ruppin Academic Center</p>
+            </div>
+        </footer>
 </body>
 </html>
