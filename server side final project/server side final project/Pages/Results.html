@@ -139,6 +139,8 @@
 
         var Reservations;
         var SelectedApartmentID;
+        var FromDate;
+        var ToDate
         var CenterLatitude = 52.379189;
         var CenterLongitude = 4.899431;
 
@@ -226,8 +228,11 @@
                 tblDiv.append(row);
             }
         }
-
+        
         function display(index) {
+
+            FromDate = Reservations[index].From_date;
+            ToDate = Reservations[index].To_date
 
             $("#commentForm").hide();
             let id = Reservations[index].Apartment.Id;
@@ -391,8 +396,26 @@
             revPh.prepend(div);
             revPh.append(br);
         }
-
         //--------
+
+        //handle cancle booking
+        function cancel() {
+
+            let email = JSON.parse(localStorage.getItem("user")).Email;
+            let from = new Date(FromDate);
+            let to = new Date(ToDate);
+            let id = SelectedApartmentID;
+
+            if (confirm("are you sure you like to cancel your book?")) {
+                let url = `../api/Reservations/cancle/${email}/${id}/${from.toDateString()}/${to.toDateString()}`
+                ajaxCall("DELETE", url, "", cancelSCB, readResECB);
+            }
+        }
+
+        function cancelSCB(status) {
+            alert(status);
+        }
+
         function readResECB(err) {
             console.log(err);
         }
@@ -524,6 +547,13 @@
                                 </table>
                             </div>
                         </div>
+
+                        <button onclick="cancel()" class="mybtn u-border-2 u-border-grey-75 u-border-hover-palette-3-base u-btn
+                                u-btn-round u-btn-submit u-button-style u-hover-grey-80 u-palette-3-light-1
+                                    u-radius-4 u-text-hover-palette-3-light-1 u-btn-1">
+                            Cancel...
+                        </button>
+
                         <hr />
                         <div style="text-align:left">
                             <button onclick="appear()" class="mybtn u-border-2 u-border-grey-75 u-border-hover-palette-3-base u-btn
