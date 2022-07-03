@@ -200,6 +200,31 @@ namespace server_side_final_project.Models.DAL
         }
         //end -----
 
+        //cancel reservation----
+        public string cancelReservation(string email, int id, DateTime from, DateTime to)
+        {
+            SqlConnection con = Connect();
+
+            SqlCommand command = new SqlCommand();
+
+            command.Parameters.AddWithValue("@user_email", email);
+            command.Parameters.AddWithValue("@id", id);
+            command.Parameters.AddWithValue("@from", from);
+            command.Parameters.AddWithValue("@to", to);
+
+            command.CommandText = "spDeleteReservationFP";
+            command.Connection = con;
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.CommandTimeout = 10; // in seconds
+
+            command.ExecuteNonQuery();
+            con.Close();
+            return "Reservation cancled";
+        }
+
+        //end-----
+
+
         //get Apartments
         private Apartment apartmentReader(SqlDataReader dr)
         {

@@ -27,9 +27,13 @@ namespace server_side_final_project.Controllers
         {
         }
 
+        [HttpDelete]
+        [Route("api/Reservations/cancle/{email}/{id}/{from}/{to}")]
         // DELETE api/<controller>/5
-        public void Delete(int id)
+        public string Delete(string email, int id, DateTime from, DateTime to)
         {
+            Reservation r = new Reservation();
+            return r.cancel(email, id, from, to);
         }
     }
 }

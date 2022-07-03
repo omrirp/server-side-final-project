@@ -171,7 +171,6 @@
                     let score = "" + Search.score;
                     let distFromCenter = "" + Search.distFromCenter;
 
-                    let url2 = `../api/Apartment/advance/${from}/${to}/${fromPrice}/${toPrice}/${rooms}/${score}/${distFromCenter}`;
                     let url = `../api/Apartment/advance/${from}/${to}/${fromPrice}/${toPrice}/${rooms}/${score}/${distFromCenter}/`;
                     ajaxCall("GET", url, "", readApartmentsSCB, readResECB);
                 }

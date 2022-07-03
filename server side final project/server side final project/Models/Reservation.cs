@@ -21,12 +21,7 @@ namespace server_side_final_project.Models
             To_date = to_date;
         }
 
-        public string insert(Reservation r)
-        {
-            DBServices ds = new DBServices();
-            return ds.insertReservation(r);
-        }
-
+        
         public Reservation() { }
 
         public string User_email { get => user_email; set => user_email = value; }
@@ -38,6 +33,18 @@ namespace server_side_final_project.Models
         {
             DBServices db  =  new DBServices();
             return db.readReservations(email);
+        }
+
+        public string insert(Reservation r)
+        {
+            DBServices ds = new DBServices();
+            return ds.insertReservation(r);
+        }
+
+        public string cancel(string email, int id, DateTime from, DateTime to)
+        {
+            DBServices ds = new DBServices();
+            return ds.cancelReservation(email, id, from, to);
         }
     }
 }
