@@ -47,15 +47,31 @@
         }
 
         table, th, td {
-            border: 1px solid black;
+            border: 3px solid #1a1a1a;
             border-collapse: collapse;
         }
         td{
             padding:8px;
         }
         tr:hover{
-            background-color:goldenrod;
+            background-color:grey;
             color:black;
+        }
+        .fullDetails{
+            margin-top:40px;
+        }
+        .subject{
+            font-weight:bold;
+        }
+        .tblBtn {
+            font-weight:bold;
+            border-radius: 5px;
+            border:0px;
+            background-color: #ea5b12;
+            color: #1a1a1a;
+        }
+        #Susers ,#Shosts, #Saparts{
+            margin-left:50px;
         }
     </style>
 
@@ -86,11 +102,13 @@
             let row = document.createElement("tr");
 
             let emailTd = document.createElement("td");
-            emailTd.innerHTML= "User Email";
+            emailTd.innerHTML = "User Email";
+            emailTd.setAttribute("class", "subject");
             row.appendChild(emailTd);
 
             let nameTd = document.createElement("td");
             nameTd.innerHTML = "User Name";
+            nameTd.setAttribute("class", "subject");
             row.appendChild(nameTd);
 
             let emptyTd = document.createElement("td");
@@ -110,6 +128,7 @@
                 const button = document.createElement("button");
                 button.innerHTML = "For more details";
                 button.setAttribute("onclick", "showUser(" + JSON.stringify(users[i]) + ")");
+                button.setAttribute("class", "tblBtn");
                 const newtd3 = document.createElement("td");
                 newtd3.appendChild(button);
                 newtr.appendChild(newtd3);
@@ -216,22 +235,22 @@
         </div>
 
         <!--user details-->
-        <div class="row" id="userFulldetails">
+        <div class="fullDetails" id="userFulldetails">
             <table>
                 <tr>
-                    <td>Registration date: </td>
+                    <td class="subject">Registration date: </td>
                     <td id="userRegistrationDate"></td>
                 </tr>
                 <tr>
-                    <td>Number of reservations</td>
+                    <td class="subject">Number of reservations</td>
                     <td id="userNumOfReservations"></td>
                 </tr>
                 <tr>
-                    <td>Number of cancles</td>
+                    <td class="subject">Number of cancles</td>
                     <td id="userNumOfCancles"></td>
                 </tr>
                 <tr>
-                    <td>Total price</td>
+                    <td class="subject">Total price</td>
                     <td id="userTotalPrice"></td>
                 </tr>
             </table>
