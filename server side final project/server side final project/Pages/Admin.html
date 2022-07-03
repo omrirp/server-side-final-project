@@ -34,21 +34,28 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <style>
-
-        #log_out {
-        }
-
         .mybtn {
             transition: 0.5s;
         }
-
-            .mybtn:hover {
-                letter-spacing: 0.25em;
-            }
+        .mybtn:hover {
+            letter-spacing: 0.25em;
+        }
 
         .container {
             width: 100%;
             height: 800px;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        td{
+            padding:8px;
+        }
+        tr:hover{
+            background-color:goldenrod;
+            color:black;
         }
     </style>
 
@@ -69,12 +76,29 @@
                 ajaxCall("GET", `../api/Apartment`, "", GetASCB, GetUECB);
                 return false;
             })
+            $("#userFulldetails").hide();
         })
         function getUSCB(users)
         {
             let table = document.getElementById('usersTable');
+            table.innerHTML = "";
             console.log(users);
-            for (var i = 0; i < users.length; i++) {
+            let row = document.createElement("tr");
+
+            let emailTd = document.createElement("td");
+            emailTd.innerHTML= "User Email";
+            row.appendChild(emailTd);
+
+            let nameTd = document.createElement("td");
+            nameTd.innerHTML = "User Name";
+            row.appendChild(nameTd);
+
+            let emptyTd = document.createElement("td");
+            row.appendChild(emptyTd);
+
+            table.appendChild(row);            
+
+            for (let i = 0; i < users.length; i++) {
                 const newtr = document.createElement("tr");
                 const newtd = document.createElement("td");
                 newtd.innerHTML = users[i].Email
@@ -82,17 +106,60 @@
                 newtd2.innerHTML = users[i].Name
                 newtr.appendChild(newtd);
                 newtr.appendChild(newtd2);
+
+                const button = document.createElement("button");
+                button.innerHTML = "For more details";
+                button.setAttribute("onclick", "showUser(" + JSON.stringify(users[i]) + ")");
+                const newtd3 = document.createElement("td");
+                newtd3.appendChild(button);
+                newtr.appendChild(newtd3);
+
                 table.appendChild(newtr);
             }
             console.log();
         }
+
+
+        function showUser(user) {
+            console.log(user);
+            $("#userFulldetails").show();
+
+            let date = new Date(user.Registration_date);
+            let d1 = document.getElementById("userRegistrationDate");
+            d1.innerHTML = date.toLocaleDateString();
+
+            let d2 = document.getElementById("userNumOfReservations");
+            d2.innerHTML = user.Num_of_reservations;
+
+            let d3 = document.getElementById("userNumOfCancles");
+            d3.innerHTML = user.Num_of_cancles;
+
+            let qs = "email=" + user.Email;
+            ajaxCall("GET", `../api/Reservations?${qs}`, "", readResSCB, GetUECB);
+            return false;
+        }
+
+        function readResSCB(reservations) {
+            console.log(reservations);
+
+            let total = 0;
+            for (let i = 0; i < reservations.length; i++) {
+
+                let from = new Date(reservations[i].From_date);
+                let to = new Date(reservations[i].To_date);
+                let days = Math.abs(to.getDate() - from.getDate()) - 1;
+                total += days * reservations[i].Apartment.Price;
+            }
+            let d = document.getElementById("userTotalPrice");
+            d.innerHTML = total + " $";
+        }
+
         function GetUECB(err) {
             console.log(err);
         }
         function GetHSCB(hosts) {
             console.log(hosts);
-        }
-       
+        }       
         function GetASCB(aparts) {
             console.log(aparts);
         }
@@ -136,50 +203,45 @@
             </h3>
         </div>
     </header>
-    <!--<section class="u-clearfix u-image u-section-1" id="sec-be0b" data-image-width="1620" data-image-height="1080">
-        <div class="u-clearfix u-sheet u-sheet-1">
-            <h1 class="u-align-center u-text u-text-default u-text-1">Log in</h1>
-            <div class="u-align-center u-border-4 u-border-palette-3-light-1 u-form u-grey-10 u-radius-3 u-form-1">
-                <form id="logInForm" action="//publish.nicepage.com/Form/Process" method="POST" class="u-clearfix u-form-horizontal u-form-spacing-15 u-inner-form" style="padding: 15px" source="email">
-                    <input type="hidden" id="siteId" name="siteId" value="2038094">
-                    <input type="hidden" id="pageId" name="pageId" value="2038104">
-                    <div class="u-form-group u-form-name u-label-top">
-                        <label for="name-558c" class="u-label u-label-1">Email</label>
-                        <input type="email" placeholder="Email" id="email-558c" name="name" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-input-1" required="">
-                    </div>
-                    <div class="u-form-group u-label-top">
-                        <label for="email-558c" class="u-label u-label-2">Password</label>
-                        <input type="password" placeholder="Password" id="password-558c" name="email" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-input-2" required="required">
-                    </div>
-                    <div class="u-form-group u-form-submit">
-                        <input type="submit" value="submit" class="u-form-control-hidden">
-                        <button class="mybtn u-border-2 u-border-grey-75 u-border-hover-palette-3-base u-btn u-btn-round u-btn-submit u-button-style u-hover-grey-80 u-palette-3-light-1 u-radius-4 u-text-hover-palette-3-light-1 u-btn-1">Log In</button>
-                    </div>
-                    <div class="u-form-send-message u-form-send-success">Thank you! Your message has been sent.</div>
-                    <div class="u-form-send-error u-form-send-message">Unable to send your message. Please fix errors then try again.</div>
-                    <input type="hidden" value="" name="recaptchaResponse">
-                </form>
-            </div>
-        </div>
-    </section>-->
 
     <div class="container" id="admin">
-        <button id="Susers" class="mybtn u-border-2 u-border-grey-75 u-border-hover-palette-3-base u-btn u-btn-round u-btn-submit u-button-style u-hover-grey-80 u-palette-3-light-1 u-radius-4 u-text-hover-palette-3-light-1 u-btn-1">Show Users</button>
-        <button id="Shosts" class="mybtn u-border-2 u-border-grey-75 u-border-hover-palette-3-base u-btn u-btn-round u-btn-submit u-button-style u-hover-grey-80 u-palette-3-light-1 u-radius-4 u-text-hover-palette-3-light-1 u-btn-1">Show Hosts</button>
-        <button id="Saparts" class="mybtn u-border-2 u-border-grey-75 u-border-hover-palette-3-base u-btn u-btn-round u-btn-submit u-button-style u-hover-grey-80 u-palette-3-light-1 u-radius-4 u-text-hover-palette-3-light-1 u-btn-1">Show Apartments</button>
+        <div class="row">
+            <button id="Susers" class="mybtn u-border-2 u-border-grey-75 u-border-hover-palette-3-base u-btn u-btn-round u-btn-submit u-button-style u-hover-grey-80 u-palette-3-light-1 u-radius-4 u-text-hover-palette-3-light-1 u-btn-1">Show Users</button>
+            <button id="Shosts" class="mybtn u-border-2 u-border-grey-75 u-border-hover-palette-3-base u-btn u-btn-round u-btn-submit u-button-style u-hover-grey-80 u-palette-3-light-1 u-radius-4 u-text-hover-palette-3-light-1 u-btn-1">Show Hosts</button>
+            <button id="Saparts" class="mybtn u-border-2 u-border-grey-75 u-border-hover-palette-3-base u-btn u-btn-round u-btn-submit u-button-style u-hover-grey-80 u-palette-3-light-1 u-radius-4 u-text-hover-palette-3-light-1 u-btn-1">Show Apartments</button>
+        </div>
+
+        <div class="row" id="results">
+            <table id="usersTable"></table>
+        </div>
+
+        <!--user details-->
+        <div class="row" id="userFulldetails">
+            <table>
+                <tr>
+                    <td>Registration date: </td>
+                    <td id="userRegistrationDate"></td>
+                </tr>
+                <tr>
+                    <td>Number of reservations</td>
+                    <td id="userNumOfReservations"></td>
+                </tr>
+                <tr>
+                    <td>Number of cancles</td>
+                    <td id="userNumOfCancles"></td>
+                </tr>
+                <tr>
+                    <td>Total price</td>
+                    <td id="userTotalPrice"></td>
+                </tr>
+            </table>
+            <!--user details-->
+
+        </div>
 
 
     </div>
-    <div class="container" id="results">
-        <table id="usersTable">
-            <tr>
-                <td>User Email</td>
-                <td>User Name </td>
-
-            </tr>
-        </table>
-    </div>
-
+    
         <footer class="u-align-center u-clearfix u-footer u-grey-80 u-footer" id="sec-adcb">
             <div class="u-align-left u-clearfix u-sheet u-sheet-1">
                 <p class="u-align-center u-text u-text-1">This website is supported by a dataset of Amsterdam Airbnb that was provided by Ruppin Academic Center</p>
