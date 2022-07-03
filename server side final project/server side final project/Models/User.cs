@@ -14,6 +14,7 @@ namespace server_side_final_project.Models
         int num_of_reservations;
         DateTime registration_date;
         int num_of_cancles;
+        int Totalprice;
 
         public User(string name, string email, string password, int num_of_reservations, DateTime registration_date, int num_of_cancles)
         {

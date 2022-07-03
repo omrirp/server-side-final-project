@@ -100,7 +100,7 @@ namespace server_side_final_project.Models.DAL
                     int num_of_reservations = Convert.ToInt32(dr["num_of_reservations"]);
                     DateTime registration_date = Convert.ToDateTime(dr["registration_date"]);
                     int num_of_cancles = Convert.ToInt32(dr["num_of_cancles"]);
-                    User u = new User(name, email, password,num_of_reservations,registration_date,num_of_cancles);
+                    User u = new User(name, email, password,  num_of_reservations, registration_date,  num_of_cancles);
                     con.Close();
                     return u;
                 }
