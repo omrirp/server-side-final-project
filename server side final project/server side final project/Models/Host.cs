@@ -16,7 +16,6 @@ namespace server_side_final_project.Models
         bool host_has_profile_pic;
         bool has_availability;
 
-
         public Host() { }
 
         public Host(int id, string name, string host_response_time, string host_picture_url,

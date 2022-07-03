@@ -12,7 +12,7 @@ namespace server_side_final_project.Models.DAL
     {
         public DBServices() { }
 
-        //get Apartments (sreach) -----
+        //normal search for Apartments
         public List<Apartment> readApartments(DateTime from, DateTime to)
         {
             SqlConnection con = Connect();
@@ -46,7 +46,7 @@ namespace server_side_final_project.Models.DAL
             return command;
         }
 
-        //advance search for apartment
+        //advance search for Apartment
         public List<Apartment> readApartments(DateTime from, DateTime to, float fromPrice, float toPrice, int rooms, float score, float distFromCenter)
         {
             SqlConnection con = Connect();
@@ -200,7 +200,7 @@ namespace server_side_final_project.Models.DAL
         }
         //end -----
 
-        //cancel reservation----
+        //cancel Reservation----
         public string cancelReservation(string email, int id, DateTime from, DateTime to)
         {
             SqlConnection con = Connect();
@@ -225,7 +225,7 @@ namespace server_side_final_project.Models.DAL
         //end-----
 
 
-        //get Apartments
+        //Apartment reader from sql
         private Apartment apartmentReader(SqlDataReader dr)
         {
             int id = intDr(dr, "id");
@@ -252,7 +252,7 @@ namespace server_side_final_project.Models.DAL
                 amenities, price, number_of_reviews, review_scores_rating, h);
         }
 
-        //get Host
+        //Host readder from sql
         private Host hostReader(SqlDataReader dr)
         {
             int id = intDr(dr, "host_id");
