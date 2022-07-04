@@ -11,8 +11,8 @@ namespace server_side_final_project.Models.DAL
     public class DBServices
     {
         public DBServices() { }
-
-        //get Apartments (sreach)
+        
+        //Get all Reservations by apatment id-----
         public List<Reservation> GetResbyApartId(int id)
         {
             SqlConnection con = Connect();
@@ -34,8 +34,8 @@ namespace server_side_final_project.Models.DAL
             }
             con.Close();
             return reservations;
-
         }
+
         private SqlCommand createGetApartResCommand(SqlConnection con, int id)
         {
             SqlCommand command = new SqlCommand();
@@ -47,6 +47,9 @@ namespace server_side_final_project.Models.DAL
 
             return command;
         }
+        //-----
+
+        //Get all Reservaiton by host id
         public List<Reservation>GetHostres(int id)
         {
             SqlConnection con = Connect();
@@ -68,7 +71,6 @@ namespace server_side_final_project.Models.DAL
             }
             con.Close();
             return reservations;
-
         }
         private SqlCommand createGetHostResCommand(SqlConnection con,int id)
         {
@@ -81,6 +83,9 @@ namespace server_side_final_project.Models.DAL
 
             return command;
         }
+        //-----
+
+        //Get all apartments
         public List<Apartment> readAllparts()
         {
             SqlConnection con = Connect();
@@ -104,8 +109,10 @@ namespace server_side_final_project.Models.DAL
             command.CommandTimeout = 10; // in seconds
 
             return command;
-
         }
+        //-----
+
+        //Get Apartments by normal search
         public List<Apartment> readApartments(DateTime from, DateTime to)
         {
             SqlConnection con = Connect();
@@ -119,13 +126,27 @@ namespace server_side_final_project.Models.DAL
             {
                 apartments.Add(apartmentReader(dr));
             }
-
             con.Close();
             return apartments;
         }
+
+        private SqlCommand createGetCommand(SqlConnection con, DateTime from, DateTime to)
+        {
+            SqlCommand command = new SqlCommand();
+
+            command.Parameters.AddWithValue("@from", from);
+            command.Parameters.AddWithValue("@to", to);
+
+            command.CommandText = "spSearchFP";
+            command.Connection = con;
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.CommandTimeout = 10; // in seconds
+
+            return command;
+        }
         //-----
 
-        //advance search for apartment
+        //Get Apartments by normal search
         public List<Apartment> readApartments(DateTime from, DateTime to, float fromPrice, float toPrice, int rooms, float score, float distFromCenter)
         {
             SqlConnection con = Connect();
@@ -145,7 +166,6 @@ namespace server_side_final_project.Models.DAL
 
         private SqlCommand createGetCommand(SqlConnection con, DateTime from, DateTime to, float fromPrice, float toPrice, int rooms, float score, float distFromCenter)
         {
-
             SqlCommand command = new SqlCommand();
 
             command.Parameters.AddWithValue("@from", from);
@@ -163,8 +183,9 @@ namespace server_side_final_project.Models.DAL
 
             return command;
         }
-        //end -----
+        //-----
 
+        //Get all users
         public List<User> getUsers()
         {
             SqlConnection con = Connect();
@@ -179,8 +200,7 @@ namespace server_side_final_project.Models.DAL
                 int num_of_reservations = Convert.ToInt32(dr["num_of_reservations"]);
                 DateTime registration_date = Convert.ToDateTime(dr["registration_date"]);
                 int num_of_cancles = Convert.ToInt32(dr["num_of_cancles"]);
-                User u = new User(name, email, password, num_of_reservations, registration_date, num_of_cancles);
-                Users.Add(u);
+                Users.Add(new User(name, email, password, num_of_reservations, registration_date, num_of_cancles));
             }
             con.Close();
             return Users;
@@ -195,8 +215,10 @@ namespace server_side_final_project.Models.DAL
             command.CommandTimeout = 10; // in seconds
 
             return command;
-
         }
+        //-----
+
+        //Get all Hosts
         public List<Host> getHosts()
         {
             SqlConnection con = Connect();
@@ -222,28 +244,9 @@ namespace server_side_final_project.Models.DAL
             command.CommandTimeout = 10; // in seconds
 
             return command;
-
         }
-        
-     
-
-
-        private SqlCommand createGetCommand(SqlConnection con, DateTime from, DateTime to)
-        {
-            SqlCommand command = new SqlCommand();
-
-            command.Parameters.AddWithValue("@from", from);
-            command.Parameters.AddWithValue("@to", to);
-
-            command.CommandText = "spSearchFP";
-            command.Connection = con;
-            command.CommandType = System.Data.CommandType.StoredProcedure;
-            command.CommandTimeout = 10; // in seconds
-
-            return command;
-        }
-        //end -----
-
+        //-----
+             
         //Insert User -----
         public int insertUser(User user)
         {
@@ -273,9 +276,10 @@ namespace server_side_final_project.Models.DAL
 
             return command;
         }
-        //end -----
+        //-----
 
-        //get Users -----
+        //Get User by email
+        //this method will will return only 1 User object becouse dou to primary key
         public User readUserByEmail(string email)
         {
             SqlConnection con = Connect();
@@ -299,11 +303,9 @@ namespace server_side_final_project.Models.DAL
                     return u;
                 }
             }
-
             con.Close();
             return null;
         }
-
         private SqlCommand CreateGetCommand(SqlConnection con, string email)
         {
             SqlCommand command = new SqlCommand();
@@ -317,9 +319,9 @@ namespace server_side_final_project.Models.DAL
 
             return command;
         }
-        //end -----
+        //-----
         
-        //get Reservations -----
+        //Get Reservations
         public List<Reservation> readReservations(string email)
         {
             SqlConnection con = Connect();
@@ -345,6 +347,19 @@ namespace server_side_final_project.Models.DAL
             return reservations;
         }
 
+        private SqlCommand ResListCommand(SqlConnection con, string email)
+        {
+            SqlCommand command = new SqlCommand();
+
+            command.Parameters.AddWithValue("@user_email", email);
+            command.CommandText = "spreadResFP";
+            command.Connection = con;
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.CommandTimeout = 10; // in seconds
+            return command;
+        }
+        //-----
+
         //cancel reservation----
         public string cancelReservation(string email, int id, DateTime from, DateTime to)
         {
@@ -366,23 +381,41 @@ namespace server_side_final_project.Models.DAL
             con.Close();
             return "Reservation cancled";
         }
-
         //end-----
+                
+        //Get Reviews by apartment id
+        public List<Review> readReviews(int apartment_id)
+        {
+            SqlConnection con = Connect();
+            SqlCommand command = CreateGetCommand(con, apartment_id);
 
-        private SqlCommand ResListCommand(SqlConnection con, string email)
+            SqlDataReader dr = command.ExecuteReader(CommandBehavior.CloseConnection);
+
+            List<Review> reviews = new List<Review>();
+            while (dr.Read())
+            {
+                reviews.Add(reviewReader(dr));
+            }
+
+            con.Close();
+            return reviews;
+        }
+        private SqlCommand CreateGetCommand(SqlConnection con, int apartment_id)
         {
             SqlCommand command = new SqlCommand();
 
-            command.Parameters.AddWithValue("@user_email", email);
-            command.CommandText = "spreadResFP";
+            command.Parameters.AddWithValue("@listing_id", apartment_id);
+
+            command.CommandText = "spGetReviewsByListing_idFP";
             command.Connection = con;
             command.CommandType = System.Data.CommandType.StoredProcedure;
             command.CommandTimeout = 10; // in seconds
+
             return command;
         }
-        //end -----
+        //-----
 
-        //get Apartments
+        //Support function for read Apartment object from DB
         private Apartment apartmentReader(SqlDataReader dr)
         {
             int id = intDr(dr, "id");
@@ -410,7 +443,7 @@ namespace server_side_final_project.Models.DAL
                 amenities, price, number_of_reviews, review_scores_rating, num_of_cancles, h);
         }
 
-        //get Host
+        //Support function for read Host object from DB
         private Host hostReader(SqlDataReader dr)
         {
             int id = intDr(dr, "host_id");
@@ -442,24 +475,7 @@ namespace server_side_final_project.Models.DAL
                 host_total_listings_count, host_has_profile_pic, has_availability);
         }
 
-        //get Reviews
-        public List<Review> readReviews(int listing_id)
-        {
-            SqlConnection con = Connect();
-            SqlCommand command = CreateGetCommand(con, listing_id);
-
-            SqlDataReader dr = command.ExecuteReader(CommandBehavior.CloseConnection);
-
-            List<Review> reviews = new List<Review>();
-            while (dr.Read())
-            {
-                reviews.Add(reviewReader(dr));
-            }
-
-            con.Close();
-            return reviews;
-        }
-
+        //Support function for read Review object from DB
         private Review reviewReader(SqlDataReader dr)
         {
             int listing_id = intDr(dr, "listing_id");
@@ -470,31 +486,7 @@ namespace server_side_final_project.Models.DAL
             return new Review(listing_id, date, user_name, user_email, comments);
         }
 
-        private SqlCommand CreateGetCommand(SqlConnection con,int listing_id)
-        {
-            SqlCommand command = new SqlCommand();
-
-            command.Parameters.AddWithValue("@listing_id", listing_id);
-
-            command.CommandText = "spGetReviewsByListing_idFP";
-            command.Connection = con;
-            command.CommandType = System.Data.CommandType.StoredProcedure;
-            command.CommandTimeout = 10; // in seconds
-
-            return command;
-        }
-
-        private bool boolDr(SqlDataReader dr, string attr)
-        {
-            try
-            {
-                return (dr[attr].ToString() == "1" || dr[attr].ToString() == "t");
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
+        //try catch support functions
         private int intDr(SqlDataReader dr, string attr)
         {
             try
@@ -505,7 +497,7 @@ namespace server_side_final_project.Models.DAL
             {
                 return 0;                
             }
-        }
+        }        
         private float floafDr(SqlDataReader dr, string attr)
         {
             try
@@ -539,7 +531,9 @@ namespace server_side_final_project.Models.DAL
                 return null;
             }
         }
+        //-----
 
+        //Insert Review
         public Review insertReview(Review r)
         {
             SqlConnection con = Connect();
@@ -569,8 +563,9 @@ namespace server_side_final_project.Models.DAL
 
             return command;
         }
+        //-----
 
-        //insert new reservation -----
+        //Insert Reservation
         public string insertReservation(Reservation r)
         {
             SqlConnection con = Connect();
@@ -598,7 +593,9 @@ namespace server_side_final_project.Models.DAL
 
             return command;
         }
-        //end -----
+        //-----
+
+        //Connect
         private SqlConnection Connect()
         {
             // read the connection string from the web.config file
@@ -611,7 +608,6 @@ namespace server_side_final_project.Models.DAL
             con.Open();
 
             return con;
-        }
-       
+        }       
     }
 }

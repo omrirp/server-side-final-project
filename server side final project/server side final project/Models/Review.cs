@@ -32,10 +32,10 @@ namespace server_side_final_project.Models
         public string User_email { get => user_email; set => user_email = value; }
         public string Comments { get => comments; set => comments = value; }
 
-        public List<Review> getReviews(int listing_id)
+        public List<Review> getReviews(int apartment_id)
         {
             DBServices ds = new DBServices();
-            return ds.readReviews(listing_id);
+            return ds.readReviews(apartment_id);
         }
 
         public Review insert()
