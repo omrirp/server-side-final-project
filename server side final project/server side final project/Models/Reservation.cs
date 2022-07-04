@@ -51,5 +51,11 @@ namespace server_side_final_project.Models
             DBServices ds = new DBServices();
             return ds.GetHostres(id);
         }
+        public List<Reservation> getResByapartId(int id)
+        {
+            DBServices ds = new DBServices();
+            return ds.GetResbyApartId(id);
+        }
+    
     }
 }

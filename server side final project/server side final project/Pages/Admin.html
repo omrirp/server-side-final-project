@@ -161,10 +161,9 @@
         function showUser(user) {
             $("#UserT").show();
             $("#HostT").hide();
-           
-            console.log(user);
+            $("#ApartsT").hide();
             $("#userFulldetails").show();
-
+          
             let date = new Date(user.Registration_date);
             let d1 = document.getElementById("userRegistrationDate");
             d1.innerHTML = date.toLocaleDateString();
@@ -237,24 +236,13 @@
         {
             $("#UserT").hide();
             $("#HostT").show();
+            $("#ApartsT").hide();
             $("#userFulldetails").show();
 
            
-            //let d2 = document.getElementById("NumOfApartments");
-            //d2.innerHTML = host.Host_total_listings_count;
-         
-
-            //let d3 = document.getElementById("NumOfCancles");
-            //d3.innerHTML = ////;
-
-            //let d4 = document.getElementById("userTotalPrice");
-            //d4.innerHTML = ////;
-
-
+  
             ajaxCall("GET", `../api/Reservations/getbyId/${host.Id}`, "", readHostRSCB, GetUECB);
             return false;
-            console.log(host);
-           
         }
         function readHostRSCB(reservations)
         {
@@ -278,9 +266,68 @@
             $("#hostTotalProfit").html(totalProfit);
 
         }
-        function GetASCB(aparts) {
+        function GetASCB(aparts)
+        {
             console.log(aparts);
+            document.getElementById("1").innerHTML = "Name";
+            document.getElementById("2").innerHTML = "Id";
+            let table = document.getElementById('usersTableBody');
+            table.innerHTML = "";
+            for (let i = 0; i < aparts.length; i++) {
+                const newtr = document.createElement("tr");
 
+                const newtd0 = document.createElement("td");
+                newtd0.innerHTML = i + 1;
+                newtr.appendChild(newtd0);
+
+                const newtd = document.createElement("td");
+                newtd.innerHTML = aparts[i].Name
+                newtr.appendChild(newtd);
+
+                const newtd2 = document.createElement("td");
+                newtd2.innerHTML = aparts[i].Id
+                newtr.appendChild(newtd2);
+
+                const button = document.createElement("button");
+                button.innerHTML = "For more details";
+                button.setAttribute("onclick", "showApartment(" + JSON.stringify(aparts[i]) + ")");
+                button.setAttribute("class", "tblBtn");
+
+                const newtd3 = document.createElement("td");
+                newtd3.appendChild(button);
+                newtr.appendChild(newtd3);
+
+                table.appendChild(newtr);
+            }
+            $("#results").show();
+
+
+        }
+        function showApartment(apartment)
+        {
+            $("#UserT").hide();
+            $("#HostT").hide();
+            $("#ApartsT").show();
+            $("#userFulldetails").show();
+            let numOfRents = 0;
+            $("#apartNumOfCancles").html(apartment.Num_of_cancles);
+            $("#apartTotalrentDays").html();
+            ajaxCall("GET", `../api/Reservations/getbyaparId/${apartment.Id}`, "", readApartSCB, GetUECB);
+            return false;
+
+        }
+        function readApartSCB(resevations)
+        {
+            let totaldays = 0;
+            for (let i = 0; i < resevations.length; i++) {
+
+                let from = new Date(reservations[i].From_date);
+                let to = new Date(reservations[i].To_date);
+                totaldays += Math.abs(to.getDate() - from.getDate());
+                cancles += reservations[i].Apartment.Num_of_cancles
+            }
+            $("#apartNumOfCancles").html(cancles);
+            $("#apartTotalrentDays").html(totaldays);
         }
        
         /* Toggle between adding and removing the "responsive" class to topnav when the user clicks on the icon */
@@ -381,7 +428,7 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td class="subject" >Number of Reservations</td>
+                        <td class="subject">Number of Reservations</td>
                         <td id="hostNumOfReservations"></td>
                     </tr>
                     <tr>
@@ -395,7 +442,24 @@
                 </tbody>
             </table>
 
-            <!--user details-->
+            <!--apartment details-->
+            <table id="ApartsT">
+                <thead>
+                    <tr>
+                        <td colspan="4">Apartment details</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="subject">Number of cancels</td>
+                        <td id="apartNumOfCancles"></td>
+                    </tr>
+                    <tr>
+                        <td class="subject">Total Rent Days</td>
+                        <td id="apartTotalrentDays"></td>
+                    </tr>
+                </tbody>
+            </table>
 
         </div>
 

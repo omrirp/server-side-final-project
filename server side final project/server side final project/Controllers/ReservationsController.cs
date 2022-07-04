@@ -11,6 +11,14 @@ namespace server_side_final_project.Controllers
     public class ReservationsController : ApiController
     {
         [HttpGet]
+        [Route("api/Reservations/getbyaparId/{id}")]
+        public List<Reservation> GetbyAparId(int id)
+        {
+            Reservation r = new Reservation();
+            return r.getResByapartId(id);
+
+        }
+        [HttpGet]
         [Route("api/Reservations/getbyId/{id}")]
         public List<Reservation> Get(int id)
         {

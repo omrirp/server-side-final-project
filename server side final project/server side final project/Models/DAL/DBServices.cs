@@ -13,7 +13,40 @@ namespace server_side_final_project.Models.DAL
         public DBServices() { }
 
         //get Apartments (sreach)
+        public List<Reservation> GetResbyApartId(int id)
+        {
+            SqlConnection con = Connect();
+            SqlCommand command = createGetApartResCommand(con, id);
+            SqlDataReader dr = command.ExecuteReader(CommandBehavior.CloseConnection);
 
+            List<Reservation> reservations = new List<Reservation>();
+
+            while (dr.Read())
+            {
+                string uEmail = dr["user_email"].ToString();
+                DateTime FromDate = Convert.ToDateTime(dr["from_date"]);
+                DateTime ToDate = Convert.ToDateTime(dr["to_date"]);
+                Apartment a = apartmentReader(dr);
+                if (a != null)
+                {
+                    reservations.Add(new Reservation(uEmail, a, FromDate, ToDate));
+                }
+            }
+            con.Close();
+            return reservations;
+
+        }
+        private SqlCommand createGetApartResCommand(SqlConnection con, int id)
+        {
+            SqlCommand command = new SqlCommand();
+            command.Parameters.AddWithValue("@id", id);
+            command.CommandText = "spGetReservationsByApartsIdFP";
+            command.Connection = con;
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.CommandTimeout = 10; // in seconds
+
+            return command;
+        }
         public List<Reservation>GetHostres(int id)
         {
             SqlConnection con = Connect();
@@ -566,61 +599,6 @@ namespace server_side_final_project.Models.DAL
             return command;
         }
         //end -----
-
-        //not good !
-        //private T genericReader(SqlDataReader dr, string type, string attr)
-        //{
-        //    if (type.Equals("int"))
-        //    {
-        //        try
-        //        {
-        //            return (T)Convert.ChangeType(int.Parse(dr[attr].ToString()),typeof(int));
-        //        }
-        //        catch (Exception)
-        //        {
-
-        //            return (T)Convert.ChangeType(0, typeof(int));
-        //        }
-        //    }
-        //    if (type.Equals("float"))
-        //    {
-        //        try
-        //        {
-        //            return (T)Convert.ChangeType(float.Parse(dr[attr].ToString()), typeof(float));
-        //        }
-        //        catch (Exception)
-        //        {
-
-        //            return (T)Convert.ChangeType(0, typeof(float));
-        //        }
-        //    }
-        //    if (type.Equals("double"))
-        //    {
-        //        try
-        //        {
-        //            return (T)Convert.ChangeType(double.Parse(dr[attr].ToString()), typeof(double));
-        //        }
-        //        catch (Exception)
-        //        {
-
-        //            return (T)Convert.ChangeType(0, typeof(int));
-        //        }
-        //    }
-        //    else
-        //    {
-        //        try
-        //        {
-        //            return (T)Convert.ChangeType(int.Parse(dr[attr].ToString()), typeof(string));
-        //        }
-        //        catch (Exception)
-        //        {
-
-        //            return (T)Convert.ChangeType("", typeof(string));
-        //        }
-        //    }
-        //}
-
-        //connect
         private SqlConnection Connect()
         {
             // read the connection string from the web.config file
