@@ -86,6 +86,10 @@
         #Susers ,#Shosts, #Saparts{
             margin-left:50px;
         }
+        #usersTable{
+            height:600px;
+            overflow:scroll;
+        }
     </style>
 
     <script>
@@ -111,6 +115,8 @@
 
         function getUSCB(users)
         {
+            document.getElementById("1").innerHTML = "Email";
+            document.getElementById("2").innerHTML = "Name";
             let table = document.getElementById('usersTableBody');
             table.innerHTML = "";
             console.log(users);
@@ -147,6 +153,9 @@
 
 
         function showUser(user) {
+            $("#UserT").show();
+            $("#HostT").hide();
+           
             console.log(user);
             $("#userFulldetails").show();
 
@@ -183,11 +192,71 @@
         function GetUECB(err) {
             console.log(err);
         }
-        function GetHSCB(hosts) {
+        function GetHSCB(hosts)
+        {
             console.log(hosts);
-        }       
+            document.getElementById("1").innerHTML = "Name";
+            document.getElementById("2").innerHTML = "Id";
+            let table = document.getElementById('usersTableBody');
+            table.innerHTML = "";
+            for (let i = 0; i < hosts.length; i++) {
+                const newtr = document.createElement("tr");
+
+                const newtd0 = document.createElement("td");
+                newtd0.innerHTML = i + 1;
+                newtr.appendChild(newtd0);
+
+                const newtd = document.createElement("td");
+                newtd.innerHTML = hosts[i].Name
+                newtr.appendChild(newtd);
+
+                const newtd2 = document.createElement("td");
+                newtd2.innerHTML = hosts[i].Id
+                newtr.appendChild(newtd2);
+
+                const button = document.createElement("button");
+                button.innerHTML = "For more details";
+                button.setAttribute("onclick", "showHost(" + JSON.stringify(hosts[i]) + ")");
+                button.setAttribute("class", "tblBtn");
+
+                const newtd3 = document.createElement("td");
+                newtd3.appendChild(button);
+                newtr.appendChild(newtd3);
+
+                table.appendChild(newtr);
+            }
+            $("#results").show();
+        }
+        function showHost(host)
+        {
+            $("#UserT").hide();
+            $("#HostT").show();
+            $("#userFulldetails").show();
+
+           
+            //let d2 = document.getElementById("NumOfApartments");
+            //d2.innerHTML = host.Host_total_listings_count;
+         
+
+            //let d3 = document.getElementById("NumOfCancles");
+            //d3.innerHTML = ////;
+
+            //let d4 = document.getElementById("userTotalPrice");
+            //d4.innerHTML = ////;
+
+
+            ajaxCall("GET", `../api/Reservations/getbyId/${host.Id}`, "", readHostRSCB, GetUECB);
+            return false;
+            console.log(host);
+           
+        }
+        function readHostRSCB(resevations)
+        {
+            console.log(resevations)
+        }
         function GetASCB(aparts) {
             console.log(aparts);
+
         }
        
         /* Toggle between adding and removing the "responsive" class to topnav when the user clicks on the icon */
@@ -242,8 +311,8 @@
                 <thead>
                     <tr>
                         <td></td>
-                        <td>User Email</td>
-                        <td>User Name</td>
+                        <td id="1">User Email</td>
+                        <td id="2">User Name</td>
                         <td></td>
                     </tr>
                 </thead>
@@ -255,7 +324,7 @@
 
         <!--user details-->
         <div class="fullDetails" id="userFulldetails">
-            <table>
+            <table id="UserT">
                 <thead>
                     <tr>
                         <td colspan="4">User details</td>
@@ -263,23 +332,47 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td class="subject">Registration date: </td>
+                        <td class="subject" id="3">Registration date: </td>
                         <td id="userRegistrationDate"></td>
                     </tr>
                     <tr>
-                        <td class="subject">Number of reservations</td>
+                        <td class="subject" id="4">Number of reservations</td>
                         <td id="userNumOfReservations"></td>
                     </tr>
                     <tr>
-                        <td class="subject">Number of cancles</td>
+                        <td class="subject" id="5">Number of cancles</td>
                         <td id="userNumOfCancles"></td>
                     </tr>
                     <tr>
-                        <td class="subject">Total price</td>
+                        <td class="subject" id="6">Total price</td>
                         <td id="userTotalPrice"></td>
                     </tr>
-                </tbody>                
+                </tbody>
             </table>
+
+            <!--Host details-->
+            <table id="HostT">
+                <thead>
+                    <tr>
+                        <td colspan="4">Host details</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="subject" >Number of Apartments</td>
+                        <td id="userNumOfReservations"></td>
+                    </tr>
+                    <tr>
+                        <td class="subject" >Total Income</td>
+                        <td id="userNumOfCancles"></td>
+                    </tr>
+                    <tr>
+                        <td class="subject" >Number of cancels</td>
+                        <td id="userTotalPrice"></td>
+                    </tr>
+                </tbody>
+            </table>
+
             <!--user details-->
 
         </div>
