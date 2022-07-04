@@ -148,20 +148,8 @@
             welcome();
             $("#sec-54c8").hide();
             $("#commentForm").submit(postComment).hide();
-            //exchangeRateAPI();
-            initreservations();
-        });
-
-        //money exchange rate free API: https://www.exchangerate-api.com/docs/free
-        var EXR 
-        function exchangeRateAPI() {
-            //Euro symbol: €
-            let apiCall = "https://open.er-api.com/v6/latest/USD";
-            fetch(apiCall)
-            .then(res => { return res.json() })
-            .then(erAPI => { EXR = erAPI.rates;})
-            //.then(log => console.log(EXR))
-        }
+            initreservations();            
+        });       
 
         function erSCB(exchangeRate) {
             console.log(exchangeRate);
@@ -277,7 +265,7 @@
             let toDate = new Date(Reservations[index].To_date);
             let days = Math.abs(toDate.getDate() - fromDate.getDate());
             //console.log(Reservations[index].Price);
-            $("#totalPrice").html(days * Reservations[index].Apartment.Price + " $");
+            $("#totalPrice").html((days - 1) * Reservations[index].Apartment.Price + " $");
           
             //----calculate the distance from the center by Pitagoras-----
             $("#distance").html(Math.sqrt((Reservations[index].Apartment.Latitude - CenterLatitude) ** 2

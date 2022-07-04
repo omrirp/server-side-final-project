@@ -44,12 +44,12 @@
     <script>
         $(document).ready(function () {
             welcome();
+            localStorage.setItem("EXR", "1");
+            localStorage.setItem("coin", " $");
             $("#searchForm").submit(search);
         })
 
         function search() {
-            //let from = $("#date-eb93").val();
-            //let to = $("#date-6bcb").val();
 
             let search = {
                 type:1,

@@ -132,6 +132,12 @@
         .mybtn:hover{
             letter-spacing:0.25em;
         }
+        .coinBtn {
+            border-radius: 4px;
+            background-color: #0165f1;
+            color: white;
+            padding:0px 5px 0px 5px;
+        }
     </style>
 
     <script>
@@ -139,6 +145,8 @@
         var Apartments;
         var Search;
         var SelectedApartment;
+        var EXR;
+        var coin;
         var CenterLatitude = 52.379189;
         var CenterLongitude = 4.899431;
 
@@ -146,7 +154,9 @@
             welcome();
             $("#sec-54c8").hide();
             $("#commentForm").submit(postComment).hide();
-            //exchangeRateAPI();
+            EXR = JSON.parse(localStorage.getItem("EXR"));
+            coin = localStorage.getItem("coin");
+
             try {
                 Search = JSON.parse(localStorage.getItem("search"));
                 if (Search.type == 1) {
@@ -179,6 +189,23 @@
             }
             
         });
+
+        //money exchange rate free API: https://www.exchangerate-api.com/docs/free        
+        function changeEUR() {
+            //Euro symbol: €
+            fetch('https://open.er-api.com/v6/latest/USD')
+                .then(res => { return res.json() })
+                .then(erAPI => { EXR = erAPI.rates.EUR; })
+                .then(localsto => { localStorage.setItem("EXR", JSON.stringify(EXR)); })
+                .then(coinsymbol => localStorage.setItem("coin", " €"))
+                .then(refresh => window.location.replace("Results2.html"))
+        }
+
+        function changeUSD() {
+            localStorage.setItem("EXR", "1");
+            localStorage.setItem("coin", " $");
+            window.location.replace("Results2.html");
+        }
 
         function readApartmentsSCB(apartments) {
             Apartments = apartments;
@@ -217,29 +244,14 @@
                 let p3 = document.createElement("p");
                 p3.setAttribute("class", "apartmentDetais");
 
-                p3.innerHTML = "price per night: " + Apartments[i].Price + " $";
+                p3.innerHTML = "price per night: " + (Apartments[i].Price * EXR).toFixed(2) + coin;
 
                 col3.appendChild(p3);
 
                 row.appendChild(col3);
                 tblDiv.append(row);
             }
-        }
-
-        //money exchange rate free API: https://www.exchangerate-api.com/docs/free
-        var EXR 
-        function exchangeRateAPI() {
-            //Euro symbol: €
-            let apiCall = "https://open.er-api.com/v6/latest/USD";
-            fetch(apiCall)
-            .then(res => { return res.json() })
-            .then(erAPI => { EXR = erAPI.rates;})
-            //.then(log => console.log(EXR))
-        }
-
-        function erSCB(exchangeRate) {
-            console.log(exchangeRate);
-        }
+        }       
         
         function display(index) {
 
@@ -285,9 +297,11 @@
             //handle total price
             let fromDate = new Date(Search.from);
             let toDate = new Date(Search.to);
-            let days = Math.abs(toDate.getDate() - fromDate.getDate());
+            let nights = Math.abs(toDate.getDate() - fromDate.getDate());
             //console.log(Reservations[index].Price);
-            $("#totalPrice").html(days * Apartments[index].Price + " $");
+            let p = nights * Apartments[index].Price;
+            console.log(p);
+            $("#totalPrice").html((nights * Apartments[index].Price * EXR).toFixed(2) + coin);
           
             //----calculate the distance from the center by Pitagoras-----
             $("#distance").html(Math.sqrt((Apartments[index].Latitude - CenterLatitude) ** 2
@@ -471,7 +485,8 @@
             <div class="u-align-center u-border-3 u-border-palette-3-light-1 u-container-style u-grey-10 u-group u-radius-3 u-shape-round u-group-1">
                 <div id="apartmentsList" class="u-container-layout u-valign-top u-container-layout-1">
                     <h1 class="u-text u-text-default u-text-1">Results</h1>
-
+                    <p>Price in: <button class="coinBtn" onclick="changeUSD()">USD $</button> <button class="coinBtn" onclick="changeEUR()">EUR €</button></p>
+                    
                     <!--dynamic list of apartments-->
                     <div id="tblDiv" class="container"></div>
                     <!--dynamic list of apartments-->
