@@ -40,9 +40,10 @@
         .mybtn:hover {
             letter-spacing: 0.25em;
         }
-        .container {
-            width: 100%;
-            height: 800px;
+        #adminDiv {
+            margin:auto;
+            width: 70%;
+            height: 1500px;
         }
         table{
             margin:25px 0;
@@ -157,8 +158,8 @@
             console.log();
         }
 
-
         function showUser(user) {
+
             $("#UserT").show();
             $("#HostT").hide();
             $("#ApartsT").hide();
@@ -197,6 +198,7 @@
         function GetUECB(err) {
             console.log(err);
         }
+
         function GetHSCB(hosts)
         {
             console.log(hosts);
@@ -232,18 +234,18 @@
             }
             $("#results").show();
         }
+
         function showHost(host)
         {
             $("#UserT").hide();
             $("#HostT").show();
             $("#ApartsT").hide();
             $("#userFulldetails").show();
-
-           
-  
+            
             ajaxCall("GET", `../api/Reservations/getbyId/${host.Id}`, "", readHostRSCB, GetUECB);
             return false;
         }
+
         function readHostRSCB(reservations)
         {
             console.log(reservations);
@@ -264,8 +266,8 @@
             }
             $("#hostNumOfCancles").html(cancles);
             $("#hostTotalProfit").html(totalProfit);
-
         }
+
         function GetASCB(aparts)
         {
             console.log(aparts);
@@ -300,33 +302,29 @@
                 table.appendChild(newtr);
             }
             $("#results").show();
-
-
         }
+
         function showApartment(apartment)
         {
             $("#UserT").hide();
             $("#HostT").hide();
             $("#ApartsT").show();
             $("#userFulldetails").show();
-            let numOfRents = 0;
             $("#apartNumOfCancles").html(apartment.Num_of_cancles);
             $("#apartTotalrentDays").html();
             ajaxCall("GET", `../api/Reservations/getbyaparId/${apartment.Id}`, "", readApartSCB, GetUECB);
             return false;
-
         }
-        function readApartSCB(resevations)
+
+        function readApartSCB(reservations)
         {
             let totaldays = 0;
-            for (let i = 0; i < resevations.length; i++) {
+            for (let i = 0; i < reservations.length; i++) {
 
                 let from = new Date(reservations[i].From_date);
                 let to = new Date(reservations[i].To_date);
                 totaldays += Math.abs(to.getDate() - from.getDate());
-                cancles += reservations[i].Apartment.Num_of_cancles
             }
-            $("#apartNumOfCancles").html(cancles);
             $("#apartTotalrentDays").html(totaldays);
         }
        
@@ -370,7 +368,7 @@
         </div>
     </header>
 
-    <div class="container" id="admin">
+    <div id="adminDiv">
         <div class="row">
             <button id="Susers" class="mybtn u-border-2 u-border-grey-75 u-border-hover-palette-3-base u-btn u-btn-round u-btn-submit u-button-style u-hover-grey-80 u-palette-3-light-1 u-radius-4 u-text-hover-palette-3-light-1 u-btn-1">Show Users</button>
             <button id="Shosts" class="mybtn u-border-2 u-border-grey-75 u-border-hover-palette-3-base u-btn u-btn-round u-btn-submit u-button-style u-hover-grey-80 u-palette-3-light-1 u-radius-4 u-text-hover-palette-3-light-1 u-btn-1">Show Hosts</button>
@@ -462,7 +460,6 @@
             </table>
 
         </div>
-
 
     </div>
     
