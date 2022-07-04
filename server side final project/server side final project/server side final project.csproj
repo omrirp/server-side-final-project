@@ -156,6 +156,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\ApartmentController.cs" />
+    <Compile Include="Controllers\ApartmentLightController.cs" />
     <Compile Include="Controllers\HostsController.cs" />
     <Compile Include="Controllers\ReservationsController.cs" />
     <Compile Include="Controllers\ReviewsController.cs" />
@@ -164,6 +165,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Apartment.cs" />
+    <Compile Include="Models\ApartmentLight.cs" />
     <Compile Include="Models\DAL\DBServices.cs" />
     <Compile Include="Models\Host.cs" />
     <Compile Include="Models\Reservation.cs" />

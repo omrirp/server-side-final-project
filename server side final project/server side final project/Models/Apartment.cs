@@ -88,5 +88,11 @@ namespace server_side_final_project.Models.DAL
             DBServices ds = new DBServices();
             return ds.readAllparts();
         }
+
+        public Apartment getApartmentByID(int id)
+        {
+            DBServices ds = new DBServices();
+            return ds.readApartmentByID(id);
+        }
     }
 }

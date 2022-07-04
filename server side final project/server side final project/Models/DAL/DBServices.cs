@@ -12,6 +12,9 @@ namespace server_side_final_project.Models.DAL
     {
         public DBServices() { }
         
+        //-----
+
+
         //Get all Reservations by apatment id-----
         public List<Reservation> GetResbyApartId(int id)
         {
@@ -34,7 +37,7 @@ namespace server_side_final_project.Models.DAL
             }
             con.Close();
             return reservations;
-        }
+        }       
 
         private SqlCommand createGetApartResCommand(SqlConnection con, int id)
         {
@@ -146,6 +149,52 @@ namespace server_side_final_project.Models.DAL
         }
         //-----
 
+        //Get ApartmentLights
+        public List<ApartmentLight> readApartmentsLight(DateTime from, DateTime to)
+        {
+            SqlConnection con = Connect();
+
+            SqlCommand command = createGetALCommand(con, from, to);
+
+            SqlDataReader dr = command.ExecuteReader(CommandBehavior.CloseConnection);
+
+            List<ApartmentLight> apartmentLights = new List<ApartmentLight>();
+
+            while (dr.Read())
+            {
+                apartmentLights.Add(apartmentLightReader(dr));
+            }
+            con.Close();
+            return apartmentLights;
+        }
+
+        public ApartmentLight apartmentLightReader(SqlDataReader dr)
+        {
+            int id = intDr(dr, "id");
+            string name = stringDr(dr, "name");
+            string picture_url = stringDr(dr, "picture_url");
+            double price = doubleDr(dr, "price");
+
+            return new ApartmentLight(id, name, picture_url, price);
+        }
+
+
+        public SqlCommand createGetALCommand(SqlConnection con, DateTime from, DateTime to)
+        {
+            SqlCommand command = new SqlCommand();
+
+            command.Parameters.AddWithValue("@from", from);
+            command.Parameters.AddWithValue("@to", to);
+
+            command.CommandText = "spSearchFP";
+            command.Connection = con;
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.CommandTimeout = 10; // in seconds
+
+            return command;
+        }
+        //-----
+
         //Get Apartments by normal search
         public List<Apartment> readApartments(DateTime from, DateTime to, float fromPrice, float toPrice, int rooms, float score, float distFromCenter)
         {
@@ -182,6 +231,36 @@ namespace server_side_final_project.Models.DAL
             command.CommandTimeout = 10; // in seconds
 
             return command;
+        }
+        //-----
+
+        //get Apartment by id
+        public Apartment readApartmentByID(int id)
+        {
+            SqlConnection con = Connect();
+
+            SqlCommand command = new SqlCommand();
+
+            command.Parameters.AddWithValue("@id", id);   
+
+            command.CommandText = "spGetApartmentByIdFP";
+            command.Connection = con;
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.CommandTimeout = 10; // in seconds
+
+            SqlDataReader dr = command.ExecuteReader(CommandBehavior.CloseConnection);
+            
+            while (dr.Read())
+            {
+                Apartment a = apartmentReader(dr);
+                if (a != null)
+                {
+                    con.Close();
+                    return a;
+                }
+            }
+            con.Close();
+            return null;
         }
         //-----
 

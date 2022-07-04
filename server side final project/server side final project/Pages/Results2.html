@@ -167,7 +167,7 @@
                     console.log(Search);
                     let from = Search.from;
                     let to = Search.to;
-                    let url = `../api/Apartment/${from}/${to}`;
+                    let url = `../api/ApartmentLight/${from}/${to}`;
                     ajaxCall("GET", url, "", readApartmentsSCB, readResECB);
                     return false;
                 }
@@ -219,7 +219,7 @@
 
                 let row = document.createElement("div");
                 row.setAttribute("class", "row apartment");
-                row.setAttribute("onclick", "display(" + i + ")");
+                row.setAttribute("onclick", "getFullDetails(" + Apartments[i].Id + ")");
                 row.setAttribute("id", i);
 
                 //handle apartments image render
@@ -254,7 +254,102 @@
                 tblDiv.append(row);
             }
         }       
-        
+
+        function getFullDetails(apartmentId) {
+            console.log(apartmentId);
+
+            let url = `../api/Apartment/byId/${apartmentId}`;
+            ajaxCall("GET", url, "", renderFullDetails, readResECB);
+        }
+
+        function renderFullDetails(apartment) {
+            console.log(apartment);
+
+            SelectedApartment = apartment;
+
+            $("#commentForm").hide();
+            let id = apartment.Id;
+            SelectedApartmentID = id;
+            ajaxCall("GET", `../api/Reviews/${id}`, "", readRevSCB, readResECB);
+
+            $("#sec-54c8").fadeIn(300);
+            document.getElementById("sec-54c8").scrollIntoView();
+            $("#apartmentName").html(apartment.Name);
+
+            //handle description render
+            let textarea = $("#description");
+            textarea.prop("disabled", true);
+            textarea.html(apartment.Description);
+
+            //handle apartment image render
+            let img = document.createElement("img");
+            img.setAttribute("src", apartment.Picture_url);
+            img.setAttribute("class", "imgInInfo");
+            $("#apartmentImg").html("").append(img);
+
+            //handle amenities render
+            let amenities = JSON.parse(apartment.Amenities);
+            let amenitiesSpan = document.createElement("span");
+            for (let i = 0; i < amenities.length; i++) {
+                let div = document.createElement("div");
+                div.setAttribute("class", "amenities");
+                div.innerHTML = amenities[i] + " ";
+                amenitiesSpan.appendChild(div);
+            }
+            $("#amenities").html("").append(amenitiesSpan);
+
+            //handle bathrooms, bedrooms, num of reviewers, avg score: render
+            $("#bathrooms").html(apartment.Bathrooms_text);
+            $("#bedrooms").html(apartment.Bedrooms);
+            $("#numberOfReviews").html(apartment.Number_of_reviews);
+            $("#ReviewScoresRating").html(apartment.Review_scores_rating + " ★");
+
+            //handle total price
+            let fromDate = new Date(Search.from);
+            let toDate = new Date(Search.to);
+            let nights = Math.abs(toDate.getDate() - fromDate.getDate());
+            //console.log(Reservations[index].Price);
+            let p = nights * apartment.Price;
+            console.log(p);
+            $("#totalPrice").html((nights * apartment.Price * EXR).toFixed(2) + coin);
+
+            //----calculate the distance from the center by Pitagoras-----
+            $("#distance").html(Math.sqrt((apartment.Latitude - CenterLatitude) ** 2
+                + (apartment.Longitude - CenterLongitude) ** 2).toFixed(3) + " KM");
+
+            initMap(apartment.Latitude, apartment.Longitude);
+
+            //-----handle host details-----
+            //handle host picture
+            let td1 = $("#hostImg");
+            let hostImg = document.createElement("img");
+            hostImg.setAttribute("src", apartment.Host.Host_picture_url);
+            td1.html("").append(hostImg);
+
+            //handle host name
+            let td2 = $("#hostName");
+            let h5_1 = document.createElement("h5");
+            h5_1.innerHTML = apartment.Host.Name;
+            td2.html("").append(h5_1);
+
+            //handle availability
+            let td3 = $("#available");
+            let h5_2 = document.createElement("h5");
+            if (apartment.Host.Has_availability) {
+                h5_2.innerHTML = "available";
+            }
+            else {
+                h5_2.innerHTML = "less available"
+            }
+            td3.html("").append(h5_2);
+
+            //handle response time
+            let td4 = $("#responseTime");
+            let h5_3 = document.createElement("h5");
+            h5_3.innerHTML = apartment.Host.Host_response_time;
+            td4.html("").append(h5_3);
+        }
+
         function display(index) {
 
             SelectedApartment = Apartments[index];

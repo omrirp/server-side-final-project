@@ -16,6 +16,7 @@ namespace server_side_final_project.Controllers
             Apartment a = new Apartment();
             return a.getAllaparts();
         }
+
         [HttpGet]
         [Route("api/Apartment/{from}/{to}")]
         // GET api/<controller>
@@ -32,6 +33,14 @@ namespace server_side_final_project.Controllers
         {
             Apartment a = new Apartment();
             return a.GetApartments(from, to, fromPrice, toPrice, rooms, score, distFromCenter);
+        }
+
+        [HttpGet]
+        [Route("api/Apartment/byId/{id}")]
+        public Apartment getByApartmentId(int id)
+        {
+            Apartment a = new Apartment();
+            return a.getApartmentByID(id);
         }
 
         // POST api/<controller>
