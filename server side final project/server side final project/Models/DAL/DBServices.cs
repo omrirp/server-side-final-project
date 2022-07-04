@@ -368,12 +368,13 @@ namespace server_side_final_project.Models.DAL
             double price = doubleDr(dr, "price");
             int number_of_reviews = intDr(dr, "number_of_reviews");
             float review_scores_rating = floafDr(dr, "review_scores_rating");
+            int num_of_cancles = intDr(dr, "num_of_cancles");
 
             Host h = hostReader(dr);
 
             return new Apartment(id, name, description, picture_url, neighbourhood_cleansed,
                 latitude, longitude, room_type, accommodates, bathrooms_text, bedrooms, beds,
-                amenities, price, number_of_reviews, review_scores_rating, h);
+                amenities, price, number_of_reviews, review_scores_rating, num_of_cancles, h);
         }
 
         //get Host

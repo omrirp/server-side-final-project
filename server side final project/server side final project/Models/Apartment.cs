@@ -23,11 +23,12 @@ namespace server_side_final_project.Models.DAL
         double price;
         int number_of_reviews;
         float review_scores_rating;
+        int num_of_cancles;
         Host host;
 
         public Apartment(int id, string name, string description, string picture_url, string neighbourhood_cleansed,
             float latitude, float longitude, string room_type, int accommodates, string bathrooms_text, int bedrooms,
-            int beds, string amenities, double price, int number_of_reviews, float review_scores_rating, Host host)
+            int beds, string amenities, double price, int number_of_reviews, float review_scores_rating, int num_of_cancles, Host host)
         {
             this.Id = id;
             this.Name = name;
@@ -45,6 +46,7 @@ namespace server_side_final_project.Models.DAL
             this.Price = price;
             this.Number_of_reviews = number_of_reviews;
             this.Review_scores_rating = review_scores_rating;
+            this.Num_of_cancles = num_of_cancles;
             this.Host = host;
         }
 
@@ -66,7 +68,9 @@ namespace server_side_final_project.Models.DAL
         public double Price { get => price; set => price = value; }
         public int Number_of_reviews { get => number_of_reviews; set => number_of_reviews = value; }
         public float Review_scores_rating { get => review_scores_rating; set => review_scores_rating = value; }
+        public int Num_of_cancles { get => num_of_cancles; set => num_of_cancles = value; }
         public Host Host { get => host; set => host = value; }
+        
 
         public List<Apartment> getApartments(DateTime from, DateTime to)
         {
