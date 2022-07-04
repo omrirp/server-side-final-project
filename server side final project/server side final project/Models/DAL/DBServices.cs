@@ -14,6 +14,40 @@ namespace server_side_final_project.Models.DAL
 
         //get Apartments (sreach)
 
+        public List<Reservation>GetHostres(int id)
+        {
+            SqlConnection con = Connect();
+            SqlCommand command = createGetHostResCommand(con,id);
+            SqlDataReader dr = command.ExecuteReader(CommandBehavior.CloseConnection);
+
+            List<Reservation> reservations = new List<Reservation>();
+
+            while (dr.Read())
+            {
+                string uEmail = dr["user_email"].ToString();
+                DateTime FromDate = Convert.ToDateTime(dr["from_date"]);
+                DateTime ToDate = Convert.ToDateTime(dr["to_date"]);
+                Apartment a = apartmentReader(dr);
+                if (a != null)
+                {
+                    reservations.Add(new Reservation(uEmail, a, FromDate, ToDate));
+                }
+            }
+            con.Close();
+            return reservations;
+
+        }
+        private SqlCommand createGetHostResCommand(SqlConnection con,int id)
+        {
+            SqlCommand command = new SqlCommand();
+            command.Parameters.AddWithValue("@id", id);
+            command.CommandText = "spGeHostReservationsFP";
+            command.Connection = con;
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.CommandTimeout = 10; // in seconds
+
+            return command;
+        }
         public List<Apartment> readAllparts()
         {
             SqlConnection con = Connect();

@@ -46,5 +46,10 @@ namespace server_side_final_project.Models
             DBServices ds = new DBServices();
             return ds.cancelReservation(email, id, from, to);
         }
+        public List<Reservation>getHostRes(int id)
+        {
+            DBServices ds = new DBServices();
+            return ds.GetHostres(id);
+        }
     }
 }
