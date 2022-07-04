@@ -96,7 +96,7 @@
             $("#fromDate").html("From: " + from.toLocaleDateString());
             let to = new Date(book.to);
             $("#toDate").html("To: " + to.toLocaleDateString());
-            $("#totalPrice").html("Total Price: " + Math.abs(to.getDate() - from.getDate()) * apartment.Price * EXR + coin);
+            $("#totalPrice").html("Total Price: " + (Math.abs(to.getDate() - from.getDate()) * apartment.Price * EXR).toFixed(2) + coin);
 
             let img = document.createElement("img");
             img.setAttribute("id", "bookImg");
