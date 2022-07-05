@@ -120,6 +120,7 @@
                 let text = $("#nameInput").val();
                 if (text != "") {
                     ajaxCall("GET", `../api/Hosts/byName/${text}`, "", GetHSCB, GetUECB);
+                    return false;
                 }
                 else {
                     ajaxCall("GET", `../api/Hosts`, "", GetHSCB, GetUECB);
