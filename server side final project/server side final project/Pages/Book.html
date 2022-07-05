@@ -92,9 +92,9 @@
             book = JSON.parse(localStorage.getItem("search"));
             console.log(book);
 
-            let from = new Date(book.from);
+            let from = new Date(book.fromDate);
             $("#fromDate").html("From: " + from.toLocaleDateString());
-            let to = new Date(book.to);
+            let to = new Date(book.toDate);
             $("#toDate").html("To: " + to.toLocaleDateString());
             $("#totalPrice").html("Total Price: " + (Math.abs(to.getDate() - from.getDate()) * apartment.Price * EXR).toFixed(2) + coin);
 
@@ -111,8 +111,8 @@
             let r = {
                 User_email: user.Email,
                 Apartment: apartment,
-                From_date: book.from,
-                To_date: book.to
+                From_date: book.fromDate,
+                To_date: book.toDate
             }
             //let from = book.from;
             //let to = book.to;

@@ -17,6 +17,7 @@ namespace server_side_final_project.Controllers
             return a.getAllaparts();
         }
 
+        //not used at the moment !
         [HttpGet]
         [Route("api/Apartment/{from}/{to}")]
         // GET api/<controller>
@@ -26,6 +27,7 @@ namespace server_side_final_project.Controllers
             return a.getApartments(from,to);
         }
 
+        //not used at the moment !
         [HttpGet]
         [Route("api/Apartment/advance/{from}/{to}/{fromPrice:decimal}/{toPrice:decimal}/{rooms}/{score:decimal}/{distFromCenter:decimal}/")]
         // GET api/<controller>/5

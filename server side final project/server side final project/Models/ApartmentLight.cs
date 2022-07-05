@@ -34,5 +34,11 @@ namespace server_side_final_project.Models
             DBServices ds = new DBServices();
             return ds.readApartmentsLight(from, to);
         }
+
+        public List<ApartmentLight> GetApartmentLights(DateTime from, DateTime to, float fromPrice, float toPrice, int rooms, float score, float distFromCenter)
+        {
+            DBServices ds = new DBServices();
+            return ds.readApartmentLights(from, to, fromPrice, toPrice, rooms, score, distFromCenter);
+        }
     }
 }

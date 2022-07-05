@@ -149,12 +149,12 @@ namespace server_side_final_project.Models.DAL
         }
         //-----
 
-        //Get ApartmentLights
+        //Get ApartmentLights by normal search
         public List<ApartmentLight> readApartmentsLight(DateTime from, DateTime to)
         {
             SqlConnection con = Connect();
 
-            SqlCommand command = createGetALCommand(con, from, to);
+            SqlCommand command = createGetCommand(con, from, to);
 
             SqlDataReader dr = command.ExecuteReader(CommandBehavior.CloseConnection);
 
@@ -177,25 +177,9 @@ namespace server_side_final_project.Models.DAL
 
             return new ApartmentLight(id, name, picture_url, price);
         }
-
-
-        public SqlCommand createGetALCommand(SqlConnection con, DateTime from, DateTime to)
-        {
-            SqlCommand command = new SqlCommand();
-
-            command.Parameters.AddWithValue("@from", from);
-            command.Parameters.AddWithValue("@to", to);
-
-            command.CommandText = "spSearchFP";
-            command.Connection = con;
-            command.CommandType = System.Data.CommandType.StoredProcedure;
-            command.CommandTimeout = 10; // in seconds
-
-            return command;
-        }
         //-----
 
-        //Get Apartments by normal search
+        //Get Apartments by advance search
         public List<Apartment> readApartments(DateTime from, DateTime to, float fromPrice, float toPrice, int rooms, float score, float distFromCenter)
         {
             SqlConnection con = Connect();
@@ -231,6 +215,25 @@ namespace server_side_final_project.Models.DAL
             command.CommandTimeout = 10; // in seconds
 
             return command;
+        }
+        //-----
+
+        //Get ApartmenLights by advance search
+        public List<ApartmentLight> readApartmentLights(DateTime from, DateTime to, float fromPrice, float toPrice, int rooms, float score, float distFromCenter)
+        {
+            SqlConnection con = Connect();
+
+            SqlCommand command = createGetCommand(con, from, to, fromPrice, toPrice, rooms, score, distFromCenter);
+            SqlDataReader dr = command.ExecuteReader(CommandBehavior.CloseConnection);
+            List<ApartmentLight> apartmentLights = new List<ApartmentLight>();
+
+            while (dr.Read())
+            {
+                apartmentLights.Add(apartmentLightReader(dr));
+            }
+
+            con.Close();
+            return apartmentLights;
         }
         //-----
 

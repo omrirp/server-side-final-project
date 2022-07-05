@@ -183,7 +183,7 @@
                     let score = "" + Search.score;
                     let distFromCenter = "" + Search.distFromCenter;
 
-                    let url = `../api/Apartment/advance/${from}/${to}/${fromPrice}/${toPrice}/${rooms}/${score}/${distFromCenter}/`;
+                    let url = `../api/ApartmentLight/advance/${from}/${to}/${fromPrice}/${toPrice}/${rooms}/${score}/${distFromCenter}/`;
                     ajaxCall("GET", url, "", readApartmentsSCB, readResECB);
                 }
             } catch (e) {
@@ -442,6 +442,10 @@
             console.log(reviews);
             let revPh = $("#reviews");
             revPh.html("");
+
+            if (reviews.length == 0) {
+                revPh.html("Be the first to comment");
+            }
 
             for (let i = 0; i < reviews.length; i++) {
 

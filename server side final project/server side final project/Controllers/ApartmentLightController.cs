@@ -19,6 +19,15 @@ namespace server_side_final_project.Controllers
             return al.getApartmentsLight(from, to);
         }
 
+        [HttpGet]
+        [Route("api/ApartmentLight/advance/{from}/{to}/{fromPrice:decimal}/{toPrice:decimal}/{rooms}/{score:decimal}/{distFromCenter:decimal}/")]
+        // GET api/<controller>/5
+        public List<ApartmentLight> advanceSearch(DateTime from, DateTime to, float fromPrice, float toPrice, int rooms, float score, float distFromCenter)
+        {
+            ApartmentLight al = new ApartmentLight();
+            return al.GetApartmentLights(from, to, fromPrice, toPrice, rooms, score, distFromCenter);
+        }
+
         // GET api/<controller>/5
         public string Get(int id)
         {
