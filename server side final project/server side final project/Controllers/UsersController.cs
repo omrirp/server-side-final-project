@@ -23,6 +23,14 @@ namespace server_side_final_project.Controllers
             return u.getUserByEmail(email);
         }
 
+        [HttpGet]
+        [Route("api/Users/byName/{text}")]
+        public List<User> getByName(string text)
+        {
+            User u = new User();
+            return u.getUsersByName(text);
+        }
+
         // POST api/<controller>
         public int Post([FromBody] User user)
         {

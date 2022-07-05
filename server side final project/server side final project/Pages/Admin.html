@@ -105,12 +105,26 @@
         {
             welcome();
             $("#Susers").click(function () {
-                ajaxCall("GET", `../api/Users`, "", getUSCB, GetUECB);
-                return false;
+
+                let text = $("#nameInput").val();
+                if (text != "") {
+                    ajaxCall("GET", `../api/Users/byName/${text}`, "", getUSCB, GetUECB);
+                    return false;
+                }
+                else {
+                    ajaxCall("GET", `../api/Users`, "", getUSCB, GetUECB);
+                    return false;
+                }                
             })
             $("#Shosts").click(function () {
-                ajaxCall("GET", `../api/Hosts`, "", GetHSCB, GetUECB);
-                return false;
+                let text = $("#nameInput").val();
+                if (text != "") {
+                    ajaxCall("GET", `../api/Hosts/byName/${text}`, "", GetHSCB, GetUECB);
+                }
+                else {
+                    ajaxCall("GET", `../api/Hosts`, "", GetHSCB, GetUECB);
+                    return false;
+                }
             })
             $("#Saparts").click(function () {
                 ajaxCall("GET", `../api/Apartment`, "", GetASCB, GetUECB);
@@ -373,6 +387,7 @@
             <button id="Susers" class="mybtn u-border-2 u-border-grey-75 u-border-hover-palette-3-base u-btn u-btn-round u-btn-submit u-button-style u-hover-grey-80 u-palette-3-light-1 u-radius-4 u-text-hover-palette-3-light-1 u-btn-1">Show Users</button>
             <button id="Shosts" class="mybtn u-border-2 u-border-grey-75 u-border-hover-palette-3-base u-btn u-btn-round u-btn-submit u-button-style u-hover-grey-80 u-palette-3-light-1 u-radius-4 u-text-hover-palette-3-light-1 u-btn-1">Show Hosts</button>
             <button id="Saparts" class="mybtn u-border-2 u-border-grey-75 u-border-hover-palette-3-base u-btn u-btn-round u-btn-submit u-button-style u-hover-grey-80 u-palette-3-light-1 u-radius-4 u-text-hover-palette-3-light-1 u-btn-1">Show Apartments</button>
+            <input type="text" id="nameInput" name="name" placeholder="search by name" value="" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white u-input-5"/>
         </div>
 
         <div class="row" id="results">

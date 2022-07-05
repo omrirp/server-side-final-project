@@ -30,7 +30,7 @@ namespace server_side_final_project.Models
             this.host_total_listings_count = host_total_listings_count;
             this.Host_has_profile_pic = host_has_profile_pic;
             this.has_availability = has_availability;           
-        }
+        } 
 
         public int Id { get => id; set => id = value; }
         public string Name { get => name; set => name = value; }
@@ -40,10 +40,16 @@ namespace server_side_final_project.Models
         public int Host_total_listings_count { get => host_total_listings_count; set => host_total_listings_count = value; }
         public bool Host_has_profile_pic { get => host_has_profile_pic; set => host_has_profile_pic = value; }
         public bool Has_availability { get => has_availability; set => has_availability = value; }
+        
         public List<Host> getAllHosts()
         {
             DBServices ds = new DBServices();
             return ds.getHosts();
+        }
+        public List<Host> getHostsByName(string text)
+        {
+            DBServices ds = new DBServices();
+            return ds.readHostsByName(text);
         }
     }
     

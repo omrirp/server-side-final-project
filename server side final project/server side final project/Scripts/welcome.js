@@ -3,7 +3,7 @@
     $("#admin").show();
     if (user == null || user.Name != "ADMIN") {
         $("#admin").hide();
-        document.getElementById("welcome").innerHTML = "Welcome " + user.Name;
+        document.getElementById("welcome").innerHTML = "Welcome ";
         return;
     }
     document.getElementById("welcome").innerHTML = "Welcome " + user.Name;    

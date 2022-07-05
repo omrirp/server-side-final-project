@@ -17,8 +17,13 @@ namespace server_side_final_project.Controllers
             return h.getAllHosts();
         }
 
-        // GET api/<controller>/5
-     
+        [HttpGet]
+        [Route("api/Hosts/byName/{text}")]
+        public List<Host> getByName(string text)
+        {
+            Host h = new Host();
+            return h.getHostsByName(text);
+        }
 
         // POST api/<controller>
         public void Post([FromBody] string value)

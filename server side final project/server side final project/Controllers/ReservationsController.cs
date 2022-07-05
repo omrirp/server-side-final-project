@@ -24,7 +24,6 @@ namespace server_side_final_project.Controllers
         {
             Reservation r = new Reservation();
             return r.getHostRes(id);
-
         }
 
         public List<Reservation> Get(string email)

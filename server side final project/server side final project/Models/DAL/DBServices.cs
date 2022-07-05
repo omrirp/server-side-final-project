@@ -14,7 +14,6 @@ namespace server_side_final_project.Models.DAL
         
         //-----
 
-
         //Get all Reservations by apatment id-----
         public List<Reservation> GetResbyApartId(int id)
         {
@@ -74,7 +73,8 @@ namespace server_side_final_project.Models.DAL
             }
             con.Close();
             return reservations;
-        }
+        }  
+
         private SqlCommand createGetHostResCommand(SqlConnection con,int id)
         {
             SqlCommand command = new SqlCommand();
@@ -300,6 +300,36 @@ namespace server_side_final_project.Models.DAL
         }
         //-----
 
+        //Get Users by name
+        public List<User> readUsersByName(string text)
+        {
+            SqlConnection con = Connect();
+            SqlCommand command = new SqlCommand();
+
+            command.Parameters.AddWithValue("@text", "%" + text + "%");
+            command.CommandText = "spGetUsersByNamedFP";
+            command.Connection = con;
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.CommandTimeout = 10; // in seconds
+
+            SqlDataReader dr = command.ExecuteReader(CommandBehavior.CloseConnection);
+            List<User> Users = new List<User>();
+            while (dr.Read())
+            {
+                string name = dr["user_name"].ToString();
+                string email = dr["user_email"].ToString();
+                string password = dr["password"].ToString();
+                int num_of_reservations = Convert.ToInt32(dr["num_of_reservations"]);
+                DateTime registration_date = Convert.ToDateTime(dr["registration_date"]);
+                int num_of_cancles = Convert.ToInt32(dr["num_of_cancles"]);
+                Users.Add(new User(name, email, password, num_of_reservations, registration_date, num_of_cancles));
+            }
+            con.Close();
+            return Users;
+        }
+        //-----
+
+
         //Get all Hosts
         public List<Host> getHosts()
         {
@@ -328,7 +358,33 @@ namespace server_side_final_project.Models.DAL
             return command;
         }
         //-----
-             
+
+        //Get Hosts by name
+        public List<Host> readHostsByName(string text)
+        {
+            SqlConnection con = Connect();
+
+            SqlCommand command = new SqlCommand();
+            command.Parameters.AddWithValue("@name", "%" + text + "%");
+
+            command.CommandText = "spGetHostsByNamedFP";
+            command.Connection = con;
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.CommandTimeout = 10; // in seconds
+
+            SqlDataReader dr = command.ExecuteReader(CommandBehavior.CloseConnection);
+            List<Host> Hosts = new List<Host>();
+            while (dr.Read())
+            {
+                Host h = hostReader(dr);
+                Hosts.Add(h);
+
+            }
+            con.Close();
+            return Hosts;
+        }
+        //-----
+
         //Insert User -----
         public int insertUser(User user)
         {

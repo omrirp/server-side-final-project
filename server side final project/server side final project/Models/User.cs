@@ -23,7 +23,7 @@ namespace server_side_final_project.Models
             Num_of_reservations = num_of_reservations;
             Registration_date = registration_date;
             Num_of_cancles = num_of_cancles;
-        }
+        }        
 
         public User() { }
 
@@ -50,6 +50,12 @@ namespace server_side_final_project.Models
         {
             DBServices ds = new DBServices();
             return ds.getUsers();
+        }
+
+        public List<User> getUsersByName(string text)
+        {
+            DBServices ds = new DBServices();
+            return ds.readUsersByName(text);
         }
     }
 }
