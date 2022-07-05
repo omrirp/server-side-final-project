@@ -63,7 +63,7 @@
                 Password: pass,
             }
 
-            ajaxCall("POST", "../api/Users", JSON.stringify(USER), AddScb, AddEcb);
+            ajaxCall("POST", "../api/Users", JSON.stringify(USER), AddScb, errorfunc);
             return false;
         }
 
@@ -73,7 +73,7 @@
             window.location.replace("index.html");
         }
 
-        function AddEcb(err) {
+        function errorfunc(err) {
             alert("not found");
             console.log(err);
         }

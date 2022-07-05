@@ -158,7 +158,7 @@
         function initreservations() {
             let user = JSON.parse(localStorage.getItem("user"));
             let qs = "email=" + user.Email;
-            ajaxCall("GET", `../api/Reservations?${qs}`, "", readResSCB, readResECB);
+            ajaxCall("GET", `../api/Reservations?${qs}`, "", readResSCB, errorfunc);
             return false;
         }
 
@@ -225,7 +225,7 @@
             $("#commentForm").hide();
             let id = Reservations[index].Apartment.Id;
             SelectedApartmentID = id;
-            ajaxCall("GET", `../api/Reviews/${id}`, "", readRevSCB, readResECB);
+            ajaxCall("GET", `../api/Reviews/${id}`, "", readRevSCB, errorfunc);
 
             console.log(Reservations[index]);            
             $("#sec-54c8").fadeIn(300);
@@ -352,7 +352,7 @@
             };
 
             //console.log(r);
-            ajaxCall("POST", "../api/Reviews", JSON.stringify(r), insertRevSCB, readResECB);
+            ajaxCall("POST", "../api/Reviews", JSON.stringify(r), insertRevSCB, errorfunc);
 
             return false;
         }
@@ -396,7 +396,7 @@
 
             if (confirm("are you sure you like to cancel your book?")) {
                 let url = `../api/Reservations/cancle/${email}/${id}/${from.toDateString()}/${to.toDateString()}`
-                ajaxCall("DELETE", url, "", cancelSCB, readResECB);
+                ajaxCall("DELETE", url, "", cancelSCB, errorfunc);
             }
         }
 
@@ -404,7 +404,7 @@
             alert(status);
         }
 
-        function readResECB(err) {
+        function errorfunc(err) {
             console.log(err);
         }
 

@@ -165,10 +165,10 @@
                     //check if the client attempt normal search
                     //localStorage.removeItem("fromIndex");
                     console.log(Search);
-                    let from = Search.from;
-                    let to = Search.to;
+                    let from = Search.fromDate;
+                    let to = Search.toDate;
                     let url = `../api/ApartmentLight/${from}/${to}`;
-                    ajaxCall("GET", url, "", readApartmentsSCB, readResECB);
+                    ajaxCall("GET", url, "", readApartmentsSCB, errorfunc);
                     return false;
                 }
                 if (Search.type == 2) {
@@ -184,7 +184,7 @@
                     let distFromCenter = "" + Search.distFromCenter;
 
                     let url = `../api/ApartmentLight/advance/${from}/${to}/${fromPrice}/${toPrice}/${rooms}/${score}/${distFromCenter}/`;
-                    ajaxCall("GET", url, "", readApartmentsSCB, readResECB);
+                    ajaxCall("GET", url, "", readApartmentsSCB, errorfunc);
                 }
             } catch (e) {
                 console.log(e);
@@ -259,7 +259,7 @@
             console.log(apartmentId);
 
             let url = `../api/Apartment/byId/${apartmentId}`;
-            ajaxCall("GET", url, "", renderFullDetails, readResECB);
+            ajaxCall("GET", url, "", renderFullDetails, errorfunc);
         }
 
         function renderFullDetails(apartment) {
@@ -270,7 +270,7 @@
             $("#commentForm").hide();
             let id = apartment.Id;
             SelectedApartmentID = id;
-            ajaxCall("GET", `../api/Reviews/${id}`, "", readRevSCB, readResECB);
+            ajaxCall("GET", `../api/Reviews/${id}`, "", readRevSCB, errorfunc);
 
             $("#sec-54c8").fadeIn(300);
             document.getElementById("sec-54c8").scrollIntoView();
@@ -305,8 +305,8 @@
             $("#ReviewScoresRating").html(apartment.Review_scores_rating + " ★");
 
             //handle total price
-            let fromDate = new Date(Search.from);
-            let toDate = new Date(Search.to);
+            let fromDate = new Date(Search.fromDate);
+            let toDate = new Date(Search.toDate);
             let nights = Math.abs(toDate.getDate() - fromDate.getDate());
             //console.log(Reservations[index].Price);
             let p = nights * apartment.Price;
@@ -347,93 +347,6 @@
             let td4 = $("#responseTime");
             let h5_3 = document.createElement("h5");
             h5_3.innerHTML = apartment.Host.Host_response_time;
-            td4.html("").append(h5_3);
-        }
-
-        function display(index) {
-
-            SelectedApartment = Apartments[index];
-
-            $("#commentForm").hide();
-            let id = Apartments[index].Id;
-            SelectedApartmentID = id;
-            ajaxCall("GET", `../api/Reviews/${id}`, "", readRevSCB, readResECB);
-            
-            $("#sec-54c8").fadeIn(300);
-            document.getElementById("sec-54c8").scrollIntoView();
-            $("#apartmentName").html(Apartments[index].Name);
-
-            //handle description render
-            let textarea = $("#description");
-            textarea.prop("disabled", true);
-            textarea.html(Apartments[index].Description);
-
-            //handle apartment image render
-            let img = document.createElement("img");
-            img.setAttribute("src", Apartments[index].Picture_url);
-            img.setAttribute("class", "imgInInfo");
-            $("#apartmentImg").html("").append(img);
-
-            //handle amenities render
-            let amenities = JSON.parse(Apartments[index].Amenities);
-            let amenitiesSpan = document.createElement("span");
-            for (let i = 0; i < amenities.length; i++) {
-                let div = document.createElement("div");
-                div.setAttribute("class", "amenities");
-                div.innerHTML = amenities[i] + " ";
-                amenitiesSpan.appendChild(div);
-            }
-            $("#amenities").html("").append(amenitiesSpan);
-
-            //handle bathrooms, bedrooms, num of reviewers, avg score: render
-            $("#bathrooms").html(Apartments[index].Bathrooms_text);
-            $("#bedrooms").html(Apartments[index].Bedrooms);
-            $("#numberOfReviews").html(Apartments[index].Number_of_reviews);
-            $("#ReviewScoresRating").html(Apartments[index].Review_scores_rating +" ★");
-
-            //handle total price
-            let fromDate = new Date(Search.from);
-            let toDate = new Date(Search.to);
-            let nights = Math.abs(toDate.getDate() - fromDate.getDate());
-            //console.log(Reservations[index].Price);
-            let p = nights * Apartments[index].Price;
-            console.log(p);
-            $("#totalPrice").html((nights * Apartments[index].Price * EXR).toFixed(2) + coin);
-          
-            //----calculate the distance from the center by Pitagoras-----
-            $("#distance").html(Math.sqrt((Apartments[index].Latitude - CenterLatitude) ** 2
-                + (Apartments[index].Longitude - CenterLongitude) ** 2).toFixed(3) + " KM");
-
-            initMap(Apartments[index].Latitude, Apartments[index].Longitude);
-
-            //-----handle host details-----
-            //handle host picture
-            let td1 = $("#hostImg");
-            let hostImg = document.createElement("img");
-            hostImg.setAttribute("src", Apartments[index].Host.Host_picture_url);
-            td1.html("").append(hostImg);
-
-            //handle host name
-            let td2 = $("#hostName");
-            let h5_1 = document.createElement("h5");
-            h5_1.innerHTML = Apartments[index].Host.Name;
-            td2.html("").append(h5_1);
-
-            //handle availability
-            let td3 = $("#available");
-            let h5_2 = document.createElement("h5");
-            if (Apartments[index].Host.Has_availability) {
-                h5_2.innerHTML = "available";
-            }
-            else {
-                h5_2.innerHTML = "less available"
-            }
-            td3.html("").append(h5_2);
-
-            //handle response time
-            let td4 = $("#responseTime");
-            let h5_3 = document.createElement("h5");
-            h5_3.innerHTML = Apartments[index].Host.Host_response_time;
             td4.html("").append(h5_3);
         }
 
@@ -489,7 +402,7 @@
             };
 
             //console.log(r);
-            ajaxCall("POST", "../api/Reviews", JSON.stringify(r), insertRevSCB, readResECB);
+            ajaxCall("POST", "../api/Reviews", JSON.stringify(r), insertRevSCB, errorfunc);
 
             return false;
         }
@@ -535,7 +448,7 @@
         }
 
         //--------
-        function readResECB(err) {
+        function errorfunc(err) {
             console.log(err);
         }
 

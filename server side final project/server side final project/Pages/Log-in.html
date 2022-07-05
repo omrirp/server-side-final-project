@@ -51,7 +51,7 @@
         function logIn() {
 
             let qs = "email=" + $("#email-558c").val();
-            ajaxCall("GET", `../api/Users?${qs}`, "", readSCB, readECB);
+            ajaxCall("GET", `../api/Users?${qs}`, "", readSCB, errorfunc);
             return false;
         }
 
@@ -65,7 +65,7 @@
             }
         }
 
-        function readECB(err) {
+        function errorfunc(err) {
             alert("invalid email or password, please try again");
             console.log(err);
         }
