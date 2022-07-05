@@ -105,7 +105,7 @@
         {
             welcome();
             $("#Susers").click(function () {
-
+                //handle users
                 let text = $("#nameInput").val();
                 if (text != "") {
                     ajaxCall("GET", `../api/Users/byName/${text}`, "", getUSCB, GetUECB);
@@ -117,6 +117,7 @@
                 }                
             })
             $("#Shosts").click(function () {
+                //handle hosts
                 let text = $("#nameInput").val();
                 if (text != "") {
                     ajaxCall("GET", `../api/Hosts/byName/${text}`, "", GetHSCB, GetUECB);
@@ -128,8 +129,16 @@
                 }
             })
             $("#Saparts").click(function () {
-                ajaxCall("GET", `../api/Apartment`, "", GetASCB, GetUECB);
-                return false;
+                //handle apartments
+                let text = $("#nameInput").val();
+                if (text != "") {
+                    ajaxCall("GET", `../api/ApartmentLight/byName/${text}`, "", GetASCB, GetUECB);
+                    return false;
+                }
+                else {
+                    ajaxCall("GET", `../api/ApartmentLight`, "", GetASCB, GetUECB);
+                    return false;
+                }
             })
             $("#userFulldetails").hide();
             $("#results").hide();
@@ -307,7 +316,7 @@
 
                 const button = document.createElement("button");
                 button.innerHTML = "For more details";
-                button.setAttribute("onclick", "showApartment(" + JSON.stringify(aparts[i]) + ")");
+                button.setAttribute("onclick", "getApartsFull(" + aparts[i].Id + ")");
                 button.setAttribute("class", "tblBtn");
 
                 const newtd3 = document.createElement("td");
@@ -317,6 +326,11 @@
                 table.appendChild(newtr);
             }
             $("#results").show();
+        }
+
+        function getApartsFull(apartmentId) {
+            let url = `../api/Apartment/byId/${apartmentId}`;
+            ajaxCall("GET", url, "", showApartment, GetUECB);
         }
 
         function showApartment(apartment)

@@ -29,10 +29,20 @@ namespace server_side_final_project.Controllers
         }
 
         // GET api/<controller>/5
-        public string Get(int id)
+        public List<ApartmentLight> Get()
         {
-            return "value";
+            ApartmentLight al = new ApartmentLight();
+            return al.getAllApartmentLighs();
         }
+
+        [HttpGet]
+        [Route("api/ApartmentLight/byName/{text}")]
+        public List<ApartmentLight> getALbyName(string text)
+        {
+            ApartmentLight al = new ApartmentLight();
+            return al.getALbyName(text);
+        }
+
 
         // POST api/<controller>
         public void Post([FromBody] string value)

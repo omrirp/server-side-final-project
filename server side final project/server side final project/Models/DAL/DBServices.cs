@@ -48,7 +48,7 @@ namespace server_side_final_project.Models.DAL
             command.CommandTimeout = 10; // in seconds
 
             return command;
-        }
+        }      
         //-----
 
         //Get all Reservaiton by host id
@@ -237,7 +237,58 @@ namespace server_side_final_project.Models.DAL
         }
         //-----
 
-        //get Apartment by id
+        //Get all ApartmenLights
+        public List<ApartmentLight> readAllApartmentLights()
+        {
+            SqlConnection con = Connect();
+
+            SqlCommand command = new SqlCommand();
+
+            command.CommandText = "spGetapartsFP";
+            command.Connection = con;
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.CommandTimeout = 10; // in seconds
+
+            SqlDataReader dr = command.ExecuteReader(CommandBehavior.CloseConnection);
+            List<ApartmentLight> apartmentLights = new List<ApartmentLight>();
+
+            while (dr.Read())
+            {
+                apartmentLights.Add(apartmentLightReader(dr));
+            }
+
+            con.Close();
+            return apartmentLights;
+        }
+        //-----
+
+        //Get ApartmentLighs by name
+        public List<ApartmentLight> readALbyName(string text)
+        {
+            SqlConnection con = Connect();
+
+            SqlCommand command = new SqlCommand();
+            command.Parameters.AddWithValue("@text", "%" + text + "%");
+
+            command.CommandText = "spGetapartsByNameFP";
+            command.Connection = con;
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.CommandTimeout = 10; // in seconds
+
+            SqlDataReader dr = command.ExecuteReader(CommandBehavior.CloseConnection);
+            List<ApartmentLight> apartmentLights = new List<ApartmentLight>();
+
+            while (dr.Read())
+            {
+                apartmentLights.Add(apartmentLightReader(dr));
+            }
+
+            con.Close();
+            return apartmentLights;
+        }
+        //-----
+
+        //Get Apartment by id
         public Apartment readApartmentByID(int id)
         {
             SqlConnection con = Connect();
