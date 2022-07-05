@@ -89,6 +89,15 @@
 
         function advanceSearch() {
 
+            let from = new Date($("#fromDateInput").val());
+            let to = new Date($("#toDateInput").val());
+            let today = new Date();
+
+            if (from >= to || to < today || from < today) {
+                alert("invalid dates");
+                return false;
+            }
+
             let search = {
                 type: 2,
                 fromDate: $("#fromDateInput").val(),

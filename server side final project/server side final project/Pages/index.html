@@ -51,6 +51,15 @@
 
         function search() {
 
+            let from = new Date($("#date-eb93").val());
+            let to = new Date($("#date-6bcb").val());
+            let today = new Date();
+
+            if (from >= to || to < today || from < today) {
+                alert("invalid dates");
+                return false;
+            }
+
             let search = {
                 type:1,
                 from: $("#date-eb93").val(),
