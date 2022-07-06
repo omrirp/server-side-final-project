@@ -327,13 +327,7 @@ namespace server_side_final_project.Models.DAL
             List<User> Users = new List<User>();
             while (dr.Read())
             {
-                string name = dr["user_name"].ToString();
-                string email = dr["user_email"].ToString();
-                string password = dr["password"].ToString();
-                int num_of_reservations = Convert.ToInt32(dr["num_of_reservations"]);
-                DateTime registration_date = Convert.ToDateTime(dr["registration_date"]);
-                int num_of_cancles = Convert.ToInt32(dr["num_of_cancles"]);
-                Users.Add(new User(name, email, password, num_of_reservations, registration_date, num_of_cancles));
+                Users.Add(userReader(dr));
             }
             con.Close();
             return Users;
@@ -367,13 +361,7 @@ namespace server_side_final_project.Models.DAL
             List<User> Users = new List<User>();
             while (dr.Read())
             {
-                string name = dr["user_name"].ToString();
-                string email = dr["user_email"].ToString();
-                string password = dr["password"].ToString();
-                int num_of_reservations = Convert.ToInt32(dr["num_of_reservations"]);
-                DateTime registration_date = Convert.ToDateTime(dr["registration_date"]);
-                int num_of_cancles = Convert.ToInt32(dr["num_of_cancles"]);
-                Users.Add(new User(name, email, password, num_of_reservations, registration_date, num_of_cancles));
+                Users.Add(userReader(dr));
             }
             con.Close();
             return Users;
@@ -673,6 +661,18 @@ namespace server_side_final_project.Models.DAL
             string user_email = stringDr(dr, "user_email");
             string comments = stringDr(dr, "comments");
             return new Review(listing_id, date, user_name, user_email, comments);
+        }
+
+        //Support function for read User object from DB
+        public User userReader(SqlDataReader dr)
+        {
+            string name = dr["user_name"].ToString();
+            string email = dr["user_email"].ToString();
+            string password = dr["password"].ToString();
+            int num_of_reservations = Convert.ToInt32(dr["num_of_reservations"]);
+            DateTime registration_date = Convert.ToDateTime(dr["registration_date"]);
+            int num_of_cancles = Convert.ToInt32(dr["num_of_cancles"]);
+           return new User(name, email, password, num_of_reservations, registration_date, num_of_cancles);
         }
 
         //try catch support functions

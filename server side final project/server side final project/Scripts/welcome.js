@@ -1,9 +1,13 @@
 ﻿function welcome() {
     let user = JSON.parse(localStorage.getItem("user"));
     $("#admin").show();
-    if (user == null || user.Name != "ADMIN") {
+    if (user.Name == null) {
+        document.getElementById("welcome").innerHTML = "Welcome";
+        return;
+    }
+    if (user.Name != "ADMIN") {
         $("#admin").hide();
-        document.getElementById("welcome").innerHTML = "Welcome ";
+        document.getElementById("welcome").innerHTML = "Welcome" + user.Name;
         return;
     }
     document.getElementById("welcome").innerHTML = "Welcome " + user.Name;    
