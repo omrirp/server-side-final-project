@@ -10,9 +10,6 @@
     <link rel="stylesheet" href="Home.css" media="screen">
     <meta name="generator" content="Nicepage 4.11.5, nicepage.com">
     <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    <script src="https://code.highcharts.com/highcharts.js"></script>
-    <script src="https://code.highcharts.com/modules/exporting.js"></script>
     <script type="application/ld+json">
         {
                  "@context": "http://schema.org",
@@ -22,7 +19,7 @@
                  "logo": "images/hotel.svg"
                  }
     </script>
-
+    <script src="../Scripts/jquery-3.4.1.min.js"></script>
     <meta name="theme-color" content="#478ac9">
     <meta property="og:title" content="Home">
     <meta property="og:type" content="website">
@@ -50,98 +47,10 @@
             localStorage.setItem("EXR", "1");
             localStorage.setItem("coin", " $");
             $("#searchForm").submit(search);
-            CreatePodium();
 
-            function CreatePodium() {
-                ajaxCall("GET", `../api/ApartmentLight/Top5`, "", readSCB, errorfunc);
-                return false;
-            }
-            function readSCB(apartments) {
-                console.log(apartments);
-               
-                    $('#Podium').highcharts({
-                        chart: {
-                            type: 'column'
-                        },
-                        title: {
-                            text: 'Top Ordered Apartments'
-                        },
-                        xAxis: {
-                            categories: false,
-                            lineWidth: 0,
-                            minorGridLineWidth: 0,
-                            lineColor: 'transparent',
-                            labels: {
-                                enabled: false
-                            },
-                            minorTickLength: 0,
-                            tickLength: 0
-                        },
-                        yAxis: {
-                            min: 0,
-                            gridLineWidth: 0,
-                            title: {
-                                text: false
-                            },
-                            labels: {
-                                enabled: false
-                            }
-                        },
-                        legend: {
-                            enabled: false
-
-                        },
-                        tooltip: {
-                            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-                            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                                '<td style="padding:0"><b>{point.y} </b></td></tr>',
-                            footerFormat: '</table>',
-                            shared: true,
-                            useHTML: true,
-                            positioner: function (boxWidth, boxHeight, point) {
-                                return {
-                                    x: point.plotX,
-                                    y: point.plotY + 100
-                                }
-                            }
-                        },
-                        plotOptions: {
-                            column: {
-                                pointPadding: -0.3,
-                                borderWidth: 0
-                            }
-                        },
-
-                        series: [{
-                            name: 'Rank',
-                            data: [
-                                [apartments[3].Name, 2],
-                                [apartments[1].Name, 4],
-                                [apartments[0].Name, 5],
-                                [apartments[2].Name, 3],
-                                [apartments[0].Name, 1]
-                            ],
-                            dataLabels: {
-                                enabled: true,
-                                color: 'white',
-                                align: 'center',
-                                x: 3,
-                                y: 60,
-                                useHTML: true,
-                                overflow: false,
-                                crop: false,
-                                style: {
-                                    fontSize: '50px',
-                                    fontFamily: 'Verdana, sans-serif',
-                                    textShadow: '0 0 3px black'
-                                }
-                            }
-                        }]
-                    });
-            }
         });
-        
- 
+
+
         function errorfunc(err) {
             console.log(err);
         }
@@ -266,7 +175,6 @@
                 </span>
             </a>
         </div>
-        <div id="Podium" style="min-width: 310px; height: 400px; margin: 0 auto ;background-color:transparent" ></div>
     </section>
     <footer class="u-align-center u-clearfix u-footer u-grey-80 u-footer" id="sec-adcb">
         <div class="u-align-left u-clearfix u-sheet u-sheet-1">
