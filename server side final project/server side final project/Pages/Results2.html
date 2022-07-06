@@ -74,7 +74,7 @@
             background-color: white;
         }
         .apartment{
-            height:130px;
+            min-height:130px;
         }
         .apartment:hover{
             background-color:lightgrey;
@@ -228,7 +228,7 @@
 
                 //handle apartments image render
                 let col1 = document.createElement("div");
-                col1.setAttribute("class", "col");
+                col1.setAttribute("class", "col-md-4");
                 let img = document.createElement("img");
                 img.setAttribute("src", Apartments[i].Picture_url);
                 img.setAttribute("class", "tblImg");
@@ -237,7 +237,7 @@
 
                 //handle apartment name render
                 let col2 = document.createElement("div");
-                col2.setAttribute("class", "col");
+                col2.setAttribute("class", "col-md-4");
                 let p2 = document.createElement("p");
                 p2.setAttribute("class", "apartmentDetais");
                 p2.innerHTML = Apartments[i].Name;
@@ -246,7 +246,7 @@
 
                 //handle reservation from/to dates render
                 let col3 = document.createElement("div");
-                col3.setAttribute("class", "col");
+                col3.setAttribute("class", "col-md-4");
                 let p3 = document.createElement("p");
                 p3.setAttribute("class", "apartmentDetais");
 
