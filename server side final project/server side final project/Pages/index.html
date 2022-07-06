@@ -55,10 +55,10 @@
             let to = new Date($("#date-6bcb").val());
             let today = new Date();
 
-            //if (from >= to || to < today || from < today) {
-            //    alert("invalid dates");
-            //    return false;
-            //}
+            if (from >= to || to < today || from < today) {
+                alert("invalid dates");
+                return false;
+            }
 
             let search = {
                 type:1,

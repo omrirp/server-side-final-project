@@ -150,6 +150,9 @@
 
         $(document).ready(function () {
             welcome();
+            if (localStorage.getItem("user") == null) {
+                window.location.replace("index.html");
+            }
             $("#sec-54c8").hide();
             $("#commentForm").submit(postComment).hide();
             initreservations();            
