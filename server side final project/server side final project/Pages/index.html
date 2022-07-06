@@ -19,15 +19,14 @@
                  "logo": "images/hotel.svg"
                  }
     </script>
+    <script src="../Scripts/jquery-3.4.1.min.js"></script>
     <meta name="theme-color" content="#478ac9">
     <meta property="og:title" content="Home">
     <meta property="og:type" content="website">
     <link rel="canonical" href="/">
-
     <script src="../Scripts/ajaxCalls.js"></script>
-    <script src="../Scripts/jquery-3.4.1.min.js"></script>
+    <!--<script src="../Scripts/jquery-3.4.1.min.js"></script>-->
     <script src="../Scripts/welcome.js"></script>
-
     <!-- Load an icon library to show a hamburger menu (bars) on small screens -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="nav.css" rel="stylesheet" />
@@ -36,9 +35,10 @@
         .mybtn {
             transition: 0.5s;
         }
-        .mybtn:hover {
-            letter-spacing: 0.25em;
-        }
+
+            .mybtn:hover {
+                letter-spacing: 0.25em;
+            }
     </style>
 
     <script>
@@ -47,8 +47,13 @@
             localStorage.setItem("EXR", "1");
             localStorage.setItem("coin", " $");
             $("#searchForm").submit(search);
-        })
 
+        });
+
+
+        function errorfunc(err) {
+            console.log(err);
+        }
         function search() {
 
             let from = new Date($("#date-eb93").val());
@@ -61,7 +66,7 @@
             }
 
             let search = {
-                type:1,
+                type: 1,
                 fromDate: $("#date-eb93").val(),
                 toDate: $("#date-6bcb").val()
             }
@@ -112,7 +117,7 @@
                     <i class="fa fa-bars"></i>
                 </a>
             </div>
-            
+
             <h3 class="u-headline u-text u-text-default u-text-grey-80 u-text-2">
                 Server Side Project
             </h3>
@@ -132,7 +137,7 @@
                         <label for="date-6bcb" class="u-label u-text-body-alt-color u-label-2">To</label>
                         <input type="date" placeholder="MM/DD/YYYY" id="date-6bcb" name="date" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" required="">
                     </div>
-                    <div class="u-align-left u-form-group u-form-submit">                       
+                    <div class="u-align-left u-form-group u-form-submit">
                         <input type="submit" value="submit" class="u-form-control-hidden">
                         <button class="mybtn u-border-2 u-border-grey-75 u-border-hover-palette-3-base u-btn u-btn-round u-btn-submit u-button-style u-hover-grey-80 u-palette-3-light-1 u-radius-4 u-text-hover-palette-3-light-1 u-btn-1">
                             Search

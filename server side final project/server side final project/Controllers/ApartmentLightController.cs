@@ -28,7 +28,13 @@ namespace server_side_final_project.Controllers
             return al.GetApartmentLights(from, to, fromPrice, toPrice, rooms, score, distFromCenter);
         }
 
-        // GET api/<controller>/5
+        [HttpGet]
+        [Route("api/ApartmentLight/Top5")]
+        public List<ApartmentLight> Gett()
+        {
+            ApartmentLight al = new ApartmentLight();
+            return al.getTop5Apartment();
+        }
         public List<ApartmentLight> Get()
         {
             ApartmentLight al = new ApartmentLight();

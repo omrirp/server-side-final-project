@@ -9,8 +9,11 @@
     <link rel="stylesheet" href="nicepage.css" media="screen">
     <link rel="stylesheet" href="Results.css" media="screen">
     <meta name="generator" content="Nicepage 4.11.5, nicepage.com">
-    <link id="u-theme-google-font" rel="stylesheet" 
+    <link id="u-theme-google-font" rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
     <script type="application/ld+json">
         {
                  "@context": "http://schema.org",
@@ -22,32 +25,12 @@
     <meta name="theme-color" content="#478ac9">
     <meta property="og:title" content="Results">
     <meta property="og:type" content="website">
-    <script src="../Scripts/jquery-3.4.1.min.js"></script>
     <script src="../Scripts/ajaxCalls.js"></script>
     <script src="../Scripts/welcome.js"></script>
     <link href="nav.css" rel="stylesheet" />
-
-    <!--data table import-->
-    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css">
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>-->
-    <!--data table import-->
-    <!--DataTable-->
-    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
-    <link href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" rel="stylesheet" />
-    <!--DataTable-->
-
-
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
@@ -58,10 +41,10 @@
             height: 650px;
             overflow: scroll;
         }
-        
+
         .tblImg {
             width: 150px;
-            max-height:120px;           
+            max-height: 120px;
             margin: 3px;
             border-radius: 4px;
             border: 1px solid black;
@@ -73,25 +56,31 @@
             border: 1px solid black;
             background-color: white;
         }
-        .apartment{
-            min-height:130px;
+
+        .apartment {
+            min-height: 130px;
         }
-        .apartment:hover{
-            background-color:lightgrey;
+
+            .apartment:hover {
+                background-color: lightgrey;
+            }
+
+        .apartmentDetais {
+            font-weight: bold;
         }
-        .apartmentDetais{
-            font-weight:bold;
-        }
+
         .headers {
             font-weight: bold;
-            text-align:left;
+            text-align: left;
         }
-        .imgInInfo{
-            height:350px;
-            max-width:90%;
-            margin:8px;
-            border-radius:4px;
+
+        .imgInInfo {
+            height: 350px;
+            max-width: 90%;
+            margin: 8px;
+            border-radius: 4px;
         }
+
         #description, #amenities {
             height: 250px;
             overflow: scroll;
@@ -106,36 +95,44 @@
             width: 100%;
             /* The width is the width of the web page */
         }
-        .amenities{
-            border-radius:6px;
-            background-color:#444448;
-            color:white;
-            display:inline-block;
-            margin:2px;
-            padding:1px;
+
+        .amenities {
+            border-radius: 6px;
+            background-color: #444448;
+            color: white;
+            display: inline-block;
+            margin: 2px;
+            padding: 1px;
         }
-        #hostImg img{
-            width:130px;
-            border-radius:15px;
-            margin:5px;
+
+        #hostImg img {
+            width: 130px;
+            border-radius: 15px;
+            margin: 5px;
         }
-        #hostTbl{
-            width:90%;
-            margin-bottom:5px;
+
+        #hostTbl {
+            width: 90%;
+            margin-bottom: 5px;
         }
+
         td, #reviews {
             text-align: left;
         }
+
         #reviews {
             height: 500px;
             overflow: scroll;
         }
-        .mybtn{
-            transition:0.5s;
+
+        .mybtn {
+            transition: 0.5s;
         }
-        .mybtn:hover{
-            letter-spacing:0.25em;
-        }
+
+            .mybtn:hover {
+                letter-spacing: 0.25em;
+            }
+
         .coinBtn {
             border-radius: 4px;
             border: 0px;
@@ -158,6 +155,7 @@
 
         $(document).ready(function () {
             welcome();
+            CreatePodium();
             $("#sec-54c8").hide();
             $("#commentForm").submit(postComment).hide();
             EXR = JSON.parse(localStorage.getItem("EXR"));
@@ -193,10 +191,9 @@
             } catch (e) {
                 console.log(e);
             }
-            
         });
 
-        //money exchange rate free API: https://www.exchangerate-api.com/docs/free        
+        //money exchange rate free API: https://www.exchangerate-api.com/docs/free
         function changeEUR() {
             //Euro symbol: €
             fetch('https://open.er-api.com/v6/latest/USD')
@@ -257,7 +254,7 @@
                 row.appendChild(col3);
                 tblDiv.append(row);
             }
-        }       
+        }
 
         function getFullDetails(apartmentId) {
             console.log(apartmentId);
@@ -456,8 +453,97 @@
             console.log(err);
         }
 
-        function appear() {            
+        function appear() {
             $("#commentForm").show();
+        }
+
+
+        function CreatePodium() {
+            ajaxCall("GET", `../api/ApartmentLight/Top5`, "", readSCB, errorfunc);
+            return false;
+        }
+        function readSCB(apartments) {
+            console.log(apartments);
+
+            $('#Podium').highcharts({
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: 'Top Ordered Apartments'
+                },
+                xAxis: {
+                    categories: false,
+                    lineWidth: 0,
+                    minorGridLineWidth: 0,
+                    lineColor: 'transparent',
+                    labels: {
+                        enabled: false
+                    },
+                    minorTickLength: 0,
+                    tickLength: 0
+                },
+                yAxis: {
+                    min: 0,
+                    gridLineWidth: 0,
+                    title: {
+                        text: false
+                    },
+                    labels: {
+                        enabled: false
+                    }
+                },
+                legend: {
+                    enabled: false
+
+                },
+                tooltip: {
+                    headerFormat: '<span style="font-size:20px">{point.key}</span><table>',
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                        '<td style="padding:0"><b>{point.y} </b></td></tr>',
+                    footerFormat: '</table>',
+                    shared: true,
+                    useHTML: true,
+                    positioner: function (boxWidth, boxHeight, point) {
+                        return {
+                            x: point.plotX,
+                            y: point.plotY + 100
+                        }
+                    }
+                },
+                plotOptions: {
+                    column: {
+                        pointPadding: -0.3,
+                        borderWidth: 0
+                    }
+                },
+
+                series: [{
+                    name: 'Rank',
+                    data: [
+                        [apartments[3].Name, 2],
+                        [apartments[1].Name, 4],
+                        [apartments[0].Name, 5],
+                        [apartments[2].Name, 3],
+                        [apartments[0].Name, 1]
+                    ],
+                    dataLabels: {
+                        enabled: true,
+                        color: 'white',
+                        align: 'center',
+                        x: 3,
+                        y: 60,
+                        useHTML: true,
+                        overflow: false,
+                        crop: false,
+                        style: {
+                            fontSize: '50px',
+                            fontFamily: 'Verdana, sans-serif',
+                            textShadow: '0 0 3px black'
+                        }
+                    }
+                }]
+            });
         }
 
         /* Toggle between adding and removing the "responsive" class to topnav when the user clicks on the icon */
@@ -504,7 +590,7 @@
                 <div id="apartmentsList" class="u-container-layout u-valign-top u-container-layout-1">
                     <h1 class="u-text u-text-default u-text-1">Results</h1>
                     <p><b>Currency:</b> <button class="coinBtn" onclick="changeUSD()">USD $</button> <button class="coinBtn" onclick="changeEUR()">EUR €</button></p>
-                    
+
                     <!--dynamic list of apartments-->
                     <div id="tblDiv" class="container"></div>
                     <!--dynamic list of apartments-->
@@ -617,6 +703,7 @@
             </div>
         </div>
     </section>
+    <div id="Podium" style="min-width: 310px; height: 400px; margin: 0 auto ;background-color:transparent"></div>
     <footer class="u-align-center u-clearfix u-footer u-grey-80 u-footer" id="sec-adcb">
         <div class="u-align-left u-clearfix u-sheet u-sheet-1">
             <p class="u-align-center u-text u-text-1">This website is supported by a dataset of Amsterdam Airbnb that was provided by Ruppin Academic Center</p>
@@ -627,7 +714,7 @@
             defer></script>
     <script>
         // Initialize and add the map
-        function initMap(lat,lng) {
+        function initMap(lat, lng) {
             // The location of Uluru
             //const amsterdam = { lat: 52.377956, lng: 4.897070 };
             const amsterdam = { lat: lat, lng: lng };

@@ -19,6 +19,7 @@ namespace server_side_final_project.Models
             this.Name = name;
             this.Picture_url = picture_url;
             this.Price = price;
+
         }
 
         public ApartmentLight() { }
@@ -51,6 +52,11 @@ namespace server_side_final_project.Models
         {
             DBServices ds = new DBServices();
             return ds.readALbyName(text);
+        }
+        public List<ApartmentLight> getTop5Apartment()
+        {
+            DBServices ds = new DBServices();
+            return ds.readTop5();
         }
     }
 }

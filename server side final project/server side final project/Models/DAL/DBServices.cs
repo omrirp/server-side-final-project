@@ -11,10 +11,39 @@ namespace server_side_final_project.Models.DAL
     public class DBServices
     {
         public DBServices() { }
-        
+
         //-----
+        public List<ApartmentLight> readTop5()
+        {
+            SqlConnection con = Connect();
+
+            SqlCommand command = createGetTop5Command(con);
+
+            SqlDataReader dr = command.ExecuteReader(CommandBehavior.CloseConnection);
+
+            List<ApartmentLight> apartmentLights = new List<ApartmentLight>();
+
+            while (dr.Read())
+            {
+                apartmentLights.Add(apartmentLightReader(dr));
+            }
+            con.Close();
+            return apartmentLights;
+        }
+        private SqlCommand createGetTop5Command(SqlConnection con)
+        {
+            SqlCommand command = new SqlCommand();
+       
+            command.CommandText = "spGetTop5ApartsFP";
+            command.Connection = con;
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.CommandTimeout = 10; // in seconds
+
+            return command;
+        }
 
         //Get all Reservations by apatment id-----
+
         public List<Reservation> GetResbyApartId(int id)
         {
             SqlConnection con = Connect();
